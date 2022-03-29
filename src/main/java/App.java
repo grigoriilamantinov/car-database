@@ -1,32 +1,30 @@
-import java.util.Scanner;
-
 public class App {
     public static void main(String[] args) {
-        TableCars tableMaker = new TableCars();
-        Dialog dialog = new Dialog();
-        tableMaker.createTableCars();
-        Scanner sc = new Scanner(System.in);
+        DataAccessObject dao = new DataAccessObject();
+        DialogWithUser dialog = new DialogWithUser();
+        dao.createTable();
         boolean isExit = false;
 
-        System.out.println(dialog.actionMenu());
+        System.out.println(dialog.formatActionMenu());
         while (!isExit) {
-            System.out.println("\nТоварищ, что хотите сделать с данными?");
-            String action = sc.nextLine();
-            action = action.toUpperCase();
-
-            switch (action) {
+            switch (dialog.getAction().toUpperCase()) {
                 case "ВЫВОД":
-                    System.out.println(tableMaker.outputData());
+                    System.out.println(dao.formatToStringFullTable());
                     break;
                 case "ДОБАВИТЬ":
-                    tableMaker.insertString(dialog.getData());
+                    dao.addString(dialog.getDataForInsert());
                     break;
                 case "УДАЛИТЬ":
-                    tableMaker.deleteString(dialog.idForDelete());
+                    dao.deleteString(dialog.getIdByUser());
                     break;
-
+                case "ИЗМЕНИТЬ":
+                    dao.updateString(dialog.getDataForUpdate());
+                    break;
+                case "СТРОЧКУ":
+                    System.out.println(dao.formatForOutputOneString(dialog.getIdByUser()).toString());
+                    break;
                 case "МЕНЮ":
-                    System.out.println(dialog.actionMenu());
+                    System.out.println(dialog.formatActionMenu());
                     break;
                 case "ВЫХОД":
                     isExit = true;
@@ -36,7 +34,6 @@ public class App {
                     break;
             }
         }
-
-        tableMaker.dropTable();
+        dao.dropTable();
     }
 }
