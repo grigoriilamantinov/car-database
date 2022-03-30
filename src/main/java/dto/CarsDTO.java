@@ -7,7 +7,10 @@ public class CarsDTO {
     int year;
     int cost;
 
-    public CarsDTO(int id, String brand, int year, int cost) {
+    public CarsDTO(int id,
+                   String brand,
+                   int year,
+                   int cost) {
         this.id = id;
         this.brand = brand;
         this.year = year;
@@ -51,7 +54,7 @@ public class CarsDTO {
 
     @Override
     public String toString() {
-        return "Строчка содержит - id: "
+        return "id: "
                 + id
                 + ", брэнд "
                 + brand

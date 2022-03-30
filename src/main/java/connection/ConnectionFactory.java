@@ -1,11 +1,9 @@
 package connection;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import propertiesLoader.PropertiesLoader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 public class ConnectionFactory {
 
@@ -13,21 +11,16 @@ public class ConnectionFactory {
 
     public ConnectionFactory(String dataSource) {
         this.dataSource = dataSource;
-        this.loadDataSourceProperties();
     }
-
-    private final static String USER = "user";
-    private final static String PASSWORD = "password";
-    private final static String DB_URL = "db_url";
-    private Properties properties = new Properties();
 
     public Connection connectionOpen() {
         Connection connection = null;
         try {
+            PropertiesLoader loader = new PropertiesLoader(dataSource);
             connection = DriverManager.getConnection(
-                    properties.getProperty(DB_URL),
-                    properties.getProperty(USER),
-                    properties.getProperty(PASSWORD)
+                    loader.getDbUrl(),
+                    loader.getUser(),
+                    loader.getPassword()
             );
         } catch (SQLException e) {
             e.printStackTrace();
@@ -40,22 +33,6 @@ public class ConnectionFactory {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void loadDataSourceProperties() {
-        FileInputStream stream = null;
-        try {
-            stream = new FileInputStream(dataSource);
-            properties.load(stream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                stream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

@@ -1,20 +1,30 @@
+
 import connection.ConnectionFactory;
 import dao.CarsDAO;
 import dao.DAO;
+import formatter.Formatter;
+import formatter.FormatterDTO;
+
+import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
-        ConnectionFactory factory = new ConnectionFactory("C:\\Users\\grigorii\\IdeaProjects\\LearningSQL\\src\\main\\resources\\connection.properties");
-        DAO dao = new CarsDAO(factory);
-        UserInterface dialog = new UserInterface();
+        System.out.println("Ссылка на свойства:");
+        Scanner sc = new Scanner(System.in);
+        String dataSource = sc.nextLine();
+        ConnectionFactory factory = new ConnectionFactory(dataSource);
+        DAO dao = new CarsDAO(factory, dataSource);
+        Formatter formatter = new FormatterDTO();
+        UserInterface dialog = new UserInterface(dataSource);
+
         dao.createTable();
         boolean isExit = false;
-
         System.out.println(dialog.formatActionMenu());
+
         while (!isExit) {
             switch (dialog.getAction().toUpperCase()) {
                 case "ВЫВОД":
-                    System.out.println(dao.findAll());
+                    System.out.println(formatter.formatFromList(dao.findAll()));
                     break;
                 case "ДОБАВИТЬ":
                     dao.addString(dialog.getDataForInsert());

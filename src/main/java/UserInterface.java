@@ -1,6 +1,6 @@
-import dao.CarsDAO;
 import dao.DAO;
 import dto.CarsDTO;
+import propertiesLoader.PropertiesLoader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,6 +8,11 @@ import java.util.Scanner;
 import java.util.StringJoiner;
 
 public class UserInterface {
+    private String dataSource;
+
+    public UserInterface(String filePath) {
+        this.dataSource = filePath;
+    }
 
     public String getAction() {
         Scanner sc = new Scanner(System.in);
@@ -29,7 +34,8 @@ public class UserInterface {
     }
 
     public String formatActionMenu() {
-        File file = new File("C:\\Users\\grigorii\\IdeaProjects\\car_database\\src\\main\\resources\\action_menu");
+        PropertiesLoader loader = new PropertiesLoader(dataSource);
+        File file = new File(loader.getMenu());
         StringJoiner joiner = new StringJoiner("\n");
         Scanner sc = null;
         try {
