@@ -1,9 +1,13 @@
+import dao.CarsDAO;
+import dao.DAO;
+import dto.CarsDTO;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.StringJoiner;
 
-public class DialogWithUser {
+public class UserInterface {
 
     public String getAction() {
         Scanner sc = new Scanner(System.in);
@@ -12,8 +16,8 @@ public class DialogWithUser {
         return action;
     }
 
-    public TransportObjectData getDataForInsert() {
-        TransportObjectData usersObject = new TransportObjectData(0,null,0,0);
+    public CarsDTO getDataForInsert() {
+        CarsDTO usersObject = new CarsDTO(0,null,0,0);
         Scanner sc = new Scanner(System.in);
         System.out.print("Напишите название машины: ");
         usersObject.setBrand(sc.nextLine());
@@ -40,36 +44,35 @@ public class DialogWithUser {
         return joiner.toString();
     }
 
-    public TransportObjectData getDataForUpdate() {
-        DataAccessObject objectById = new DataAccessObject();
+    public CarsDTO getDataForUpdate(DAO dao) {
         Scanner sc = new Scanner(System.in);
-        int id = getIdByUser();
-        TransportObjectData usersObject = objectById.formatForOutputOneString(id);
+        int id = getIdFromUser();
+        CarsDTO usersObject = dao.getById(id);
         usersObject.setId(id);
-        System.out.println("Вы выбрали строчку: " + objectById.formatForOutputOneString(id));
+        System.out.println("Вы выбрали строчку: " + dao.getById(id));
         System.out.print("Вы хотите изменить название? ");
-        String isYes = sc.nextLine();
-        if (isYes.equalsIgnoreCase("ДА")) {
+        boolean isYes = sc.nextLine().equalsIgnoreCase("ДА");
+        if (isYes) {
             System.out.print("На какое новое название изменить? ");
             usersObject.setBrand(sc.nextLine());
         }
         System.out.print("Вы хотите изменить год сборки? ");
-        isYes = sc.nextLine();
-        if (isYes.equalsIgnoreCase("ДА")) {
+        isYes = sc.nextLine().equalsIgnoreCase("ДА");
+        if (isYes) {
             System.out.print("На какой год сборки изменить? ");
             usersObject.setYear(sc.nextInt());
             sc.nextLine();
         }
         System.out.print("Вы хотите изменить стоимость? ");
-        isYes = sc.nextLine();
-        if (isYes.equalsIgnoreCase("ДА")) {
+        isYes = sc.nextLine().equalsIgnoreCase("ДА");
+        if (isYes) {
             System.out.print("Сколько будет стоить теперь? ");
             usersObject.setCost(sc.nextInt());
         }
         return usersObject;
     }
 
-    public int getIdByUser() {
+    public int getIdFromUser() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Какой id вас интересует? ");
         return sc.nextInt();

@@ -1,16 +1,20 @@
-import java.util.Objects;
+package dto;
 
-public class TransportObjectData {
+import java.util.Objects;
+public class CarsDTO {
     int id;
     String brand;
     int year;
     int cost;
 
-    public TransportObjectData(int id, String brand, int year, int cost) {
+    public CarsDTO(int id, String brand, int year, int cost) {
         this.id = id;
         this.brand = brand;
         this.year = year;
         this.cost = cost;
+    }
+
+    public CarsDTO() {
     }
 
     public void setBrand(String brand) {
@@ -61,7 +65,7 @@ public class TransportObjectData {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TransportObjectData that = (TransportObjectData) o;
+        CarsDTO that = (CarsDTO) o;
         return id == that.id && year == that.year && cost == that.cost && brand.equals(that.brand);
     }
 

@@ -1,7 +1,12 @@
+import connection.ConnectionFactory;
+import dao.CarsDAO;
+import dao.DAO;
+
 public class App {
     public static void main(String[] args) {
-        DataAccessObject dao = new DataAccessObject();
-        DialogWithUser dialog = new DialogWithUser();
+        ConnectionFactory factory = new ConnectionFactory("C:\\Users\\grigorii\\IdeaProjects\\LearningSQL\\src\\main\\resources\\connection.properties");
+        DAO dao = new CarsDAO(factory);
+        UserInterface dialog = new UserInterface();
         dao.createTable();
         boolean isExit = false;
 
@@ -9,19 +14,19 @@ public class App {
         while (!isExit) {
             switch (dialog.getAction().toUpperCase()) {
                 case "ВЫВОД":
-                    System.out.println(dao.formatToStringFullTable());
+                    System.out.println(dao.findAll());
                     break;
                 case "ДОБАВИТЬ":
                     dao.addString(dialog.getDataForInsert());
                     break;
                 case "УДАЛИТЬ":
-                    dao.deleteString(dialog.getIdByUser());
+                    dao.deleteById(dialog.getIdFromUser());
                     break;
                 case "ИЗМЕНИТЬ":
-                    dao.updateString(dialog.getDataForUpdate());
+                    dao.update(dialog.getDataForUpdate(dao));
                     break;
                 case "СТРОЧКУ":
-                    System.out.println(dao.formatForOutputOneString(dialog.getIdByUser()).toString());
+                    System.out.println(dao.getById(dialog.getIdFromUser()).toString());
                     break;
                 case "МЕНЮ":
                     System.out.println(dialog.formatActionMenu());
