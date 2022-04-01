@@ -3,7 +3,7 @@ import connection.ConnectionFactory;
 import dao.CarsDAO;
 import dao.DAO;
 import formatter.Formatter;
-import formatter.FormatterDTO;
+import formatter.CarFormatter;
 
 import java.util.Scanner;
 
@@ -14,7 +14,7 @@ public class App {
         String dataSource = sc.nextLine();
         ConnectionFactory factory = new ConnectionFactory(dataSource);
         DAO dao = new CarsDAO(factory, dataSource);
-        Formatter formatter = new FormatterDTO();
+        Formatter formatter = new CarFormatter();
         UserInterface dialog = new UserInterface(dataSource);
 
         dao.createTable();
@@ -27,7 +27,7 @@ public class App {
                     System.out.println(formatter.formatFromList(dao.findAll()));
                     break;
                 case "ДОБАВИТЬ":
-                    dao.addString(dialog.getDataForInsert());
+                    dao.save(dialog.getDataForInsert());
                     break;
                 case "УДАЛИТЬ":
                     dao.deleteById(dialog.getIdFromUser());

@@ -2,10 +2,10 @@ package dto;
 
 import java.util.Objects;
 public class CarsDTO {
-    int id;
-    String brand;
-    int year;
-    int cost;
+    private int id;
+    private String brand;
+    private int year;
+    private int cost;
 
     public CarsDTO(int id,
                    String brand,

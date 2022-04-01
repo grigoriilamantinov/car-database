@@ -13,7 +13,7 @@ public interface DAO {
 
     CarsDTO getById(int id);
 
-    void addString(CarsDTO usersObject);
+    void save(CarsDTO usersObject);
 
     void deleteById(int id);
 

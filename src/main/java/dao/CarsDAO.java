@@ -58,15 +58,10 @@ public class CarsDAO implements DAO {
         Connection connection = connectionFactory.connectionOpen();
         List<CarsDTO> result = new ArrayList<>();
         try {
-            PreparedStatement statement = connection.prepareStatement(String.format(SELECT_ALL));
+            PreparedStatement statement = connection.prepareStatement(SELECT_ALL);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                CarsDTO dto = new CarsDTO();
-                dto.setId(resultSet.getInt("id"));
-                dto.setBrand(resultSet.getString("brand"));
-                dto.setYear(resultSet.getInt("year_of_produce"));
-                dto.setCost(resultSet.getInt("net_worth"));
-                result.add(dto);
+                result.add(this.getAll(resultSet));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,24 +73,34 @@ public class CarsDAO implements DAO {
 
     @Override
     public CarsDTO getById(int id) {
-        CarsDTO dto = new CarsDTO();
+
         Connection connection = connectionFactory.connectionOpen();
+        ResultSet resultSet = null;
         try {
             PreparedStatement statement = connection.prepareStatement(String.format(SELECT_BY_ID,id));
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } connectionFactory.connectionClose(connection);
+        return  this.getAll(resultSet);
+    }
+
+    public CarsDTO getAll(ResultSet resultSet){
+        CarsDTO dto = new CarsDTO();
+        try {
             dto.setId(resultSet.getInt("id"));
             dto.setBrand(resultSet.getString("brand"));
             dto.setYear(resultSet.getInt("year_of_produce"));
             dto.setCost(resultSet.getInt("net_worth"));
         } catch (SQLException e) {
             e.printStackTrace();
-        } connectionFactory.connectionClose(connection);
+        }
         return dto;
     }
 
     @Override
-    public void addString(CarsDTO usersObject) {
+    public void save(CarsDTO usersObject) {
         String brandName = usersObject.getBrand();
         int year = usersObject.getYear();
         int cost = usersObject.getCost();
@@ -118,7 +123,7 @@ public class CarsDAO implements DAO {
         Connection connection = connectionFactory.connectionOpen();{
             try {
                 PreparedStatement statement = connection.prepareStatement(String.format(
-                        UPDATE_CAR,brand, year, cost, id
+                    UPDATE_CAR,brand, year, cost, id
                 ));
                 statement.execute();
             } catch (SQLException e) {

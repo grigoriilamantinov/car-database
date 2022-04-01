@@ -5,7 +5,7 @@ import dto.CarsDTO;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class FormatterDTO implements Formatter {
+public class CarFormatter implements Formatter {
     public static String NEXT_LINE = "\n";
 
     @Override

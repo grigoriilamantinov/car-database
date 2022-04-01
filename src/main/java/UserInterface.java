@@ -9,6 +9,7 @@ import java.util.StringJoiner;
 
 public class UserInterface {
     private String dataSource;
+    public static String LINE_BREAK = "\n";
 
     public UserInterface(String filePath) {
         this.dataSource = filePath;
@@ -22,6 +23,7 @@ public class UserInterface {
     }
 
     public CarsDTO getDataForInsert() {
+
         CarsDTO usersObject = new CarsDTO(0,null,0,0);
         Scanner sc = new Scanner(System.in);
         System.out.print("Напишите название машины: ");
@@ -34,9 +36,10 @@ public class UserInterface {
     }
 
     public String formatActionMenu() {
+
         PropertiesLoader loader = new PropertiesLoader(dataSource);
         File file = new File(loader.getMenu());
-        StringJoiner joiner = new StringJoiner("\n");
+        StringJoiner joiner = new StringJoiner(LINE_BREAK);
         Scanner sc = null;
         try {
             sc = new Scanner(file);
@@ -51,6 +54,7 @@ public class UserInterface {
     }
 
     public CarsDTO getDataForUpdate(DAO dao) {
+
         Scanner sc = new Scanner(System.in);
         int id = getIdFromUser();
         CarsDTO usersObject = dao.getById(id);
@@ -79,6 +83,7 @@ public class UserInterface {
     }
 
     public int getIdFromUser() {
+
         Scanner sc = new Scanner(System.in);
         System.out.print("Какой id вас интересует? ");
         return sc.nextInt();
