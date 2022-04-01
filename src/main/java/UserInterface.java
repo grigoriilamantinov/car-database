@@ -1,5 +1,5 @@
 import dao.DAO;
-import dto.CarsDTO;
+import dto.CarDTO;
 import propertiesLoader.PropertiesLoader;
 
 import java.io.File;
@@ -22,9 +22,9 @@ public class UserInterface {
         return action;
     }
 
-    public CarsDTO getDataForInsert() {
+    public CarDTO getDataForInsert() {
 
-        CarsDTO usersObject = new CarsDTO(0,null,0,0);
+        CarDTO usersObject = new CarDTO(0,null,0,0);
         Scanner sc = new Scanner(System.in);
         System.out.print("Напишите название машины: ");
         usersObject.setBrand(sc.nextLine());
@@ -53,11 +53,11 @@ public class UserInterface {
         return joiner.toString();
     }
 
-    public CarsDTO getDataForUpdate(DAO dao) {
+    public CarDTO getDataForUpdate(DAO dao) {
 
         Scanner sc = new Scanner(System.in);
         int id = getIdFromUser();
-        CarsDTO usersObject = dao.getById(id);
+        CarDTO usersObject = dao.getById(id);
         usersObject.setId(id);
         System.out.println("Вы выбрали строчку: " + dao.getById(id));
         System.out.print("Вы хотите изменить название? ");

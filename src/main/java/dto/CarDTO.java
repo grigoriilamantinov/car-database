@@ -1,23 +1,38 @@
 package dto;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
-public class CarsDTO {
+public class CarDTO {
     private int id;
     private String brand;
     private int year;
     private int cost;
 
-    public CarsDTO(int id,
-                   String brand,
-                   int year,
-                   int cost) {
+    public CarDTO(int id,
+                  String brand,
+                  int year,
+                  int cost) {
         this.id = id;
         this.brand = brand;
         this.year = year;
         this.cost = cost;
     }
 
-    public CarsDTO() {
+    public CarDTO() {
+    }
+
+    public static CarDTO of(ResultSet resultSet){
+        CarDTO dto = new CarDTO();
+        try {
+            dto.setId(resultSet.getInt("id"));
+            dto.setBrand(resultSet.getString("brand"));
+            dto.setYear(resultSet.getInt("year_of_produce"));
+            dto.setCost(resultSet.getInt("net_worth"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dto;
     }
 
     public void setBrand(String brand) {
@@ -68,7 +83,7 @@ public class CarsDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CarsDTO that = (CarsDTO) o;
+        CarDTO that = (CarDTO) o;
         return id == that.id && year == that.year && cost == that.cost && brand.equals(that.brand);
     }
 
@@ -76,4 +91,5 @@ public class CarsDTO {
     public int hashCode() {
         return Objects.hash(id, brand, year, cost);
     }
+
 }

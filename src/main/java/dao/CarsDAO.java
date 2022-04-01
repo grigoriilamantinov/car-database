@@ -1,7 +1,7 @@
 package dao;
 
 import connection.ConnectionFactory;
-import dto.CarsDTO;
+import dto.CarDTO;
 import propertiesLoader.PropertiesLoader;
 
 import java.io.File;
@@ -54,14 +54,14 @@ public class CarsDAO implements DAO {
     }
 
     @Override
-    public List<CarsDTO> findAll() {
+    public List<CarDTO> findAll() {
         Connection connection = connectionFactory.connectionOpen();
-        List<CarsDTO> result = new ArrayList<>();
+        List<CarDTO> result = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_ALL);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                result.add(this.getAll(resultSet));
+                result.add(CarDTO.of(resultSet));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -72,8 +72,7 @@ public class CarsDAO implements DAO {
     }
 
     @Override
-    public CarsDTO getById(int id) {
-
+    public CarDTO getById(int id) {
         Connection connection = connectionFactory.connectionOpen();
         ResultSet resultSet = null;
         try {
@@ -83,24 +82,11 @@ public class CarsDAO implements DAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } connectionFactory.connectionClose(connection);
-        return  this.getAll(resultSet);
-    }
-
-    public CarsDTO getAll(ResultSet resultSet){
-        CarsDTO dto = new CarsDTO();
-        try {
-            dto.setId(resultSet.getInt("id"));
-            dto.setBrand(resultSet.getString("brand"));
-            dto.setYear(resultSet.getInt("year_of_produce"));
-            dto.setCost(resultSet.getInt("net_worth"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return dto;
+        return CarDTO.of(resultSet);
     }
 
     @Override
-    public void save(CarsDTO usersObject) {
+    public void save(CarDTO usersObject) {
         String brandName = usersObject.getBrand();
         int year = usersObject.getYear();
         int cost = usersObject.getCost();
@@ -115,7 +101,7 @@ public class CarsDAO implements DAO {
     }
 
     @Override
-    public void update(CarsDTO usersData) {
+    public void update(CarDTO usersData) {
         int id = usersData.getId();
         String brand = usersData.getBrand();
         int year = usersData.getYear();

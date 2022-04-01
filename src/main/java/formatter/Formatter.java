@@ -1,9 +1,9 @@
 package formatter;
 
-import dto.CarsDTO;
+import dto.CarDTO;
 
 import java.util.List;
 
 public interface Formatter {
-    String formatFromList(List<CarsDTO> listDTO);
+    String formatFromList(List<CarDTO> listDTO);
 }
