@@ -1,7 +1,7 @@
-package dao;
+package db_layer.dao;
 
 
-import dto.CarDTO;
+import db_layer.dto.CarDTO;
 
 import java.util.List;
 

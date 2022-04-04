@@ -1,4 +1,4 @@
-package propertiesLoader;
+package db_layer.propertiesLoader;
 
 import java.io.FileInputStream;
 import java.io.IOException;

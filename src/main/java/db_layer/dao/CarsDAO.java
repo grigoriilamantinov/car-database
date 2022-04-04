@@ -1,8 +1,8 @@
-package dao;
+package db_layer.dao;
 
-import connection.ConnectionFactory;
-import dto.CarDTO;
-import propertiesLoader.PropertiesLoader;
+import db_layer.connection.ConnectionFactory;
+import db_layer.dto.CarDTO;
+import db_layer.propertiesLoader.PropertiesLoader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,11 +16,26 @@ public class CarsDAO implements DAO {
 
     private ConnectionFactory connectionFactory;
     private String filePath;
+    private int id;
+    private String brand;
+    private int year;
+    private int cost;
 
     public CarsDAO(ConnectionFactory connectionFactory, String filePath) {
         this.connectionFactory = connectionFactory;
         this.filePath = filePath;
     }
+
+    public CarsDAO() {
+    }
+
+    public CarsDAO(int id, String brand, int year, int cost) {
+        this.id = id;
+        this.brand = brand;
+        this.year = year;
+        this.cost = cost;
+    }
+
 
     public static String SELECT_ALL = "SELECT * FROM cars;";
     public static String SELECT_BY_ID = "SELECT * FROM cars WHERE id = %d;";

@@ -1,6 +1,6 @@
-import dao.DAO;
-import dto.CarDTO;
-import propertiesLoader.PropertiesLoader;
+import db_layer.dao.DAO;
+import db_layer.dto.CarDTO;
+import db_layer.propertiesLoader.PropertiesLoader;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -1,6 +1,6 @@
 package formatter;
 
-import dto.CarDTO;
+import db_layer.dto.CarDTO;
 
 import java.util.List;
 

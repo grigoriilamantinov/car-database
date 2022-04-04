@@ -1,9 +1,10 @@
 
-import connection.ConnectionFactory;
-import dao.CarsDAO;
-import dao.DAO;
+import db_layer.connection.ConnectionFactory;
+import db_layer.dao.CarsDAO;
+import db_layer.dao.DAO;
 import formatter.Formatter;
 import formatter.CarFormatter;
+import service_layer.CarService;
 
 import java.util.Scanner;
 
@@ -13,9 +14,10 @@ public class App {
         Scanner sc = new Scanner(System.in);
         String dataSource = sc.nextLine();
         ConnectionFactory factory = new ConnectionFactory(dataSource);
-        DAO dao = new CarsDAO(factory, dataSource);
+        CarsDAO dao = new CarsDAO(factory, dataSource);
         Formatter formatter = new CarFormatter();
         UserInterface dialog = new UserInterface(dataSource);
+        CarService carService = new CarService(dao);
 
         dao.createTable();
         boolean isExit = false;
@@ -43,6 +45,12 @@ public class App {
                     break;
                 case "ВЫХОД":
                     isExit = true;
+                    break;
+                case "ГОДЫ":
+                    System.out.println(formatter.formatFromList(carService.getCarsBetweenYears(1910,2000)));
+                    break;
+                case "ЦЕНЫ":
+                    System.out.println(formatter.formatFromList(carService.getCarsLessCost(1000000)));
                     break;
                 default:
                     System.out.println("Товарищ, такого мы сделать не можем");

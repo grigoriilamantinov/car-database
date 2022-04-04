@@ -1,4 +1,4 @@
-package dto;
+package db_layer.dto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
