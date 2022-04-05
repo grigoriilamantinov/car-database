@@ -141,6 +141,7 @@ public class CarsDAO implements DAO {
             PreparedStatement statement = connection.prepareStatement(String.format(DELETE_BY_ID, id));
             statement.execute();
         } catch (SQLException e) {
+            System.out.println("Строчка удалена!");
             e.printStackTrace();
         }
         connectionFactory.connectionClose(connection);

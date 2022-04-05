@@ -1,7 +1,6 @@
 
 import db_layer.connection.ConnectionFactory;
 import db_layer.dao.CarsDAO;
-import db_layer.dao.DAO;
 import formatter.Formatter;
 import formatter.CarFormatter;
 import service_layer.CarService;
@@ -50,7 +49,7 @@ public class App {
                     System.out.println(formatter.formatFromList(carService.getCarsBetweenYears(1910,2000)));
                     break;
                 case "ЦЕНЫ":
-                    System.out.println(formatter.formatFromList(carService.getCarsLessCost(1000000)));
+                    System.out.println(formatter.formatFromList(carService.getCarsCostLessThan(1000000)));
                     break;
                 default:
                     System.out.println("Товарищ, такого мы сделать не можем");

@@ -1,9 +1,17 @@
 package db_layer.dto;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Objects;
+
+@Setter
+@Getter
+@EqualsAndHashCode
 public class CarDTO {
+
     private int id;
     private String brand;
     private int year;
@@ -30,41 +38,9 @@ public class CarDTO {
             dto.setYear(resultSet.getInt("year_of_produce"));
             dto.setCost(resultSet.getInt("net_worth"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Что-то пошло не так с этой строчкой");
         }
         return dto;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public int getId() {
-        return id;
     }
 
     @Override
@@ -78,18 +54,4 @@ public class CarDTO {
                 + ", цена: "
                 + cost;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CarDTO that = (CarDTO) o;
-        return id == that.id && year == that.year && cost == that.cost && brand.equals(that.brand);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, brand, year, cost);
-    }
-
 }

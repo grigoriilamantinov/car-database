@@ -9,8 +9,6 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class CarServiceTest {
 
     CarsDAO cars = Mockito.mock(CarsDAO.class);
@@ -20,18 +18,18 @@ class CarServiceTest {
     void shouldGetCarsBetweenYears() {
 
         List<CarDTO> preparedData = new ArrayList<>() {{
-            add(new CarDTO(1, "Lada", 1940,999999));
-            add(new CarDTO(2, "Maddyson", 1999,1999999));
-            add(new CarDTO(3, "GAZ", 2100,2999999));
-            add(new CarDTO(4, "Lada", 2014,399999));
-            add(new CarDTO(5, "Cam", 1940,499999));
-            add(new CarDTO(6, "Moscow", 2003,1999999));
-            add(new CarDTO(7, "4x4", 2019,4999999));
+            add(new CarDTO(1, "Lada", 1940, 999999));
+            add(new CarDTO(2, "Maddyson", 1999, 1999999));
+            add(new CarDTO(3, "GAZ", 2100, 2999999));
+            add(new CarDTO(4, "Lada", 2014, 399999));
+            add(new CarDTO(5, "Cam", 1940, 499999));
+            add(new CarDTO(6, "Moscow", 2003, 1999999));
+            add(new CarDTO(7, "4x4", 2019, 4999999));
         }};
 
         List<CarDTO> exceptedResult = new ArrayList<>() {{
-            add(new CarDTO(2, "Maddyson", 1999,1999999));
-            add(new CarDTO(6, "Moscow", 2003,1999999));
+            add(new CarDTO(2, "Maddyson", 1999, 1999999));
+            add(new CarDTO(6, "Moscow", 2003, 1999999));
         }};
 
         Mockito.when(cars.findAll()).thenReturn(preparedData);
@@ -46,23 +44,23 @@ class CarServiceTest {
     void shouldGetCarsLessCost() {
 
         List<CarDTO> preparedData = new ArrayList<>() {{
-            add(new CarDTO(1, "Lada", 1940,999999));
-            add(new CarDTO(2, "Maddyson", 1999,1999999));
-            add(new CarDTO(3, "GAZ", 2100,2999999));
-            add(new CarDTO(4, "Lada", 2014,399999));
-            add(new CarDTO(5, "Cam", 1940,499999));
-            add(new CarDTO(6, "Moscow", 2003,1999999));
-            add(new CarDTO(7, "4x4", 2019,4999999));
+            add(new CarDTO(1, "Lada", 1940, 999999));
+            add(new CarDTO(2, "Maddyson", 1999, 1999999));
+            add(new CarDTO(3, "GAZ", 2100, 2999999));
+            add(new CarDTO(4, "Lada", 2014, 399999));
+            add(new CarDTO(5, "Cam", 1940, 499999));
+            add(new CarDTO(6, "Moscow", 2003, 1999999));
+            add(new CarDTO(7, "4x4", 2019, 4999999));
         }};
 
         List<CarDTO> exceptedResult = new ArrayList<>() {{
-            add(new CarDTO(1, "Lada", 1940,999999));
-            add(new CarDTO(4, "Lada", 2014,399999));
-            add(new CarDTO(5, "Cam", 1940,499999));
+            add(new CarDTO(1, "Lada", 1940, 999999));
+            add(new CarDTO(4, "Lada", 2014, 399999));
+            add(new CarDTO(5, "Cam", 1940, 499999));
         }};
 
         Mockito.when(cars.findAll()).thenReturn(preparedData);
-        List<CarDTO> actualResult = carService.getCarsLessCost(1000000);
+        List<CarDTO> actualResult = carService.getCarsCostLessThan(1000000);
 
         Assertions.assertEquals(exceptedResult.size(),actualResult.size());
         Assertions.assertTrue(actualResult.containsAll(exceptedResult));

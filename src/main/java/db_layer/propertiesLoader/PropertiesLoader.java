@@ -18,6 +18,8 @@ public class PropertiesLoader {
     private final static String USER = "user";
     private final static String PASSWORD = "password";
     private final static String DB_URL = "db_url";
+    private static final String DRIVER = "driverName";
+
 
     private Properties properties = new Properties();
 
@@ -56,4 +58,7 @@ public class PropertiesLoader {
     public String getDbUrl() {
         return properties.getProperty(DB_URL);
     }
+
+    public String getDriver() {
+        return properties.getProperty(DRIVER); }
 }

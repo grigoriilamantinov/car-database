@@ -14,15 +14,17 @@ public class ConnectionFactory {
     }
 
     public Connection connectionOpen() {
+
         Connection connection = null;
         try {
             PropertiesLoader loader = new PropertiesLoader(dataSource);
+            Class.forName(loader.getDriver());
             connection = DriverManager.getConnection(
                     loader.getDbUrl(),
                     loader.getUser(),
                     loader.getPassword()
             );
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return connection;
