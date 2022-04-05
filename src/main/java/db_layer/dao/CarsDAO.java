@@ -1,8 +1,8 @@
-package dao;
+package db_layer.dao;
 
-import connection.ConnectionFactory;
-import dto.CarDTO;
-import propertiesLoader.PropertiesLoader;
+import db_layer.connection.ConnectionFactory;
+import db_layer.dto.CarDTO;
+import db_layer.propertiesLoader.PropertiesLoader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,17 +16,32 @@ public class CarsDAO implements DAO {
 
     private ConnectionFactory connectionFactory;
     private String filePath;
+    private int id;
+    private String brand;
+    private int year;
+    private int cost;
 
     public CarsDAO(ConnectionFactory connectionFactory, String filePath) {
         this.connectionFactory = connectionFactory;
         this.filePath = filePath;
     }
 
-    public static String SELECT_ALL = "SELECT * FROM cars;";
-    public static String SELECT_BY_ID = "SELECT * FROM cars WHERE id = %d;";
-    public static String ADD_CAR = "INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('%s', %d, %d)";
-    public static String UPDATE_CAR = "UPDATE cars SET brand = '%s', year_of_produce = %d, net_worth = %d WHERE id = %d;";
-    public static String DELETE_BY_ID = "DELETE FROM cars WHERE id=%d;";
+    public CarsDAO() {
+    }
+
+    public CarsDAO(int id, String brand, int year, int cost) {
+        this.id = id;
+        this.brand = brand;
+        this.year = year;
+        this.cost = cost;
+    }
+
+
+    private final static String SELECT_ALL = "SELECT * FROM cars;";
+    private final static String SELECT_BY_ID = "SELECT * FROM cars WHERE id = %d;";
+    private final static String ADD_CAR = "INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('%s', %d, %d)";
+    private final static String UPDATE_CAR = "UPDATE cars SET brand = '%s', year_of_produce = %d, net_worth = %d WHERE id = %d;";
+    private final static String DELETE_BY_ID = "DELETE FROM cars WHERE id=%d;";
 
 
     @Override
@@ -126,6 +141,7 @@ public class CarsDAO implements DAO {
             PreparedStatement statement = connection.prepareStatement(String.format(DELETE_BY_ID, id));
             statement.execute();
         } catch (SQLException e) {
+            System.out.println("Строчка удалена!");
             e.printStackTrace();
         }
         connectionFactory.connectionClose(connection);
