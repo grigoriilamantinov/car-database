@@ -13,13 +13,12 @@ public class PropertiesLoader {
         this.loadDataSourceProperties();
     }
 
-    private final static String CREATE_STATE = "createCars";
-    private final static String MENU = "menu";
-    private final static String USER = "user";
-    private final static String PASSWORD = "password";
-    private final static String DB_URL = "db_url";
+    private static final String CREATE_STATE = "createCars";
+    private static final String MENU = "menu";
+    private static final String USER = "user";
+    private static final String PASSWORD = "password";
+    private static final String DB_URL = "db_url";
     private static final String DRIVER = "driverName";
-
 
     private Properties properties = new Properties();
 
@@ -60,5 +59,6 @@ public class PropertiesLoader {
     }
 
     public String getDriver() {
-        return properties.getProperty(DRIVER); }
+        return properties.getProperty(DRIVER);
+    }
 }

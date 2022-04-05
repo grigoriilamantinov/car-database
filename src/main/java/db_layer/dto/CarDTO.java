@@ -1,8 +1,6 @@
 package db_layer.dto;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,25 +8,14 @@ import java.sql.SQLException;
 @Setter
 @Getter
 @EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 public class CarDTO {
 
     private int id;
     private String brand;
     private int year;
     private int cost;
-
-    public CarDTO(int id,
-                  String brand,
-                  int year,
-                  int cost) {
-        this.id = id;
-        this.brand = brand;
-        this.year = year;
-        this.cost = cost;
-    }
-
-    public CarDTO() {
-    }
 
     public static CarDTO of(ResultSet resultSet){
         CarDTO dto = new CarDTO();

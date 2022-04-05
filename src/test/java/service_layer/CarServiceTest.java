@@ -33,11 +33,11 @@ class CarServiceTest {
         }};
 
         Mockito.when(cars.findAll()).thenReturn(preparedData);
-        List<CarDTO> actualResult = carService.getCarsBetweenYears(1990,2004);
+        List<CarDTO> actualResult = carService.getCarsBetweenYears(1990, 2004);
 
-        Assertions.assertEquals(exceptedResult.size(),actualResult.size());
+        Assertions.assertEquals(exceptedResult.size(), actualResult.size());
         Assertions.assertTrue(actualResult.containsAll(exceptedResult));
-        Assertions.assertIterableEquals(exceptedResult,actualResult);
+        Assertions.assertIterableEquals(exceptedResult, actualResult);
     }
 
     @Test
@@ -62,8 +62,8 @@ class CarServiceTest {
         Mockito.when(cars.findAll()).thenReturn(preparedData);
         List<CarDTO> actualResult = carService.getCarsCostLessThan(1000000);
 
-        Assertions.assertEquals(exceptedResult.size(),actualResult.size());
+        Assertions.assertEquals(exceptedResult.size(), actualResult.size());
         Assertions.assertTrue(actualResult.containsAll(exceptedResult));
-        Assertions.assertIterableEquals(exceptedResult,actualResult);
+        Assertions.assertIterableEquals(exceptedResult, actualResult);
     }
 }

@@ -37,11 +37,11 @@ public class CarsDAO implements DAO {
     }
 
 
-    public static String SELECT_ALL = "SELECT * FROM cars;";
-    public static String SELECT_BY_ID = "SELECT * FROM cars WHERE id = %d;";
-    public static String ADD_CAR = "INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('%s', %d, %d)";
-    public static String UPDATE_CAR = "UPDATE cars SET brand = '%s', year_of_produce = %d, net_worth = %d WHERE id = %d;";
-    public static String DELETE_BY_ID = "DELETE FROM cars WHERE id=%d;";
+    private final static String SELECT_ALL = "SELECT * FROM cars;";
+    private final static String SELECT_BY_ID = "SELECT * FROM cars WHERE id = %d;";
+    private final static String ADD_CAR = "INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('%s', %d, %d)";
+    private final static String UPDATE_CAR = "UPDATE cars SET brand = '%s', year_of_produce = %d, net_worth = %d WHERE id = %d;";
+    private final static String DELETE_BY_ID = "DELETE FROM cars WHERE id=%d;";
 
 
     @Override
