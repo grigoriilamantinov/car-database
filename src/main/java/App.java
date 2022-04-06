@@ -1,8 +1,9 @@
 
 import db_layer.connection.ConnectionFactory;
 import db_layer.dao.CarsDAO;
-import formatter.Formatter;
+import db_layer.dao.OwnersDAO;
 import formatter.CarFormatter;
+import formatter.OwnersFormatter;
 import service_layer.CarService;
 
 import java.util.Scanner;
@@ -13,31 +14,36 @@ public class App {
         Scanner sc = new Scanner(System.in);
         String dataSource = sc.nextLine();
         ConnectionFactory factory = new ConnectionFactory(dataSource);
-        CarsDAO dao = new CarsDAO(factory, dataSource);
-        Formatter formatter = new CarFormatter();
+        CarsDAO carsDAO = new CarsDAO(factory, dataSource);
+        OwnersDAO ownersDAO = new OwnersDAO(factory, dataSource);
+        CarFormatter carFormatter = new CarFormatter();
+        OwnersFormatter ownersFormatter = new OwnersFormatter();
         UserInterface dialog = new UserInterface(dataSource);
-        CarService carService = new CarService(dao);
+        CarService carService = new CarService(carsDAO);
 
-        dao.createTable();
+        carsDAO.createTable();
+        ownersDAO.createTable();
         boolean isExit = false;
         System.out.println(dialog.formatActionMenu());
 
         while (!isExit) {
             switch (dialog.getAction().toUpperCase()) {
                 case "ВЫВОД":
-                    System.out.println(formatter.formatFromList(dao.findAll()));
+                    System.out.println(carFormatter.carFromList(carsDAO.findAll()));
+                    System.out.println();
+                    System.out.println(ownersFormatter.ownersFromList(ownersDAO.findAll()));
                     break;
                 case "ДОБАВИТЬ":
-                    dao.save(dialog.getDataForInsert());
+                    carsDAO.save(dialog.getDataForInsert());
                     break;
                 case "УДАЛИТЬ":
-                    dao.deleteById(dialog.getIdFromUser());
+                    carsDAO.deleteById(dialog.getIdFromUser());
                     break;
                 case "ИЗМЕНИТЬ":
-                    dao.update(dialog.getDataForUpdate(dao));
+                    carsDAO.update(dialog.getDataForUpdate(carsDAO));
                     break;
                 case "СТРОЧКУ":
-                    System.out.println(dao.getById(dialog.getIdFromUser()).toString());
+                    System.out.println(carsDAO.getById(dialog.getIdFromUser()).toString());
                     break;
                 case "МЕНЮ":
                     System.out.println(dialog.formatActionMenu());
@@ -46,16 +52,17 @@ public class App {
                     isExit = true;
                     break;
                 case "ГОДЫ":
-                    System.out.println(formatter.formatFromList(carService.getCarsBetweenYears(1910,2000)));
+                    System.out.println(carFormatter.carFromList(carService.getCarsBetweenYears(1910,2000)));
                     break;
                 case "ЦЕНЫ":
-                    System.out.println(formatter.formatFromList(carService.getCarsCostLessThan(1000000)));
+                    System.out.println(carFormatter.carFromList(carService.getCarsCostLessThan(1000000)));
                     break;
                 default:
                     System.out.println("Товарищ, такого мы сделать не можем");
                     break;
             }
         }
-        dao.dropTable();
+        carsDAO.dropTable();
+        ownersDAO.dropTable();
     }
 }
