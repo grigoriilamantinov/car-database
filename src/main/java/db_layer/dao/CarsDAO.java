@@ -40,7 +40,8 @@ public class CarsDAO implements DAO {
     private final static String SELECT_ALL = "SELECT * FROM cars;";
     private final static String SELECT_BY_ID = "SELECT * FROM cars WHERE id = %d;";
     private final static String ADD_CAR = "INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('%s', %d, %d)";
-    private final static String UPDATE_CAR = "UPDATE cars SET brand = '%s', year_of_produce = %d, net_worth = %d WHERE id = %d;";
+    private final static String UPDATE_CAR = "UPDATE cars SET brand = '%s', year_of_produce = %d, " +
+                                             "net_worth = %d WHERE id = %d;";
     private final static String DELETE_BY_ID = "DELETE FROM cars WHERE id=%d;";
 
 
@@ -48,7 +49,7 @@ public class CarsDAO implements DAO {
     public void createTable() {
         PropertiesLoader loader = new PropertiesLoader(filePath);
         StringBuilder sb = new StringBuilder();
-        File file = new File(loader.getCreateState());
+        File file = new File(loader.getCreateStateCars());
         try {
             Scanner sc = new Scanner(file);
             while (sc.hasNextLine()) {
@@ -72,11 +73,12 @@ public class CarsDAO implements DAO {
     public List<CarDTO> findAll() {
         Connection connection = connectionFactory.connectionOpen();
         List<CarDTO> result = new ArrayList<>();
+        CarDTO dto = new CarDTO();
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_ALL);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                result.add(CarDTO.of(resultSet));
+                result.add(dto.of(resultSet));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,6 +92,7 @@ public class CarsDAO implements DAO {
     public CarDTO getById(int id) {
         Connection connection = connectionFactory.connectionOpen();
         ResultSet resultSet = null;
+        CarDTO dto = new CarDTO();
         try {
             PreparedStatement statement = connection.prepareStatement(String.format(SELECT_BY_ID,id));
             resultSet = statement.executeQuery();
@@ -97,7 +100,7 @@ public class CarsDAO implements DAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } connectionFactory.connectionClose(connection);
-        return CarDTO.of(resultSet);
+        return dto.of(resultSet);
     }
 
     @Override

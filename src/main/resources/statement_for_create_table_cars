@@ -2,24 +2,24 @@ CREATE TABLE IF NOT EXISTS cars
 (id SERIAL NOT NULL,
 brand VARCHAR NOT NULL,
 year_of_produce INT NOT NULL,
-net_worth INT NOT NULL);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Maddyson', 1984,2000000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Honda', 1999,2500000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Lada', 2006,900000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('GAZ', 2010,1000000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Lada', 1999,700000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Lada', 2007,3000000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('BMW', 2018,7000000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Ferrari', 2020,12000000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Honda', 2017,3000000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Yo-mobil', 2010,9990000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Banshi', 1990,1000000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Opel', 2014,2055000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Toyota', 2012,6799999);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Opel', 2018,5000000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Honda', 2015,5000000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Honda', 2009,2756000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Toyota', 2015,2990000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Ferrari', 2022,52000000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Lada', 1965,1000000);
-INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Honda', 1999,2190000);
+net_worth INT NOT NULL, owner_id INT NOT NULL);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Maddyson', 1984,2000000, 1);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Honda', 1999,2500000, 2);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Lada', 2006,900000, 3);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('GAZ', 2010,1000000, 1);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Lada', 1999,700000, 2);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Lada', 2007,3000000, 4);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('BMW', 2018,7000000, 1);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Ferrari', 2020,12000000, 2);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Honda', 2017,3000000, 4);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Yo-mobil', 2010,9990000, 5);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Banshi', 1990,1000000, 1);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Opel', 2014,2055000, 2);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Toyota', 2012,6799999, 3);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Opel', 2018,5000000, 5);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Honda', 2015,5000000, 6);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Honda', 2009,2756000, 5);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Toyota', 2015,2990000, 6);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Ferrari', 2022,52000000, 6);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Lada', 1965,1000000, 3);
+INSERT INTO cars (brand, year_of_produce, net_worth, owner_id) VALUES ('Honda', 1999,2190000, 2);

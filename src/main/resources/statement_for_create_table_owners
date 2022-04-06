@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS owners
+(id SERIAL NOT NULL,
+first_name VARCHAR NOT NULL,
+last_name VARCHAR NOT NULL,);
+INSERT INTO cars (first_name, last_name) VALUES ('Михаил', 'Шишкин');
+INSERT INTO cars (first_name, last_name) VALUES ('Михаэль', 'Шумахер');
+INSERT INTO cars (first_name, last_name) VALUES ('Капибар', 'Григорьевич');
+INSERT INTO cars (first_name, last_name) VALUES ('Али', 'Дон-Донович');
+INSERT INTO cars (first_name, last_name) VALUES ('Имануил','Кант');
+INSERT INTO cars (first_name, last_name) VALUES ('Иван','Иванов');

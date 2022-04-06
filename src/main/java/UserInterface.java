@@ -24,7 +24,7 @@ public class UserInterface {
 
     public CarDTO getDataForInsert() {
 
-        CarDTO usersObject = new CarDTO(0,null,0,0);
+        CarDTO usersObject = new CarDTO();
         Scanner sc = new Scanner(System.in);
         System.out.print("Напишите название машины: ");
         usersObject.setBrand(sc.nextLine());

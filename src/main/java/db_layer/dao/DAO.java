@@ -9,8 +9,6 @@ public interface DAO {
 
     void createTable();
 
-    List<CarDTO> findAll();
-
     CarDTO getById(int id);
 
     void save(CarDTO usersObject);
@@ -19,5 +17,10 @@ public interface DAO {
 
     void dropTable();
 
+    List<CarDTO> findAll();
+
     void update(CarDTO dataForUpdate);
+
+    class DTO {
+    }
 }

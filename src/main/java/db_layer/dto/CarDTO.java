@@ -16,14 +16,16 @@ public class CarDTO {
     private String brand;
     private int year;
     private int cost;
+    private int owner_id;
 
-    public static CarDTO of(ResultSet resultSet){
+    public static CarDTO of(ResultSet resultSet) {
         CarDTO dto = new CarDTO();
         try {
             dto.setId(resultSet.getInt("id"));
             dto.setBrand(resultSet.getString("brand"));
             dto.setYear(resultSet.getInt("year_of_produce"));
             dto.setCost(resultSet.getInt("net_worth"));
+            dto.setOwner_id(resultSet.getInt("owner_id"));
         } catch (SQLException e) {
             System.out.println("Что-то пошло не так с этой строчкой");
         }
@@ -39,6 +41,8 @@ public class CarDTO {
                 + ", год: "
                 + year
                 + ", цена: "
-                + cost;
+                + cost
+                + ", владелец: "
+                + owner_id;
     }
 }
