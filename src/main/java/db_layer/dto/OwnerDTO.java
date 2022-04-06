@@ -11,10 +11,12 @@ import java.sql.SQLException;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class OwnerDTO {
     private int id;
     private String firstName;
     private String lastName;
+
 
     public static OwnerDTO of(ResultSet resultSet) {
         OwnerDTO dto = new OwnerDTO();
@@ -37,4 +39,6 @@ public class OwnerDTO {
             + " "
             + lastName;
     }
+
+
 }

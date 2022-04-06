@@ -1,5 +1,6 @@
 package db_layer.dto;
 
+import db_layer.dao.OwnersDAO;
 import lombok.*;
 
 import java.sql.ResultSet;
@@ -17,6 +18,13 @@ public class CarDTO {
     private int year;
     private int cost;
     private int owner_id;
+    private OwnerDTO owner;
+
+//    public CarDTO(int id, String brand, OwnerDTO owner) {
+//        this.id = id;
+//        this.brand = brand;
+//        this.owner = owner;
+//    }
 
     public static CarDTO of(ResultSet resultSet) {
         CarDTO dto = new CarDTO();
@@ -31,18 +39,43 @@ public class CarDTO {
         }
         return dto;
     }
+    public CarDTO id (int id) {
+        this.id = id;
+        return this;
+    }
+
+    public CarDTO brand (String brand) {
+        this.brand = brand;
+        return this;
+    }
+
+    public CarDTO cost (int cost) {
+        this.cost = cost;
+        return this;
+    }
+
+    public CarDTO year (int year) {
+        this.year = year;
+        return this;
+    }
+
+    public CarDTO owner (OwnerDTO owner) {
+        this.owner = owner;
+        return this;
+    }
+
 
     @Override
     public String toString() {
         return "id: "
-                + id
-                + ", брэнд "
-                + brand
-                + ", год: "
-                + year
-                + ", цена: "
-                + cost
-                + ", владелец: "
-                + owner_id;
+            + id
+            + ", брэнд "
+            + brand
+            + ", год: "
+            + year
+            + ", цена: "
+            + cost
+            + ". Владелец: "
+            + owner;
     }
 }

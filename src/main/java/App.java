@@ -43,7 +43,9 @@ public class App {
                     carsDAO.update(dialog.getDataForUpdate(carsDAO));
                     break;
                 case "СТРОЧКУ":
-                    System.out.println(carsDAO.getById(dialog.getIdFromUser()).toString());
+//                    System.out.println(carsDAO.getById(dialog.getIdFromUser()).toString());
+//                    System.out.println();
+                    System.out.println(ownersDAO.getById(dialog.getIdFromUser()).toString());
                     break;
                 case "МЕНЮ":
                     System.out.println(dialog.formatActionMenu());
@@ -56,6 +58,13 @@ public class App {
                     break;
                 case "ЦЕНЫ":
                     System.out.println(carFormatter.carFromList(carService.getCarsCostLessThan(1000000)));
+                    break;
+                case "ВЛАДЕЛЬЦЫ":
+                    System.out.println(carFormatter
+                        .carFromList(ownersDAO
+                            .getCarOwners(
+                            dialog.getIdFromUser()
+                            )));
                     break;
                 default:
                     System.out.println("Товарищ, такого мы сделать не можем");
