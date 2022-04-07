@@ -36,11 +36,12 @@ public class OwnersDAO {
     }
 
     private final static String SELECT_ALL = "SELECT * FROM owners;";
-    private final static String SELECT_BY_ID = "SELECT * FROM cars WHERE id = %d;";
-    private final static String ADD_CAR = "INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('%s', %d, %d)";
-    private final static String UPDATE_CAR = "UPDATE cars SET brand = '%s', year_of_produce = %d, " +
-        "net_worth = %d WHERE id = %d;";
-    private final static String DELETE_BY_ID = "DELETE FROM cars WHERE id=%d;";
+    private final static String STATEMENT_JOIN = "SELECT " +
+        "cars.id AS Car_id, cars.brand AS Brand, cars.net_worth AS Cost, " +
+        "cars.year_of_produce AS Year, owners.first_name AS First_name, owners.last_name " +
+        "AS Last_name FROM owners " +
+        "LEFT JOIN cars ON owners.id = cars.owner_id " +
+        "WHERE owners.id = %d;";
 
     public void createTable() {
         PropertiesLoader loader = new PropertiesLoader(filePath);
@@ -81,10 +82,6 @@ public class OwnersDAO {
         return result;
     }
 
-    public void update(CarDTO dataForUpdate) {
-
-    }
-
     public void dropTable () {
         Connection connection = connectionFactory.connectionOpen();
         try {
@@ -104,44 +101,19 @@ public class OwnersDAO {
         Connection connection = connectionFactory.connectionOpen();
         try {
             PreparedStatement statement =
-                connection.prepareStatement(
-                    String.format(
-                        "SELECT " +
-                            "cars.id AS Car_id, cars.brand AS Brand, cars.net_worth AS Cost, " +
-                            "cars.year_of_produce AS Year, owners.first_name AS First_name, owners.last_name " +
-                            "AS Last_name FROM owners " +
-                            "LEFT JOIN cars ON owners.id = cars.owner_id " +
-                            "WHERE owners.id = %d;",
-                        ownerId
-                    )
-                );
-
+                connection.prepareStatement(String.format(STATEMENT_JOIN, ownerId));
             ResultSet resultSet = statement.executeQuery();
-
             while (resultSet.next()) {
                 carOwners.add(
                     new CarDTO()
                         .id(resultSet.getInt("Car_id"))
                         .brand(resultSet.getString("Brand"))
-                        .cost(resultSet.getInt("Cost"))
-                        .year(resultSet.getInt("Year"))
                         .owner(owner)
                 );
-
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                System.out.println("Ошибка подключения");
-            }
-        }
-
+        } connectionFactory.connectionClose(connection);
         return carOwners;
     }
 

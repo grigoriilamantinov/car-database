@@ -11,37 +11,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class CarsDAO  implements DAO<CarDTO> {
 
-    private ConnectionFactory connectionFactory;
-    private String filePath;
-    private int id;
-    private String brand;
-    private int year;
-    private int cost;
+    private final ConnectionFactory connectionFactory;
+    private final String filePath;
 
     public CarsDAO(ConnectionFactory connectionFactory, String filePath) {
         this.connectionFactory = connectionFactory;
         this.filePath = filePath;
     }
 
-    public CarsDAO() {
-    }
-
-    public CarsDAO(int id, String brand, int year, int cost) {
-        this.id = id;
-        this.brand = brand;
-        this.year = year;
-        this.cost = cost;
-    }
-
-
     private final static String SELECT_ALL = "SELECT * FROM cars;";
     private final static String SELECT_BY_ID = "SELECT * FROM cars WHERE id = %d;";
-    private final static String ADD_CAR = "INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('%s', %d, %d)";
+    private final static String ADD_CAR = "INSERT INTO cars (brand, year_of_produce, net_worth, owner_id)"
+                                        + "VALUES ('%s', %d, %d, %d)";
     private final static String UPDATE_CAR = "UPDATE cars SET brand = '%s', year_of_produce = %d, " +
-                                             "net_worth = %d WHERE id = %d;";
+                                             "net_worth = %d, WHERE id = %d;";
     private final static String DELETE_BY_ID = "DELETE FROM cars WHERE id=%d;";
 
 
@@ -50,23 +35,18 @@ public class CarsDAO  implements DAO<CarDTO> {
         PropertiesLoader loader = new PropertiesLoader(filePath);
         StringBuilder sb = new StringBuilder();
         File file = new File(loader.getCreateStateCars());
+        Connection connection = connectionFactory.connectionOpen();
         try {
             Scanner sc = new Scanner(file);
             while (sc.hasNextLine()) {
                 sb.append(sc.nextLine());
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        Connection connection = connectionFactory.connectionOpen();
-
-        try {
             PreparedStatement statement = connection.prepareStatement(sb.toString());
             statement.execute();
-        } catch (SQLException e) {
+        } catch (FileNotFoundException | SQLException e) {
             e.printStackTrace();
-        } connectionFactory.connectionClose(connection);
+        }
+        connectionFactory.connectionClose(connection);
     }
 
     @Override
@@ -108,9 +88,12 @@ public class CarsDAO  implements DAO<CarDTO> {
         String brandName = usersObject.getBrand();
         int year = usersObject.getYear();
         int cost = usersObject.getCost();
+        int ownerId = usersObject.getOwner_id();
         Connection connection = connectionFactory.connectionOpen();
         try {
-            PreparedStatement statement = connection.prepareStatement(String.format(ADD_CAR, brandName, year, cost));
+            PreparedStatement statement = connection.prepareStatement(
+                String.format(ADD_CAR, brandName, year, cost, ownerId)
+            );
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

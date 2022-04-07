@@ -1,6 +1,5 @@
 package formatter;
 
-import db_layer.dto.CarDTO;
 import db_layer.dto.OwnerDTO;
 
 import java.util.List;
@@ -14,7 +13,6 @@ public class OwnersFormatter {
             for (OwnerDTO owner : listDTO) {
                 joiner.add(owner.toString());
             }
-            return joiner.toString();
-        }
-
+        return joiner.toString();
+    }
 }

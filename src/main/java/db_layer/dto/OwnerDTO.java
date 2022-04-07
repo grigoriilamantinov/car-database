@@ -1,8 +1,5 @@
 package db_layer.dto;
-
-
 import lombok.*;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -16,7 +13,6 @@ public class OwnerDTO {
     private int id;
     private String firstName;
     private String lastName;
-
 
     public static OwnerDTO of(ResultSet resultSet) {
         OwnerDTO dto = new OwnerDTO();

@@ -42,16 +42,11 @@ public class App {
                 case "ИЗМЕНИТЬ":
                     carsDAO.update(dialog.getDataForUpdate(carsDAO));
                     break;
-                case "СТРОЧКУ":
-//                    System.out.println(carsDAO.getById(dialog.getIdFromUser()).toString());
-//                    System.out.println();
+                case "МАШИНА":
+                    System.out.println(carsDAO.getById(dialog.getIdFromUser()).toString());
+                    break;
+                case "ВЛАДЕЛЕЦ":
                     System.out.println(ownersDAO.getById(dialog.getIdFromUser()).toString());
-                    break;
-                case "МЕНЮ":
-                    System.out.println(dialog.formatActionMenu());
-                    break;
-                case "ВЫХОД":
-                    isExit = true;
                     break;
                 case "ГОДЫ":
                     System.out.println(carFormatter.carFromList(carService.getCarsBetweenYears(1910,2000)));
@@ -59,12 +54,16 @@ public class App {
                 case "ЦЕНЫ":
                     System.out.println(carFormatter.carFromList(carService.getCarsCostLessThan(1000000)));
                     break;
-                case "ВЛАДЕЛЬЦЫ":
-                    System.out.println(carFormatter
-                        .carFromList(ownersDAO
-                            .getCarOwners(
-                            dialog.getIdFromUser()
-                            )));
+                case "МАШИНЫ ВЛАДЕЛЬЦА":
+                    System.out.println(carFormatter.ownersCarFromList(
+                        ownersDAO.getCarOwners(dialog.getIdFromUser())
+                    ));
+                    break;
+                case "МЕНЮ":
+                    System.out.println(dialog.formatActionMenu());
+                    break;
+                case "ВЫХОД":
+                    isExit = true;
                     break;
                 default:
                     System.out.println("Товарищ, такого мы сделать не можем");

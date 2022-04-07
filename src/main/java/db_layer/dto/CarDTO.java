@@ -1,6 +1,4 @@
 package db_layer.dto;
-
-import db_layer.dao.OwnersDAO;
 import lombok.*;
 
 import java.sql.ResultSet;
@@ -13,11 +11,11 @@ import java.sql.SQLException;
 @NoArgsConstructor
 public class CarDTO {
 
-    private int id;
+    private Integer id;
     private String brand;
-    private int year;
-    private int cost;
-    private int owner_id;
+    private Integer year;
+    private Integer cost;
+    private Integer owner_id;
     private OwnerDTO owner;
 
     public static CarDTO of(ResultSet resultSet) {
@@ -44,21 +42,10 @@ public class CarDTO {
         return this;
     }
 
-    public CarDTO cost (int cost) {
-        this.cost = cost;
-        return this;
-    }
-
-    public CarDTO year (int year) {
-        this.year = year;
-        return this;
-    }
-
     public CarDTO owner (OwnerDTO owner) {
         this.owner = owner;
         return this;
     }
-
 
     @Override
     public String toString() {
@@ -70,6 +57,15 @@ public class CarDTO {
             + year
             + ", цена: "
             + cost
+            + ". ID владельца: "
+            + owner_id;
+    }
+
+    public String toStringOwnersCar() {
+        return "id: "
+            + id
+            + ", брэнд "
+            + brand
             + ". Владелец: "
             + owner;
     }

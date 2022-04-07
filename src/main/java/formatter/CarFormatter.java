@@ -16,4 +16,11 @@ public class CarFormatter {
         return joiner.toString();
     }
 
+    public String ownersCarFromList(List<CarDTO> listDTO) {
+        StringJoiner joiner = new StringJoiner(NEXT_LINE);
+        for (CarDTO car : listDTO) {
+            joiner.add(car.toStringOwnersCar());
+        }
+        return joiner.toString();
+    }
 }
