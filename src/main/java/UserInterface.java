@@ -19,6 +19,7 @@ public class UserInterface {
         Scanner sc = new Scanner(System.in);
         System.out.println("\nТоварищ, что хотите сделать с данными?");
         String action = sc.nextLine();
+        sc.close();
         return action;
     }
 
@@ -53,39 +54,41 @@ public class UserInterface {
         return joiner.toString();
     }
 
-    public CarDTO getDataForUpdate(DAO dao) {
+    public CarDTO getDataForUpdate(DAO<CarDTO> dao) {
 
         Scanner sc = new Scanner(System.in);
         int id = getIdFromUser();
-        CarDTO usersObject = dao.getById(id);
-        usersObject.setId(id);
+        CarDTO car = dao.getById(id);
+        car.setId(id);
         System.out.println("Вы выбрали строчку: " + dao.getById(id));
         System.out.print("Вы хотите изменить название? ");
         boolean isYes = sc.nextLine().equalsIgnoreCase("ДА");
         if (isYes) {
             System.out.print("На какое новое название изменить? ");
-            usersObject.setBrand(sc.nextLine());
+            car.setBrand(sc.nextLine());
         }
         System.out.print("Вы хотите изменить год сборки? ");
         isYes = sc.nextLine().equalsIgnoreCase("ДА");
         if (isYes) {
             System.out.print("На какой год сборки изменить? ");
-            usersObject.setYear(sc.nextInt());
+            car.setYear(sc.nextInt());
             sc.nextLine();
         }
         System.out.print("Вы хотите изменить стоимость? ");
         isYes = sc.nextLine().equalsIgnoreCase("ДА");
         if (isYes) {
             System.out.print("Сколько будет стоить теперь? ");
-            usersObject.setCost(sc.nextInt());
+            car.setCost(sc.nextInt());
         }
-        return usersObject;
+        return car;
     }
 
     public int getIdFromUser() {
 
         Scanner sc = new Scanner(System.in);
         System.out.print("Какой id вас интересует? ");
-        return sc.nextInt();
+        int id = sc.nextInt();
+        sc.close();
+        return id;
     }
 }

@@ -20,12 +20,6 @@ public class CarDTO {
     private int owner_id;
     private OwnerDTO owner;
 
-//    public CarDTO(int id, String brand, OwnerDTO owner) {
-//        this.id = id;
-//        this.brand = brand;
-//        this.owner = owner;
-//    }
-
     public static CarDTO of(ResultSet resultSet) {
         CarDTO dto = new CarDTO();
         try {
@@ -39,6 +33,7 @@ public class CarDTO {
         }
         return dto;
     }
+
     public CarDTO id (int id) {
         this.id = id;
         return this;

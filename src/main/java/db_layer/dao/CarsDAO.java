@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class CarsDAO implements DAO {
+public class CarsDAO  implements DAO<CarDTO> {
 
     private ConnectionFactory connectionFactory;
     private String filePath;

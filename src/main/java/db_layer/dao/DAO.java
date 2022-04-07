@@ -5,22 +5,20 @@ import db_layer.dto.CarDTO;
 
 import java.util.List;
 
-public interface DAO {
+public interface DAO<DTO> {
 
     void createTable();
 
-    CarDTO getById(int id);
+    DTO getById(int id);
 
-    void save(CarDTO usersObject);
+    void save(DTO usersObject);
 
     void deleteById(int id);
 
     void dropTable();
 
-    List<CarDTO> findAll();
+    List<DTO> findAll();
 
-    void update(CarDTO dataForUpdate);
+    void update(DTO dataForUpdate);
 
-    class DTO {
-    }
 }

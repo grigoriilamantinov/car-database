@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class OwnersDAO  {
+public class OwnersDAO {
 
     private ConnectionFactory connectionFactory;
     private String filePath;
@@ -79,6 +79,10 @@ public class OwnersDAO  {
             connectionFactory.connectionClose(connection);
         }
         return result;
+    }
+
+    public void update(CarDTO dataForUpdate) {
+
     }
 
     public void dropTable () {
@@ -163,6 +167,4 @@ public class OwnersDAO  {
 
         return owner;
     }
-
-
 }
