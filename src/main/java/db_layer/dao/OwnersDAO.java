@@ -11,10 +11,6 @@ import java.util.List;
 public class OwnersDAO {
 
     private ConnectionFactory connectionFactory;
-    private int id;
-    private String firstName;
-    private String lastName;
-
 
     public OwnersDAO(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
