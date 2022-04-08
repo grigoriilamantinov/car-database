@@ -2,23 +2,17 @@ package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
 import db_layer.dto.CarDTO;
-import db_layer.propertiesLoader.PropertiesLoader;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class CarsDAO  implements DAO<CarDTO> {
 
     private final ConnectionFactory connectionFactory;
-    private final String filePath;
 
-    public CarsDAO(ConnectionFactory connectionFactory, String filePath) {
+    public CarsDAO(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
-        this.filePath = filePath;
     }
 
     private final static String SELECT_ALL = "SELECT * FROM cars;";
@@ -28,26 +22,6 @@ public class CarsDAO  implements DAO<CarDTO> {
     private final static String UPDATE_CAR = "UPDATE cars SET brand = '%s', year_of_produce = %d, " +
                                              "net_worth = %d, WHERE id = %d;";
     private final static String DELETE_BY_ID = "DELETE FROM cars WHERE id=%d;";
-
-
-    @Override
-    public void createTable() {
-        PropertiesLoader loader = new PropertiesLoader(filePath);
-        StringBuilder sb = new StringBuilder();
-        File file = new File(loader.getCreateStateCars());
-        Connection connection = connectionFactory.connectionOpen();
-        try {
-            Scanner sc = new Scanner(file);
-            while (sc.hasNextLine()) {
-                sb.append(sc.nextLine());
-            }
-            PreparedStatement statement = connection.prepareStatement(sb.toString());
-            statement.execute();
-        } catch (FileNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-        connectionFactory.connectionClose(connection);
-    }
 
     @Override
     public List<CarDTO> findAll() {
@@ -88,11 +62,10 @@ public class CarsDAO  implements DAO<CarDTO> {
         String brandName = usersObject.getBrand();
         int year = usersObject.getYear();
         int cost = usersObject.getCost();
-        int ownerId = usersObject.getOwner_id();
         Connection connection = connectionFactory.connectionOpen();
         try {
             PreparedStatement statement = connection.prepareStatement(
-                String.format(ADD_CAR, brandName, year, cost, ownerId)
+                String.format(ADD_CAR, brandName, year, cost)
             );
             statement.execute();
         } catch (SQLException e) {
@@ -132,18 +105,5 @@ public class CarsDAO  implements DAO<CarDTO> {
         }
         connectionFactory.connectionClose(connection);
         System.out.print("\nСтрочка " + id + " удалена\n");
-    }
-
-    @Override
-    public void dropTable() {
-        Connection connection = connectionFactory.connectionOpen();
-        try {
-            PreparedStatement statement = connection.prepareStatement("DROP TABLE IF EXISTS cars;");
-            statement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            connectionFactory.connectionClose(connection);
-        }
     }
 }

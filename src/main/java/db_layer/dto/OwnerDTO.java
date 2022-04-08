@@ -13,6 +13,9 @@ public class OwnerDTO {
     private int id;
     private String firstName;
     private String lastName;
+    private int idCar;
+
+    private final static  String SPACE = " ";
 
     public static OwnerDTO of(ResultSet resultSet) {
         OwnerDTO dto = new OwnerDTO();
@@ -20,6 +23,7 @@ public class OwnerDTO {
             dto.setId(resultSet.getInt("id"));
             dto.setFirstName(resultSet.getString("first_name"));
             dto.setLastName(resultSet.getString("last_name"));
+            dto.setIdCar(resultSet.getInt("car_id"));
         } catch (SQLException e) {
             System.out.println("Что-то пошло не так с этой строчкой");
         }
@@ -28,11 +32,6 @@ public class OwnerDTO {
 
     @Override
     public String toString() {
-        return "id: "
-            + id
-            + ", "
-            + firstName
-            + " "
-            + lastName;
+        return firstName + SPACE + lastName;
     }
 }

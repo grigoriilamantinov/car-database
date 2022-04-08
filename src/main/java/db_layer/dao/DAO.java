@@ -7,15 +7,11 @@ import java.util.List;
 
 public interface DAO<DTO> {
 
-    void createTable();
-
     DTO getById(int id);
 
     void save(DTO usersObject);
 
     void deleteById(int id);
-
-    void dropTable();
 
     List<DTO> findAll();
 

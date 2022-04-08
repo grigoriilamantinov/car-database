@@ -2,6 +2,9 @@
 import db_layer.connection.ConnectionFactory;
 import db_layer.dao.CarsDAO;
 import db_layer.dao.OwnersDAO;
+import db_layer.tableCreator.CarTableCreator;
+import db_layer.tableCreator.OwnerTableCreator;
+import db_layer.tableCreator.TableCreator;
 import formatter.CarFormatter;
 import formatter.OwnersFormatter;
 import service_layer.CarService;
@@ -14,15 +17,17 @@ public class App {
         Scanner sc = new Scanner(System.in);
         String dataSource = sc.nextLine();
         ConnectionFactory factory = new ConnectionFactory(dataSource);
-        CarsDAO carsDAO = new CarsDAO(factory, dataSource);
-        OwnersDAO ownersDAO = new OwnersDAO(factory, dataSource);
+        CarsDAO carsDAO = new CarsDAO(factory);
+        OwnersDAO ownersDAO = new OwnersDAO(factory);
         CarFormatter carFormatter = new CarFormatter();
         OwnersFormatter ownersFormatter = new OwnersFormatter();
         UserInterface dialog = new UserInterface(dataSource);
         CarService carService = new CarService(carsDAO);
+        TableCreator carTable = new CarTableCreator(factory, dataSource);
+        TableCreator  ownerTable = new OwnerTableCreator(factory, dataSource);
 
-        carsDAO.createTable();
-        ownersDAO.createTable();
+        carTable.createTable();
+        ownerTable.createTable();
         boolean isExit = false;
         System.out.println(dialog.formatActionMenu());
 
@@ -54,7 +59,7 @@ public class App {
                 case "ЦЕНЫ":
                     System.out.println(carFormatter.carFromList(carService.getCarsCostLessThan(1000000)));
                     break;
-                case "МАШИНЫ ВЛАДЕЛЬЦА":
+                case "ВЛАДЕЛЕЦ МАШИНЫ":
                     System.out.println(carFormatter.ownersCarFromList(
                         ownersDAO.getCarOwners(dialog.getIdFromUser())
                     ));
@@ -70,7 +75,7 @@ public class App {
                     break;
             }
         }
-        carsDAO.dropTable();
-        ownersDAO.dropTable();
+        carTable.dropTable();
+        ownerTable.dropTable();
     }
 }

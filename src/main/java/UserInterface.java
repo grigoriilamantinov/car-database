@@ -47,9 +47,6 @@ public class UserInterface {
         sc.nextLine();
         System.out.print("Укажите стоимость: ");
         usersObject.setCost(sc.nextInt());
-        sc.nextLine();
-        System.out.print("Укажите айди владельца: ");
-        usersObject.setOwner_id(sc.nextInt());
         return usersObject;
     }
 
