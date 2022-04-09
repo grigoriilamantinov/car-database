@@ -15,6 +15,8 @@ public class PropertiesLoader {
 
     private static final String CREATE_STATE_CARS = "createCars";
     private static final String CREATE_STATE_OWNERS = "createOwners";
+    private static final String CREATE_STATE_SHOPS = "createShops";
+    private static final String CREATE_STATE_CAR_INTO_SHOPS = "createCarIntoShops";
     private static final String MENU = "menu";
     private static final String USER = "user";
     private static final String PASSWORD = "password";
@@ -45,6 +47,14 @@ public class PropertiesLoader {
 
     public String getCreateStateOwners() {
         return properties.getProperty(CREATE_STATE_OWNERS);
+    }
+
+    public String getCreateStateShops() {
+        return properties.getProperty(CREATE_STATE_SHOPS);
+    }
+
+    public String getCreateStateCarIntoShops() {
+        return properties.getProperty(CREATE_STATE_CAR_INTO_SHOPS);
     }
 
     public String getMenu() {

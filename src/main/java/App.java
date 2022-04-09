@@ -2,8 +2,6 @@
 import db_layer.connection.ConnectionFactory;
 import db_layer.dao.CarsDAO;
 import db_layer.dao.OwnersDAO;
-import db_layer.tableCreator.CarTableCreator;
-import db_layer.tableCreator.OwnerTableCreator;
 import db_layer.tableCreator.TableCreator;
 import formatter.CarFormatter;
 import formatter.OwnersFormatter;
@@ -23,11 +21,9 @@ public class App {
         OwnersFormatter ownersFormatter = new OwnersFormatter();
         UserInterface dialog = new UserInterface(dataSource);
         CarService carService = new CarService(carsDAO);
-        TableCreator carTable = new CarTableCreator(factory, dataSource);
-        TableCreator  ownerTable = new OwnerTableCreator(factory, dataSource);
+        TableCreator tableCreator = new TableCreator(factory, dataSource);
 
-        carTable.createTable();
-        ownerTable.createTable();
+        tableCreator.createAllTables();
         boolean isExit = false;
         System.out.println(dialog.formatActionMenu());
 
@@ -75,7 +71,6 @@ public class App {
                     break;
             }
         }
-        carTable.dropTable();
-        ownerTable.dropTable();
+        tableCreator.dropAllTables();
     }
 }

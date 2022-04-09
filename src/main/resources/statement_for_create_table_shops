@@ -1,0 +1,11 @@
+create table car_shops
+(shop_id serial constraint car_shops_pk primary key, shop varchar not null);
+
+create unique index car_shops_shop_id_uindex
+ on car_shops (shop_id);
+create unique index car_shops_shop_uindex
+ on car_shops (shop);
+
+INSERT INTO car_shops (shop_id, shop) VALUES (DEFAULT, 'Кира Ауто');
+INSERT INTO car_shops (shop_id, shop) VALUES (DEFAULT, 'BNW');
+INSERT INTO car_shops (shop_id, shop) VALUES (DEFAULT, 'Е-мобилс');

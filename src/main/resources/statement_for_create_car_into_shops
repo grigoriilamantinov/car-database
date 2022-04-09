@@ -1,0 +1,21 @@
+create table car_into_shops
+(car_id  int not null constraint car_into_shops_cars_id_fk references cars (id),
+id_shop int not null constraint car_into_shops_car_shops_shop_id_fk references car_shops);
+create unique index car_into_shops_car_id_shop_id_uindex on car_into_shops (car_id, id_shop);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (1,1);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (1,2);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (1,3);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (2,1);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (2,2);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (3,1);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (4,1);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (4,2);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (4,3);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (5,1);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (5,3);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (6,1);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (6,2);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (6,3);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (7,1);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (8,1);
+INSERT INTO car_into_shops (car_id, id_shop) VALUES (8,3);
