@@ -6,21 +6,22 @@ import java.util.Properties;
 
 public class PropertiesLoader {
 
-    private String dataSource;
+    private final String dataSource;
 
     public PropertiesLoader(String dataSource) {
         this.dataSource = dataSource;
         this.loadDataSourceProperties();
     }
 
-    private static final String CREATE_STATE = "createCars";
+    private static final String CREATE_STATE_CARS = "createCars";
+    private static final String CREATE_STATE_OWNERS = "createOwners";
     private static final String MENU = "menu";
     private static final String USER = "user";
     private static final String PASSWORD = "password";
     private static final String DB_URL = "db_url";
     private static final String DRIVER = "driverName";
 
-    private Properties properties = new Properties();
+    private final Properties properties = new Properties();
 
     private void loadDataSourceProperties() {
         FileInputStream stream = null;
@@ -38,8 +39,12 @@ public class PropertiesLoader {
         }
     }
 
-    public String getCreateState() {
-        return properties.getProperty(CREATE_STATE);
+    public String getCreateStateCars() {
+        return properties.getProperty(CREATE_STATE_CARS);
+    }
+
+    public String getCreateStateOwners() {
+        return properties.getProperty(CREATE_STATE_OWNERS);
     }
 
     public String getMenu() {

@@ -2,13 +2,13 @@ import db_layer.dao.DAO;
 import db_layer.dto.CarDTO;
 import db_layer.propertiesLoader.PropertiesLoader;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.StringJoiner;
 
 public class UserInterface {
-    private String dataSource;
+    private final String dataSource;
     public static String LINE_BREAK = "\n";
 
     public UserInterface(String filePath) {
@@ -16,20 +16,35 @@ public class UserInterface {
     }
 
     public String getAction() {
-        Scanner sc = new Scanner(System.in);
         System.out.println("\nТоварищ, что хотите сделать с данными?");
-        String action = sc.nextLine();
+        String action = this.readLine();
         return action;
     }
 
-    public CarDTO getDataForInsert() {
+    private String readLine() {
+        InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+        BufferedReader reader = new BufferedReader(inputStreamReader);
+        String string = null;
+        try {
+            string = reader.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (string != null) {
+            return string;
+        } else {
+            throw new InputMismatchException("Проблемы с вводом");
+        }
+    }
 
-        CarDTO usersObject = new CarDTO(0,null,0,0);
+    public CarDTO getDataForInsert() {
+        CarDTO usersObject = new CarDTO();
         Scanner sc = new Scanner(System.in);
         System.out.print("Напишите название машины: ");
         usersObject.setBrand(sc.nextLine());
         System.out.print("Укажите год выпуска: ");
         usersObject.setYear(sc.nextInt());
+        sc.nextLine();
         System.out.print("Укажите стоимость: ");
         usersObject.setCost(sc.nextInt());
         return usersObject;
@@ -53,39 +68,37 @@ public class UserInterface {
         return joiner.toString();
     }
 
-    public CarDTO getDataForUpdate(DAO dao) {
-
+    public CarDTO getDataForUpdate(DAO<CarDTO> dao) {
         Scanner sc = new Scanner(System.in);
         int id = getIdFromUser();
-        CarDTO usersObject = dao.getById(id);
-        usersObject.setId(id);
+        CarDTO car = dao.getById(id);
+        car.setId(id);
         System.out.println("Вы выбрали строчку: " + dao.getById(id));
         System.out.print("Вы хотите изменить название? ");
         boolean isYes = sc.nextLine().equalsIgnoreCase("ДА");
         if (isYes) {
             System.out.print("На какое новое название изменить? ");
-            usersObject.setBrand(sc.nextLine());
+            car.setBrand(sc.nextLine());
         }
         System.out.print("Вы хотите изменить год сборки? ");
         isYes = sc.nextLine().equalsIgnoreCase("ДА");
         if (isYes) {
             System.out.print("На какой год сборки изменить? ");
-            usersObject.setYear(sc.nextInt());
+            car.setYear(sc.nextInt());
             sc.nextLine();
         }
         System.out.print("Вы хотите изменить стоимость? ");
         isYes = sc.nextLine().equalsIgnoreCase("ДА");
         if (isYes) {
             System.out.print("Сколько будет стоить теперь? ");
-            usersObject.setCost(sc.nextInt());
+            car.setCost(sc.nextInt());
         }
-        return usersObject;
+        return car;
     }
 
     public int getIdFromUser() {
-
-        Scanner sc = new Scanner(System.in);
         System.out.print("Какой id вас интересует? ");
-        return sc.nextInt();
+        int id = Integer.parseInt(this.readLine());
+        return id;
     }
 }

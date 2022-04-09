@@ -1,8 +1,12 @@
 
 import db_layer.connection.ConnectionFactory;
 import db_layer.dao.CarsDAO;
-import formatter.Formatter;
+import db_layer.dao.OwnersDAO;
+import db_layer.tableCreator.CarTableCreator;
+import db_layer.tableCreator.OwnerTableCreator;
+import db_layer.tableCreator.TableCreator;
 import formatter.CarFormatter;
+import formatter.OwnersFormatter;
 import service_layer.CarService;
 
 import java.util.Scanner;
@@ -13,31 +17,52 @@ public class App {
         Scanner sc = new Scanner(System.in);
         String dataSource = sc.nextLine();
         ConnectionFactory factory = new ConnectionFactory(dataSource);
-        CarsDAO dao = new CarsDAO(factory, dataSource);
-        Formatter formatter = new CarFormatter();
+        CarsDAO carsDAO = new CarsDAO(factory);
+        OwnersDAO ownersDAO = new OwnersDAO(factory);
+        CarFormatter carFormatter = new CarFormatter();
+        OwnersFormatter ownersFormatter = new OwnersFormatter();
         UserInterface dialog = new UserInterface(dataSource);
-        CarService carService = new CarService(dao);
+        CarService carService = new CarService(carsDAO);
+        TableCreator carTable = new CarTableCreator(factory, dataSource);
+        TableCreator  ownerTable = new OwnerTableCreator(factory, dataSource);
 
-        dao.createTable();
+        carTable.createTable();
+        ownerTable.createTable();
         boolean isExit = false;
         System.out.println(dialog.formatActionMenu());
 
         while (!isExit) {
             switch (dialog.getAction().toUpperCase()) {
                 case "ВЫВОД":
-                    System.out.println(formatter.formatFromList(dao.findAll()));
+                    System.out.println(carFormatter.carFromList(carsDAO.findAll()));
+                    System.out.println();
+                    System.out.println(ownersFormatter.ownersFromList(ownersDAO.findAll()));
                     break;
                 case "ДОБАВИТЬ":
-                    dao.save(dialog.getDataForInsert());
+                    carsDAO.save(dialog.getDataForInsert());
                     break;
                 case "УДАЛИТЬ":
-                    dao.deleteById(dialog.getIdFromUser());
+                    carsDAO.deleteById(dialog.getIdFromUser());
                     break;
                 case "ИЗМЕНИТЬ":
-                    dao.update(dialog.getDataForUpdate(dao));
+                    carsDAO.update(dialog.getDataForUpdate(carsDAO));
                     break;
-                case "СТРОЧКУ":
-                    System.out.println(dao.getById(dialog.getIdFromUser()).toString());
+                case "МАШИНА":
+                    System.out.println(carsDAO.getById(dialog.getIdFromUser()).toString());
+                    break;
+                case "ВЛАДЕЛЕЦ":
+                    System.out.println(ownersDAO.getById(dialog.getIdFromUser()).toString());
+                    break;
+                case "ГОДЫ":
+                    System.out.println(carFormatter.carFromList(carService.getCarsBetweenYears(1910,2000)));
+                    break;
+                case "ЦЕНЫ":
+                    System.out.println(carFormatter.carFromList(carService.getCarsCostLessThan(1000000)));
+                    break;
+                case "ВЛАДЕЛЕЦ МАШИНЫ":
+                    System.out.println(carFormatter.ownersCarFromList(
+                        ownersDAO.getCarOwners(dialog.getIdFromUser())
+                    ));
                     break;
                 case "МЕНЮ":
                     System.out.println(dialog.formatActionMenu());
@@ -45,17 +70,12 @@ public class App {
                 case "ВЫХОД":
                     isExit = true;
                     break;
-                case "ГОДЫ":
-                    System.out.println(formatter.formatFromList(carService.getCarsBetweenYears(1910,2000)));
-                    break;
-                case "ЦЕНЫ":
-                    System.out.println(formatter.formatFromList(carService.getCarsCostLessThan(1000000)));
-                    break;
                 default:
                     System.out.println("Товарищ, такого мы сделать не можем");
                     break;
             }
         }
-        dao.dropTable();
+        carTable.dropTable();
+        ownerTable.dropTable();
     }
 }
