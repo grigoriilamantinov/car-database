@@ -2,6 +2,9 @@ package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
 import db_layer.dto.CarDTO;
+import db_layer.dto.CarIntoShopsDTO;
+import db_layer.dto.OwnerDTO;
+import db_layer.dto.ShopDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -22,6 +25,13 @@ public class CarsDAO  implements DAO<CarDTO> {
     private final static String UPDATE_CAR = "UPDATE cars SET brand = '%s', year_of_produce = %d, " +
                                              "net_worth = %d WHERE id = %d;";
     private final static String DELETE_BY_ID = "DELETE FROM cars WHERE id = %d;";
+    private final static String SELECT_CAR_INTO_SHOP = "SELECT car_id," +
+        "cars.brand, car_shops.shop_id, car_shops.shop " +
+        "FROM car_into_shops " +
+        "LEFT JOIN cars ON cars.id = car_into_shops.car_id " +
+        "LEFT JOIN car_shops ON car_into_shops.id_shop = car_shops.shop_id " +
+        "WHERE car_id = %d;";
+
 
     @Override
     public List<CarDTO> findAll() {
@@ -103,5 +113,28 @@ public class CarsDAO  implements DAO<CarDTO> {
         }
         connectionFactory.connectionClose(connection);
         System.out.print("\nСтрочка " + id + " удалена\n");
+    }
+
+    public List<CarIntoShopsDTO> carInParticularShop (int carId) {
+        List<CarIntoShopsDTO> carIntoShop = new ArrayList<>();
+
+        Connection connection = connectionFactory.connectionOpen();
+        try {
+            PreparedStatement statement =
+                connection.prepareStatement(String.format(SELECT_CAR_INTO_SHOP, carId));
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                carIntoShop.add(
+                    CarIntoShopsDTO.builder()
+                        .brand(resultSet.getString("brand"))
+                        .shop(resultSet.getString("shop"))
+                        .build()
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } connectionFactory.connectionClose(connection);
+
+        return carIntoShop;
     }
 }

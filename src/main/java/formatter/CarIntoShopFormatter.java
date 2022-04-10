@@ -14,4 +14,12 @@ public class CarIntoShopFormatter {
         }
         return joiner.toString();
     }
+
+    public String carShopOnlyFromList(List<CarIntoShopsDTO> listDTO) {
+        StringJoiner joiner = new StringJoiner(NEXT_LINE);
+        for (CarIntoShopsDTO car : listDTO) {
+            joiner.add(car.toStringCarShopOnly());
+        }
+        return joiner.toString();
+    }
 }

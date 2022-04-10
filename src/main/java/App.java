@@ -69,6 +69,9 @@ public class App {
                 case "ЦЕНЫ":
                     System.out.println(carFormatter.carFromList(carService.getCarsCostLessThan(1000000)));
                     break;
+                case "ГДЕ КУПИТЬ":
+                    System.out.println(carIntoShopFormatter.carShopOnlyFromList(carsDAO.carInParticularShop(dialog.getIdFromUser())));
+                    break;
                 case "ВЛАДЕЛЕЦ МАШИНЫ":
                     System.out.println(carFormatter.ownersCarFromList(
                         ownersDAO.getCarOwners(dialog.getIdFromUser())

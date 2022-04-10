@@ -10,9 +10,14 @@ import java.sql.SQLException;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class CarIntoShopsDTO {
     private int idShop;
     private int carId;
+    private String brand;
+    private String shop;
+    private CarDTO carDTO;
+    private ShopDTO shopDTO;
 
     private final static  String SPACE = " ";
 
@@ -34,5 +39,13 @@ public class CarIntoShopsDTO {
             + SPACE
             + "Магазин ID: "
             + idShop;
+    }
+
+    public String toStringCarShopOnly() {
+        return "Автомобиль: "
+            + brand
+            + SPACE
+            + "Магазин: "
+            + shop;
     }
 }
