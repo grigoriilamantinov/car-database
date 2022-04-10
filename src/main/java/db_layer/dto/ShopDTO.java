@@ -28,9 +28,9 @@ public class ShopDTO {
 
     @Override
     public String toString() {
-        return "ShopDTO{" +
-            "shopId=" + shopId +
-            ", shopName='" + shopName + '\'' +
-            '}';
+        return "ID: "
+            + shopId
+            + ", название: '"
+            + shopName + '.';
     }
 }
