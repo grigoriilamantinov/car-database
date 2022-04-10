@@ -4,7 +4,6 @@ import db_layer.dao.CarIntoShopsDAO;
 import db_layer.dao.CarsDAO;
 import db_layer.dao.OwnersDAO;
 import db_layer.dao.ShopsDAO;
-import db_layer.dto.CarIntoShopsDTO;
 import db_layer.tableCreator.TableCreator;
 import formatter.CarFormatter;
 import formatter.CarIntoShopFormatter;
@@ -25,13 +24,14 @@ public class App {
         ShopsDAO shopsDAO = new ShopsDAO(factory);
         CarFormatter carFormatter = new CarFormatter();
         ShopFormatter shopFormatter = new ShopFormatter();
-        CarIntoShopsDTO carIntoShopsDTO = new CarIntoShopsDTO();
         CarIntoShopFormatter carIntoShopFormatter = new CarIntoShopFormatter();
         CarIntoShopsDAO carIntoShopsDAO = new CarIntoShopsDAO(factory);
         OwnersFormatter ownersFormatter = new OwnersFormatter();
         UserInterface dialog = new UserInterface(dataSource);
         CarService carService = new CarService(carsDAO);
         TableCreator tableCreator = new TableCreator(factory, dataSource);
+        int carId;
+        int shopId;
 
         tableCreator.createAllTables();
         boolean isExit = false;
@@ -70,10 +70,12 @@ public class App {
                     System.out.println(carFormatter.carFromList(carService.getCarsCostLessThan(1000000)));
                     break;
                 case "ГДЕ КУПИТЬ":
-                    System.out.println(carIntoShopFormatter.carShopOnlyFromList(carsDAO.carInParticularShop(dialog.getIdFromUser())));
+                    carId = dialog.getIdFromUser();
+                    System.out.println(carIntoShopFormatter.carShopOnlyFromList(carsDAO.carInParticularShop(carId)));
                     break;
                 case "ЧТО В МАГАЗИНЕ":
-                    System.out.println(shopFormatter.allCarIntoShopFromList(shopsDAO.allCarInParticularShop(dialog.getIdFromUser())));
+                    shopId = dialog.getIdFromUser();
+                    System.out.println(shopFormatter.allCarIntoShopFromList(shopsDAO.allCarInParticularShop(shopId)));
                     break;
                 case "ВЛАДЕЛЕЦ МАШИНЫ":
                     System.out.println(carFormatter.ownersCarFromList(
@@ -81,9 +83,9 @@ public class App {
                     ));
                 case "УДАЛИТЬ ИЗ МАГАЗИНА":
                     System.out.println("Какую машину вы хотите удалить?");
-                    int carId = dialog.getIdFromUser();
+                    carId = dialog.getIdFromUser();
                     System.out.println("И из какого магазина вы хотите удалить?");
-                    int shopId = dialog.getIdFromUser();
+                    shopId = dialog.getIdFromUser();
                     carsDAO.deleteCarFromShop(carId,shopId);
                     break;
                 case "МЕНЮ":
