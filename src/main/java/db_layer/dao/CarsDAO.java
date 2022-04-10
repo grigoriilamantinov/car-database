@@ -25,6 +25,7 @@ public class CarsDAO  implements DAO<CarDTO> {
     private final static String UPDATE_CAR = "UPDATE cars SET brand = '%s', year_of_produce = %d, " +
                                              "net_worth = %d WHERE id = %d;";
     private final static String DELETE_BY_ID = "DELETE FROM cars WHERE id = %d;";
+    private final static String DELETE_CAR_INTO_SHOP = "DELETE FROM car_into_shops WHERE car_id = %d and id_shop = %d;";
     private final static String SELECT_CAR_INTO_SHOP = "SELECT car_id," +
         "cars.brand, car_shops.shop_id, car_shops.shop " +
         "FROM car_into_shops " +
@@ -113,6 +114,18 @@ public class CarsDAO  implements DAO<CarDTO> {
         }
         connectionFactory.connectionClose(connection);
         System.out.print("\nСтрочка " + id + " удалена\n");
+    }
+
+    public void deleteCarFromShop(int carId, int shopId) {
+        Connection connection = connectionFactory.connectionOpen();
+        try {
+            PreparedStatement statement = connection.prepareStatement(String.format(DELETE_CAR_INTO_SHOP, carId, shopId));
+            statement.execute();
+        } catch (SQLException e) {
+            System.out.println("Строчка удалена!");
+            e.printStackTrace();
+        }
+        connectionFactory.connectionClose(connection);
     }
 
     public List<CarIntoShopsDTO> carInParticularShop (int carId) {

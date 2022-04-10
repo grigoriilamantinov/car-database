@@ -79,6 +79,12 @@ public class App {
                     System.out.println(carFormatter.ownersCarFromList(
                         ownersDAO.getCarOwners(dialog.getIdFromUser())
                     ));
+                case "УДАЛИТЬ ИЗ МАГАЗИНА":
+                    System.out.println("Какую машину вы хотите удалить?");
+                    int carId = dialog.getIdFromUser();
+                    System.out.println("И из какого магазина вы хотите удалить?");
+                    int shopId = dialog.getIdFromUser();
+                    carsDAO.deleteCarFromShop(carId,shopId);
                     break;
                 case "МЕНЮ":
                     System.out.println(dialog.formatActionMenu());
