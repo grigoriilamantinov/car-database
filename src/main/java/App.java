@@ -2,9 +2,11 @@
 import db_layer.connection.ConnectionFactory;
 import db_layer.dao.CarsDAO;
 import db_layer.dao.OwnersDAO;
+import db_layer.dao.ShopsDAO;
 import db_layer.tableCreator.TableCreator;
 import formatter.CarFormatter;
 import formatter.OwnersFormatter;
+import formatter.ShopFormatter;
 import service_layer.CarService;
 
 import java.util.Scanner;
@@ -17,7 +19,9 @@ public class App {
         ConnectionFactory factory = new ConnectionFactory(dataSource);
         CarsDAO carsDAO = new CarsDAO(factory);
         OwnersDAO ownersDAO = new OwnersDAO(factory);
+        ShopsDAO shopsDAO = new ShopsDAO(factory);
         CarFormatter carFormatter = new CarFormatter();
+        ShopFormatter shopFormatter = new ShopFormatter();
         OwnersFormatter ownersFormatter = new OwnersFormatter();
         UserInterface dialog = new UserInterface(dataSource);
         CarService carService = new CarService(carsDAO);
@@ -33,6 +37,8 @@ public class App {
                     System.out.println(carFormatter.carFromList(carsDAO.findAll()));
                     System.out.println();
                     System.out.println(ownersFormatter.ownersFromList(ownersDAO.findAll()));
+                    System.out.println();
+                    System.out.println(shopFormatter.shopsFromList(shopsDAO.findAll()));
                     break;
                 case "ДОБАВИТЬ":
                     carsDAO.save(dialog.getDataForInsert());

@@ -16,7 +16,7 @@ public class OwnersDAO {
         this.connectionFactory = connectionFactory;
     }
 
-    private final static String SELECT_ALL = "SELECT * FROM owners;";
+    private final static String SELECT_ALL_OWNER = "SELECT * FROM owners;";
     private final static String STATEMENT_JOIN = "SELECT " +
         "cars.id AS Car_id, cars.brand AS Brand, cars.net_worth AS Cost, " +
         "cars.year_of_produce AS Year, owners.first_name AS First_name, owners.last_name " +
@@ -28,7 +28,7 @@ public class OwnersDAO {
         Connection connection = connectionFactory.connectionOpen();
         List<OwnerDTO> result = new ArrayList<>();
         try {
-            PreparedStatement statement = connection.prepareStatement(SELECT_ALL);
+            PreparedStatement statement = connection.prepareStatement(SELECT_ALL_OWNER);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 result.add(OwnerDTO.of(resultSet));

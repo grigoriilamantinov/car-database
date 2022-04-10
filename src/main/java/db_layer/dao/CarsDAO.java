@@ -57,7 +57,6 @@ public class CarsDAO  implements DAO<CarDTO> {
         return dto.of(resultSet);
     }
 
-    @Override
     public void save(CarDTO usersObject) {
         String brandName = usersObject.getBrand();
         int year = usersObject.getYear();
@@ -74,7 +73,6 @@ public class CarsDAO  implements DAO<CarDTO> {
         connectionFactory.connectionClose(connection);
     }
 
-    @Override
     public void update(CarDTO usersData) {
         int id = usersData.getId();
         String brand = usersData.getBrand();
