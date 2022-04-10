@@ -48,4 +48,12 @@ public class CarIntoShopsDTO {
             + "Магазин: "
             + shop;
     }
+
+    public  String toStringAllCarIntoShop() {
+        return "Магазин: "
+            + shop
+            + ". "
+            + "Автомобиль: "
+            + brand;
+    }
 }

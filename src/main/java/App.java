@@ -72,6 +72,9 @@ public class App {
                 case "ГДЕ КУПИТЬ":
                     System.out.println(carIntoShopFormatter.carShopOnlyFromList(carsDAO.carInParticularShop(dialog.getIdFromUser())));
                     break;
+                case "ЧТО В МАГАЗИНЕ":
+                    System.out.println(shopFormatter.allCarIntoShopFromList(shopsDAO.allCarInParticularShop(dialog.getIdFromUser())));
+                    break;
                 case "ВЛАДЕЛЕЦ МАШИНЫ":
                     System.out.println(carFormatter.ownersCarFromList(
                         ownersDAO.getCarOwners(dialog.getIdFromUser())

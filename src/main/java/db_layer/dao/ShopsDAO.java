@@ -2,6 +2,7 @@ package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
 import db_layer.dto.CarDTO;
+import db_layer.dto.CarIntoShopsDTO;
 import db_layer.dto.ShopDTO;
 
 import java.sql.Connection;
@@ -20,6 +21,13 @@ public class ShopsDAO implements DAO{
     }
 
     private final static String SELECT_ALL_SHOPS = "SELECT * FROM car_shops;";
+    private final static String SELECT_ALL_CAR_INTO_SHOP = "SELECT car_id," +
+        "cars.brand, car_shops.shop_id, car_shops.shop " +
+        "FROM car_into_shops " +
+        "LEFT JOIN cars ON cars.id = car_into_shops.car_id " +
+        "LEFT JOIN car_shops ON car_into_shops.id_shop = car_shops.shop_id " +
+        "WHERE shop_id = %d;";
+
     @Override
     public Object getById(int id) {
         return null;
@@ -47,5 +55,28 @@ public class ShopsDAO implements DAO{
             connectionFactory.connectionClose(connection);
         }
         return result;
+    }
+
+    public List<CarIntoShopsDTO> allCarInParticularShop (int shopId) {
+        List<CarIntoShopsDTO> carIntoShop = new ArrayList<>();
+
+        Connection connection = connectionFactory.connectionOpen();
+        try {
+            PreparedStatement statement =
+                connection.prepareStatement(String.format(SELECT_ALL_CAR_INTO_SHOP, shopId));
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                carIntoShop.add(
+                    CarIntoShopsDTO.builder()
+                        .brand(resultSet.getString("brand"))
+                        .shop(resultSet.getString("shop"))
+                        .build()
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } connectionFactory.connectionClose(connection);
+
+        return carIntoShop;
     }
 }
