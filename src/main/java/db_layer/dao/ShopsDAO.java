@@ -1,9 +1,9 @@
 package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
-import db_layer.dto.CarDTO;
 import db_layer.dto.CarIntoShopsDTO;
 import db_layer.dto.ShopDTO;
+import db_layer.propertiesLoader.PropertiesLoader;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,24 +12,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShopsDAO implements DAO{
+public class ShopsDAO implements DAO<ShopDTO>{
 
     private final ConnectionFactory connectionFactory;
+    private String dataSource;
 
-    public ShopsDAO (ConnectionFactory connectionFactory) {
+    public ShopsDAO(ConnectionFactory connectionFactory, String dataSource) {
         this.connectionFactory = connectionFactory;
+        this.dataSource = dataSource;
     }
 
-    private final static String SELECT_ALL_SHOPS = "SELECT * FROM car_shops;";
-    private final static String SELECT_ALL_CAR_INTO_SHOP = "SELECT car_id," +
-        "cars.brand, car_shops.shop_id, car_shops.shop " +
-        "FROM car_into_shops " +
-        "LEFT JOIN cars ON cars.id = car_into_shops.car_id " +
-        "LEFT JOIN car_shops ON car_into_shops.id_shop = car_shops.shop_id " +
-        "WHERE shop_id = %d;";
-
     @Override
-    public Object getById(int id) {
+    public ShopDTO getById(int id) {
         return null;
     }
 
@@ -40,10 +34,11 @@ public class ShopsDAO implements DAO{
 
     @Override
     public List<ShopDTO> findAll() {
+        PropertiesLoader loader = new PropertiesLoader(dataSource);
         Connection connection = connectionFactory.connectionOpen();
         List<ShopDTO> result = new ArrayList<>();
         try {
-            PreparedStatement statement = connection.prepareStatement(SELECT_ALL_SHOPS);
+            PreparedStatement statement = connection.prepareStatement(loader.getStatementSelectAllShops());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 result.add(ShopDTO.of(resultSet));
@@ -56,13 +51,14 @@ public class ShopsDAO implements DAO{
         return result;
     }
 
-    public List<CarIntoShopsDTO> allCarInParticularShop (int shopId) {
+    public List<CarIntoShopsDTO> allCarInOneShop(int shopId) {
 
         List<CarIntoShopsDTO> carIntoShop = new ArrayList<>();
+        PropertiesLoader loader = new PropertiesLoader(dataSource);
         Connection connection = connectionFactory.connectionOpen();
         try {
             PreparedStatement statement =
-                connection.prepareStatement(String.format(SELECT_ALL_CAR_INTO_SHOP, shopId));
+                connection.prepareStatement(String.format(loader.getStatementSelectCarJoinOneShop(), shopId));
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 carIntoShop.add(

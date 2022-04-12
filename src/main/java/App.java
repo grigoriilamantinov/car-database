@@ -19,22 +19,27 @@ public class App {
         Scanner sc = new Scanner(System.in);
         String dataSource = sc.nextLine();
         ConnectionFactory factory = new ConnectionFactory(dataSource);
-        CarsDAO carsDAO = new CarsDAO(factory);
-        OwnersDAO ownersDAO = new OwnersDAO(factory);
-        ShopsDAO shopsDAO = new ShopsDAO(factory);
+
+        CarsDAO carsDAO = new CarsDAO(factory, dataSource);
+        OwnersDAO ownersDAO = new OwnersDAO(factory, dataSource);
+        ShopsDAO shopsDAO = new ShopsDAO(factory, dataSource);
+        CarIntoShopsDAO carIntoShopsDAO = new CarIntoShopsDAO(factory, dataSource);
+
         CarFormatter carFormatter = new CarFormatter();
         ShopFormatter shopFormatter = new ShopFormatter();
         CarIntoShopFormatter carIntoShopFormatter = new CarIntoShopFormatter();
-        CarIntoShopsDAO carIntoShopsDAO = new CarIntoShopsDAO(factory);
         OwnersFormatter ownersFormatter = new OwnersFormatter();
-        UserInterface dialog = new UserInterface(dataSource);
+
         CarService carService = new CarService(carsDAO);
-        TableCreator tableCreator = new TableCreator(factory, dataSource);
+
         int carId;
         int shopId;
 
+        TableCreator tableCreator = new TableCreator(factory, dataSource);
         tableCreator.createAllTables();
+
         boolean isExit = false;
+        UserInterface dialog = new UserInterface(dataSource);
         System.out.println(dialog.formatActionMenu());
 
         while (!isExit) {
@@ -48,14 +53,8 @@ public class App {
                     System.out.println();
                     System.out.println(carIntoShopFormatter.carIntoShopFromList(carIntoShopsDAO.findAll()));
                     break;
-                case "ДОБАВИТЬ":
-                    carsDAO.save(dialog.getDataForInsert());
-                    break;
                 case "УДАЛИТЬ":
                     carsDAO.deleteById(dialog.getIdFromUser());
-                    break;
-                case "ИЗМЕНИТЬ":
-                    carsDAO.update(dialog.getDataForUpdate(carsDAO));
                     break;
                 case "МАШИНА":
                     System.out.println(carsDAO.getById(dialog.getIdFromUser()).toString());
@@ -75,7 +74,7 @@ public class App {
                     break;
                 case "ЧТО В МАГАЗИНЕ":
                     shopId = dialog.getIdFromUser();
-                    System.out.println(shopFormatter.allCarIntoShopFromList(shopsDAO.allCarInParticularShop(shopId)));
+                    System.out.println(shopFormatter.allCarIntoShopFromList(shopsDAO.allCarInOneShop(shopId)));
                     break;
                 case "ВЛАДЕЛЕЦ МАШИНЫ":
                     System.out.println(carFormatter.ownersCarFromList(

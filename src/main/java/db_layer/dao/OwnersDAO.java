@@ -3,6 +3,7 @@ package db_layer.dao;
 import db_layer.connection.ConnectionFactory;
 import db_layer.dto.CarDTO;
 import db_layer.dto.OwnerDTO;
+import db_layer.propertiesLoader.PropertiesLoader;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,25 +11,20 @@ import java.util.List;
 
 public class OwnersDAO {
 
-    private ConnectionFactory connectionFactory;
+    private final ConnectionFactory connectionFactory;
+    private String dataSource;
 
-    public OwnersDAO(ConnectionFactory connectionFactory) {
+    public OwnersDAO(ConnectionFactory connectionFactory, String dataSource) {
         this.connectionFactory = connectionFactory;
+        this.dataSource = dataSource;
     }
 
-    private final static String SELECT_ALL_OWNER = "SELECT * FROM owners;";
-    private final static String STATEMENT_JOIN = "SELECT " +
-        "cars.id AS Car_id, cars.brand AS Brand, cars.net_worth AS Cost, " +
-        "cars.year_of_produce AS Year, owners.first_name AS First_name, owners.last_name " +
-        "AS Last_name FROM owners " +
-        "LEFT JOIN cars ON owners.car_id = cars.id " +
-        "WHERE owners.id = %d;";
-
     public List<OwnerDTO> findAll () {
+        PropertiesLoader loader = new PropertiesLoader(dataSource);
         Connection connection = connectionFactory.connectionOpen();
         List<OwnerDTO> result = new ArrayList<>();
         try {
-            PreparedStatement statement = connection.prepareStatement(SELECT_ALL_OWNER);
+            PreparedStatement statement = connection.prepareStatement(loader.getStatementSelectAllOwners());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 result.add(OwnerDTO.of(resultSet));
@@ -42,12 +38,13 @@ public class OwnersDAO {
     }
 
     public List<CarDTO> getCarOwners(int ownerId) {
+        PropertiesLoader loader = new PropertiesLoader(dataSource);
         List<CarDTO> carOwners = new ArrayList<>();
         OwnerDTO owner = this.getById(ownerId);
         Connection connection = connectionFactory.connectionOpen();
         try {
             PreparedStatement statement =
-                connection.prepareStatement(String.format(STATEMENT_JOIN, ownerId));
+                connection.prepareStatement(String.format(loader.getStatementSelectCarOnOwner(), ownerId));
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 carOwners.add(
@@ -64,11 +61,12 @@ public class OwnersDAO {
     }
 
     public OwnerDTO getById(int id) {
+        PropertiesLoader loader = new PropertiesLoader(dataSource);
         Connection connection = connectionFactory.connectionOpen();
         OwnerDTO owner = new OwnerDTO();
         try {
             PreparedStatement statement =
-                connection.prepareStatement(String.format("SELECT * FROM owners WHERE id = %d;", id));
+                connection.prepareStatement(String.format(loader.getStatementSelectOwnerById(), id));
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
 

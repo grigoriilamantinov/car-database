@@ -1,7 +1,6 @@
 package formatter;
 
 import db_layer.dto.CarIntoShopsDTO;
-import db_layer.dto.OwnerDTO;
 import db_layer.dto.ShopDTO;
 
 import java.util.List;
