@@ -1,15 +1,6 @@
 
 import db_layer.connection.ConnectionFactory;
-import db_layer.dao.CarIntoShopsDAO;
-import db_layer.dao.CarsDAO;
-import db_layer.dao.OwnersDAO;
-import db_layer.dao.ShopsDAO;
 import db_layer.tableCreator.TableCreator;
-import formatter.CarFormatter;
-import formatter.CarIntoShopFormatter;
-import formatter.OwnersFormatter;
-import formatter.ShopFormatter;
-import service_layer.CarService;
 
 import java.util.Scanner;
 
@@ -19,24 +10,14 @@ public class App {
         Scanner sc = new Scanner(System.in);
         String dataSource = sc.nextLine();
         ConnectionFactory factory = new ConnectionFactory(dataSource);
-
-        CarsDAO carsDAO = new CarsDAO(factory, dataSource);
-        OwnersDAO ownersDAO = new OwnersDAO(factory, dataSource);
-        ShopsDAO shopsDAO = new ShopsDAO(factory, dataSource);
-        CarIntoShopsDAO carIntoShopsDAO = new CarIntoShopsDAO(factory, dataSource);
-
-        CarFormatter carFormatter = new CarFormatter();
-        ShopFormatter shopFormatter = new ShopFormatter();
-        CarIntoShopFormatter carIntoShopFormatter = new CarIntoShopFormatter();
-        OwnersFormatter ownersFormatter = new OwnersFormatter();
-
-        CarService carService = new CarService(carsDAO);
+        DAOFacade daoFacade = new DAOFacade(factory, dataSource);
+        FormatterFacade formatterFacade = new FormatterFacade();
 
         int carId;
         int shopId;
 
         TableCreator tableCreator = new TableCreator(factory, dataSource);
-        tableCreator.createAllTables();
+        tableCreator.prepareAllTables();
 
         boolean isExit = false;
         UserInterface dialog = new UserInterface(dataSource);
@@ -45,47 +26,45 @@ public class App {
         while (!isExit) {
             switch (dialog.getAction().toUpperCase()) {
                 case "ВЫВОД":
-                    System.out.println(carFormatter.carFromList(carsDAO.findAll()));
-                    System.out.println();
-                    System.out.println(ownersFormatter.ownersFromList(ownersDAO.findAll()));
-                    System.out.println();
-                    System.out.println(shopFormatter.shopsFromList(shopsDAO.findAll()));
-                    System.out.println();
-                    System.out.println(carIntoShopFormatter.carIntoShopFromList(carIntoShopsDAO.findAll()));
-                    break;
-                case "УДАЛИТЬ":
-                    carsDAO.deleteById(dialog.getIdFromUser());
+                    outputAllTables(factory, dataSource);
                     break;
                 case "МАШИНА":
-                    System.out.println(carsDAO.getById(dialog.getIdFromUser()).toString());
+                    System.out.println(daoFacade.getCarsDAO().getById(dialog.getIdFromUser()).toString());
                     break;
                 case "ВЛАДЕЛЕЦ":
-                    System.out.println(ownersDAO.getById(dialog.getIdFromUser()).toString());
+                    System.out.println(daoFacade.getOwnersDAO().getById(dialog.getIdFromUser()).toString());
                     break;
                 case "ГОДЫ":
-                    System.out.println(carFormatter.carFromList(carService.getCarsBetweenYears(1910,2000)));
+                    System.out.println(formatterFacade
+                        .getCarFormatter()
+                        .getFromList(daoFacade.getCarService().getCarsBetweenYears(1910,2000)));
                     break;
                 case "ЦЕНЫ":
-                    System.out.println(carFormatter.carFromList(carService.getCarsCostLessThan(1000000)));
+                    System.out.println(formatterFacade
+                        .getCarFormatter()
+                        .getFromList(daoFacade.getCarService().getCarsCostLessThan(1000000)));
                     break;
                 case "ГДЕ КУПИТЬ":
                     carId = dialog.getIdFromUser();
-                    System.out.println(carIntoShopFormatter.carShopOnlyFromList(carsDAO.carInParticularShop(carId)));
+                    System.out.println(formatterFacade
+                        .getCarShopFormatter()
+                        .carShopOnlyFromList(daoFacade.getCarsDAO().carInParticularShop(carId)));
                     break;
                 case "ЧТО В МАГАЗИНЕ":
                     shopId = dialog.getIdFromUser();
-                    System.out.println(shopFormatter.allCarIntoShopFromList(shopsDAO.allCarInOneShop(shopId)));
+                    System.out.println(formatterFacade
+                        .getShopFormatter()
+                        .allCarIntoShopFromList(daoFacade.getShopsDAO().allCarInOneShop(shopId)));
                     break;
                 case "ВЛАДЕЛЕЦ МАШИНЫ":
-                    System.out.println(carFormatter.ownersCarFromList(
-                        ownersDAO.getCarOwners(dialog.getIdFromUser())
+                    System.out.println(formatterFacade.getCarFormatter().ownersCarFromList(
+                        daoFacade.getOwnersDAO().getCarOwners(dialog.getIdFromUser())
                     ));
+                    break;
                 case "УДАЛИТЬ ИЗ МАГАЗИНА":
-                    System.out.println("Какую машину вы хотите удалить?");
-                    carId = dialog.getIdFromUser();
-                    System.out.println("И из какого магазина вы хотите удалить?");
-                    shopId = dialog.getIdFromUser();
-                    carsDAO.deleteCarFromShop(carId,shopId);
+                    carId = dialog.getCarIdFromUser();
+                    shopId = dialog.getShopIdFromUser();
+                    daoFacade.getCarsDAO().deleteCarFromShop(carId,shopId);
                     break;
                 case "МЕНЮ":
                     System.out.println(dialog.formatActionMenu());
@@ -99,5 +78,25 @@ public class App {
             }
         }
         tableCreator.dropAllTables();
+    }
+
+    private static void outputAllTables(ConnectionFactory factory, String dataSource) {
+        DAOFacade daoFacade = new DAOFacade(factory, dataSource);
+        FormatterFacade formatterFacade = new FormatterFacade();
+        System.out.println(formatterFacade
+            .getCarFormatter()
+            .getFromList(daoFacade.getCarsDAO().findAll()));
+        System.out.println();
+        System.out.println(formatterFacade
+            .getOwnersFormatter()
+            .getFromList(daoFacade.getOwnersDAO().findAll()));
+        System.out.println();
+        System.out.println(formatterFacade
+            .getShopFormatter()
+            .shopsFromList(daoFacade.getShopsDAO().findAll()));
+        System.out.println();
+        System.out.println(formatterFacade
+            .getCarShopFormatter()
+            .getFromList(daoFacade.getCarIntoShopsDAO().findAll()));
     }
 }

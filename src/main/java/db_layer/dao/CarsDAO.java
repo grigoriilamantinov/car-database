@@ -2,7 +2,7 @@ package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
 import db_layer.dto.CarDTO;
-import db_layer.dto.CarIntoShopsDTO;
+import db_layer.dto.CarShopsDTO;
 import db_layer.propertiesLoader.PropertiesLoader;
 
 import java.sql.*;
@@ -12,7 +12,7 @@ import java.util.List;
 public class CarsDAO  implements DAO<CarDTO> {
 
     private final ConnectionFactory connectionFactory;
-    private String dataSource;
+    private final String dataSource;
 
     public CarsDAO(ConnectionFactory connectionFactory, String dataSource) {
         this.connectionFactory = connectionFactory;
@@ -56,23 +56,6 @@ public class CarsDAO  implements DAO<CarDTO> {
         return CarDTO.of(resultSet);
     }
 
-    @Override
-    public void deleteById(int id) {
-        PropertiesLoader loader = new PropertiesLoader(dataSource);
-
-        Connection connection = connectionFactory.connectionOpen();
-        try {
-            PreparedStatement statement = connection.prepareStatement(
-                String.format(loader.getStatementDeleteCarById(), id));
-            statement.execute();
-        } catch (SQLException e) {
-            System.out.println("Строчка удалена!");
-            e.printStackTrace();
-        }
-        connectionFactory.connectionClose(connection);
-        System.out.print("\nСтрочка " + id + " удалена\n");
-    }
-
     public void deleteCarFromShop(int carId, int shopId) {
         PropertiesLoader loader = new PropertiesLoader(dataSource);
         Connection connection = connectionFactory.connectionOpen();
@@ -87,9 +70,9 @@ public class CarsDAO  implements DAO<CarDTO> {
         connectionFactory.connectionClose(connection);
     }
 
-    public List<CarIntoShopsDTO> carInParticularShop (int carId) {
+    public List<CarShopsDTO> carInParticularShop (int carId) {
         PropertiesLoader loader = new PropertiesLoader(dataSource);
-        List<CarIntoShopsDTO> carIntoShop = new ArrayList<>();
+        List<CarShopsDTO> carIntoShop = new ArrayList<>();
 
         Connection connection = connectionFactory.connectionOpen();
         try {
@@ -99,7 +82,7 @@ public class CarsDAO  implements DAO<CarDTO> {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 carIntoShop.add(
-                    CarIntoShopsDTO.builder()
+                    CarShopsDTO.builder()
                         .brand(resultSet.getString("brand"))
                         .shop(resultSet.getString("shop"))
                         .build()

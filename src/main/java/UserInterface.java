@@ -1,5 +1,3 @@
-import db_layer.dao.DAO;
-import db_layer.dto.CarDTO;
 import db_layer.propertiesLoader.PropertiesLoader;
 
 import java.io.*;
@@ -46,17 +44,14 @@ public class UserInterface {
         return id;
     }
 
-    public int getTableOutput() {
-        System.out.println("1 - Машины"
-            + LINE_BREAK
-            + "2 - Магазины"
-            + LINE_BREAK
-            + "3 - МашиныМагазины"
-            + LINE_BREAK
-            + "4 - Владельцы"
-        );
-        Scanner sc = new Scanner(System.in);
-        return sc.nextInt();
+    public int getCarIdFromUser() {
+        System.out.println("Какую машину вы хотите удалить?");
+        return this.getIdFromUser();
+    }
+
+    public int getShopIdFromUser() {
+        System.out.println("И из какого магазина вы хотите удалить?");
+        return this.getIdFromUser();
     }
 
     private String readLine() {

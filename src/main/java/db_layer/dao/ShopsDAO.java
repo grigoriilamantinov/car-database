@@ -1,7 +1,7 @@
 package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
-import db_layer.dto.CarIntoShopsDTO;
+import db_layer.dto.CarShopsDTO;
 import db_layer.dto.ShopDTO;
 import db_layer.propertiesLoader.PropertiesLoader;
 
@@ -15,7 +15,7 @@ import java.util.List;
 public class ShopsDAO implements DAO<ShopDTO>{
 
     private final ConnectionFactory connectionFactory;
-    private String dataSource;
+    private final String dataSource;
 
     public ShopsDAO(ConnectionFactory connectionFactory, String dataSource) {
         this.connectionFactory = connectionFactory;
@@ -25,11 +25,6 @@ public class ShopsDAO implements DAO<ShopDTO>{
     @Override
     public ShopDTO getById(int id) {
         return null;
-    }
-
-    @Override
-    public void deleteById(int id) {
-
     }
 
     @Override
@@ -51,9 +46,9 @@ public class ShopsDAO implements DAO<ShopDTO>{
         return result;
     }
 
-    public List<CarIntoShopsDTO> allCarInOneShop(int shopId) {
+    public List<CarShopsDTO> allCarInOneShop(int shopId) {
 
-        List<CarIntoShopsDTO> carIntoShop = new ArrayList<>();
+        List<CarShopsDTO> carIntoShop = new ArrayList<>();
         PropertiesLoader loader = new PropertiesLoader(dataSource);
         Connection connection = connectionFactory.connectionOpen();
         try {
@@ -62,7 +57,7 @@ public class ShopsDAO implements DAO<ShopDTO>{
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 carIntoShop.add(
-                    CarIntoShopsDTO.builder()
+                    CarShopsDTO.builder()
                         .brand(resultSet.getString("brand"))
                         .shop(resultSet.getString("shop"))
                         .build()

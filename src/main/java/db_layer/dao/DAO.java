@@ -10,8 +10,5 @@ public interface DAO<DTO> {
 
     DTO getById(int id);
 
-    void deleteById(int id);
-
     List<DTO> findAll();
-
 }

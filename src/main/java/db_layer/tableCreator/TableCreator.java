@@ -21,8 +21,9 @@ public class TableCreator {
 
     public void dropAllTables() {
         Connection connection = connectionFactory.connectionOpen();
+        PropertiesLoader loader = new PropertiesLoader(filePath);
         try {
-            PreparedStatement statement = connection.prepareStatement("DROP TABLE IF EXISTS car_into_shops;DROP TABLE IF EXISTS cars;DROP TABLE IF EXISTS owners;DROP TABLE IF EXISTS car_shops;");
+            PreparedStatement statement = connection.prepareStatement(loader.getStatementDropAllTables());
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -31,7 +32,7 @@ public class TableCreator {
         }
     }
 
-    public void createAllTables() {
+    public void prepareAllTables() {
         PropertiesLoader loader = new PropertiesLoader(filePath);
         StringBuilder sb = new StringBuilder();
         File file = new File(loader.getCreateStateAllTables());
@@ -48,5 +49,4 @@ public class TableCreator {
         }
         connectionFactory.connectionClose(connection);
     }
-
 }

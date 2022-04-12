@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class ConnectionFactory {
 
-    private String dataSource;
+    private final String dataSource;
 
     public ConnectionFactory(String dataSource) {
         this.dataSource = dataSource;

@@ -1,6 +1,6 @@
 package formatter;
 
-import db_layer.dto.CarIntoShopsDTO;
+import db_layer.dto.CarShopsDTO;
 import db_layer.dto.ShopDTO;
 
 import java.util.List;
@@ -17,9 +17,9 @@ public class ShopFormatter {
         return joiner.toString();
     }
 
-    public String allCarIntoShopFromList(List<CarIntoShopsDTO> listDTO) {
+    public String allCarIntoShopFromList(List<CarShopsDTO> listDTO) {
         StringJoiner joiner = new StringJoiner(NEXT_LINE);
-        for (CarIntoShopsDTO car : listDTO) {
+        for (CarShopsDTO car : listDTO) {
             joiner.add(car.toStringAllCarIntoShop());
         }
         return joiner.toString();

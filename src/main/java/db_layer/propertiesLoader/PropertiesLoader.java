@@ -19,7 +19,7 @@ public class PropertiesLoader {
     private static final String PASSWORD = "password";
     private static final String DB_URL = "db_url";
     private static final String DRIVER = "driverName";
-    private static final String SELECT_CAR_SHOPS_ID  = "selectCarShopId";
+    private static final String SELECT_CAR_SHOPS_ID_FORMAT  = "selectCarShopIdFormat";
     private static final String SELECT_ALL_CARS = "selectAllCar";
     private static final String SELECT_CAR_BY_ID = "carById";
     private static final String DEL_CAR_BY_ID = "deleteCarById";
@@ -30,6 +30,8 @@ public class PropertiesLoader {
     private static final String SELECT_OWNER_BY_ID = "ownerById";
     private static final String SELECT_ALL_SHOPS = "selectAllShops";
     private static final String SELECT_CAR_JOIN_ONE_SHOP = "selectCarJoinOneShop";
+    private static final String DROP_ALL_TABLES = "dropAllTables";
+    private static final String DEL_CAR_FROM_ALL_SHOPS = "deleteCarFromAllShops";
 
     private final Properties properties = new Properties();
 
@@ -57,10 +59,6 @@ public class PropertiesLoader {
         return properties.getProperty(MENU);
     }
 
-    public String getStatementDeleteCarById() {
-        return properties.getProperty(DEL_CAR_BY_ID);
-    }
-
     public String getStatementSelectCarShop() {
         return properties.getProperty(SELECT_CAR_SHOPS);
     }
@@ -74,7 +72,7 @@ public class PropertiesLoader {
     }
 
     public String getStatementSelectCarShopById() {
-        return properties.getProperty(SELECT_CAR_SHOPS_ID);
+        return properties.getProperty(SELECT_CAR_SHOPS_ID_FORMAT);
     }
 
     public String getStatementSelectOwnerById() {
@@ -89,14 +87,23 @@ public class PropertiesLoader {
         return properties.getProperty(SELECT_CAR_JOIN_OWNER);
     }
 
-
+    public String getStatementDropAllTables() {
+        return properties.getProperty(DROP_ALL_TABLES);
+    }
 
     public String getStatementSelectCarById() {
         return properties.getProperty(SELECT_CAR_BY_ID);
     }
+
+    public String getStatementDelCarFromShops() {
+        return properties.getProperty(DEL_CAR_FROM_ALL_SHOPS);
+    }
+
     public String getUser() {
         return properties.getProperty(USER);
     }
+
+
 
     public String getStatementSelectAllOwners() {
         return properties.getProperty(SELECT_ALL_OWNERS);

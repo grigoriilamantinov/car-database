@@ -5,17 +5,8 @@ import db_layer.dto.CarDTO;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class CarFormatter implements Formatter {
+public class CarFormatter implements Formatter<CarDTO> {
     public static String NEXT_LINE = "\n";
-
-    @Override
-    public String carFromList(List<CarDTO> listDTO) {
-        StringJoiner joiner = new StringJoiner(NEXT_LINE);
-        for (CarDTO car : listDTO) {
-            joiner.add(car.toString());
-        }
-        return joiner.toString();
-    }
 
     public String ownersCarFromList(List<CarDTO> listDTO) {
         StringJoiner joiner = new StringJoiner(NEXT_LINE);

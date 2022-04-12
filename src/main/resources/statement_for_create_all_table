@@ -1,14 +1,14 @@
-create table car_shops
-(shop_id serial constraint car_shops_pk primary key, shop varchar not null);
+CREATE TABLE IF NOT EXISTS shops
+(shop_id serial constraint shops_pk primary key, shop varchar not null);
 
-create unique index car_shops_shop_id_uindex
- on car_shops (shop_id);
-create unique index car_shops_shop_uindex
- on car_shops (shop);
+create unique index shops_shop_id_uindex
+ on shops (shop_id);
+create unique index shops_shop_uindex
+ on shops (shop);
 
-INSERT INTO car_shops (shop_id, shop) VALUES (DEFAULT, 'Кира Ауто');
-INSERT INTO car_shops (shop_id, shop) VALUES (DEFAULT, 'BNW');
-INSERT INTO car_shops (shop_id, shop) VALUES (DEFAULT, 'Е-мобилс');
+INSERT INTO shops (shop_id, shop) VALUES (DEFAULT, 'Кира Ауто');
+INSERT INTO shops (shop_id, shop) VALUES (DEFAULT, 'BNW');
+INSERT INTO shops (shop_id, shop) VALUES (DEFAULT, 'Е-мобилс');
 CREATE TABLE IF NOT EXISTS owners
 (id SERIAL NOT NULL,
 first_name VARCHAR NOT NULL,
@@ -37,24 +37,24 @@ INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Lada', 2007,300000
 INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('BMW', 2018,7000000);
 INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Ferrari', 2020,12000000);
 INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Yo-mobil', 2010,9990000);
-create table car_into_shops
-(car_id  int not null constraint car_into_shops_cars_id_fk references cars (id),
-id_shop int not null constraint car_into_shops_car_shops_shop_id_fk references car_shops);
-create unique index car_into_shops_car_id_shop_id_uindex on car_into_shops (car_id, id_shop);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (1,1);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (1,2);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (1,3);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (2,1);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (2,2);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (3,1);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (4,1);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (4,2);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (4,3);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (5,1);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (5,3);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (6,1);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (6,2);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (6,3);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (7,1);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (8,1);
-INSERT INTO car_into_shops (car_id, id_shop) VALUES (8,3);
+CREATE TABLE IF NOT EXISTS car_shops
+(car_id  int not null constraint car_shops_cars_id_fk references cars (id),
+id_shop int not null constraint car_shops_shops_shop_id_fk references shops);
+create unique index car_shops_car_id_shop_id_uindex on car_shops (car_id, id_shop);
+INSERT INTO car_shops (car_id, id_shop) VALUES (1,1);
+INSERT INTO car_shops (car_id, id_shop) VALUES (1,2);
+INSERT INTO car_shops (car_id, id_shop) VALUES (1,3);
+INSERT INTO car_shops (car_id, id_shop) VALUES (2,1);
+INSERT INTO car_shops (car_id, id_shop) VALUES (2,2);
+INSERT INTO car_shops (car_id, id_shop) VALUES (3,1);
+INSERT INTO car_shops (car_id, id_shop) VALUES (4,1);
+INSERT INTO car_shops (car_id, id_shop) VALUES (4,2);
+INSERT INTO car_shops (car_id, id_shop) VALUES (4,3);
+INSERT INTO car_shops (car_id, id_shop) VALUES (5,1);
+INSERT INTO car_shops (car_id, id_shop) VALUES (5,3);
+INSERT INTO car_shops (car_id, id_shop) VALUES (6,1);
+INSERT INTO car_shops (car_id, id_shop) VALUES (6,2);
+INSERT INTO car_shops (car_id, id_shop) VALUES (6,3);
+INSERT INTO car_shops (car_id, id_shop) VALUES (7,1);
+INSERT INTO car_shops (car_id, id_shop) VALUES (8,1);
+INSERT INTO car_shops (car_id, id_shop) VALUES (8,3);

@@ -11,7 +11,7 @@ import java.sql.SQLException;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CarIntoShopsDTO {
+public class CarShopsDTO {
     private int idShop;
     private int carId;
     private String brand;
@@ -21,8 +21,8 @@ public class CarIntoShopsDTO {
 
     private final static  String SPACE = " ";
 
-    public static CarIntoShopsDTO of(ResultSet resultSet) {
-        CarIntoShopsDTO dto = new CarIntoShopsDTO();
+    public static CarShopsDTO of(ResultSet resultSet) {
+        CarShopsDTO dto = new CarShopsDTO();
         try {
             dto.setCarId(resultSet.getInt("car_id"));
             dto.setIdShop(resultSet.getInt("id_shop"));

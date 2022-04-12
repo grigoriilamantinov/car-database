@@ -1,9 +1,14 @@
 package formatter;
 
-import db_layer.dto.CarDTO;
-
 import java.util.List;
+import java.util.StringJoiner;
 
-public interface Formatter {
-    String carFromList(List<CarDTO> listDTO);
+public interface Formatter<DTO> {
+    default String getFromList(List<DTO> listDTO) {
+        StringJoiner joiner = new StringJoiner("\n");
+        for (DTO dto : listDTO) {
+            joiner.add(dto.toString());
+        }
+        return joiner.toString();
+    }
 }

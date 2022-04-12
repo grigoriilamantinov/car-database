@@ -12,7 +12,7 @@ import java.util.List;
 public class OwnersDAO {
 
     private final ConnectionFactory connectionFactory;
-    private String dataSource;
+    private final String dataSource;
 
     public OwnersDAO(ConnectionFactory connectionFactory, String dataSource) {
         this.connectionFactory = connectionFactory;
