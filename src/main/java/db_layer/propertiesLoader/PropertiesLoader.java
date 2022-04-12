@@ -13,7 +13,7 @@ public class PropertiesLoader {
         this.loadDataSourceProperties();
     }
 
-    private static final String CREATE_STATE_CARS = "createCars";
+    private static final String CREATE_STATE_ALL_TABLES = "createTables";
     private static final String CREATE_STATE_OWNERS = "createOwners";
     private static final String CREATE_STATE_SHOPS = "createShops";
     private static final String CREATE_STATE_CAR_INTO_SHOPS = "createCarIntoShops";
@@ -41,8 +41,8 @@ public class PropertiesLoader {
         }
     }
 
-    public String getCreateStateCars() {
-        return properties.getProperty(CREATE_STATE_CARS);
+    public String getCreateStateAllTables() {
+        return properties.getProperty(CREATE_STATE_ALL_TABLES);
     }
 
     public String getCreateStateOwners() {

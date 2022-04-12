@@ -57,7 +57,6 @@ public class CarsDAO  implements DAO<CarDTO> {
     public CarDTO getById(int id) {
         Connection connection = connectionFactory.connectionOpen();
         ResultSet resultSet = null;
-        CarDTO dto = new CarDTO();
         try {
             PreparedStatement statement = connection.prepareStatement(String.format(SELECT_BY_ID,id));
             resultSet = statement.executeQuery();
@@ -65,7 +64,7 @@ public class CarsDAO  implements DAO<CarDTO> {
         } catch (SQLException e) {
             e.printStackTrace();
         } connectionFactory.connectionClose(connection);
-        return dto.of(resultSet);
+        return CarDTO.of(resultSet);
     }
 
     public void save(CarDTO usersObject) {

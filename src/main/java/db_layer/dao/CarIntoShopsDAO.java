@@ -33,12 +33,11 @@ public class CarIntoShopsDAO implements DAO {
     public List findAll() {
         Connection connection = connectionFactory.connectionOpen();
         List<CarIntoShopsDTO> result = new ArrayList<>();
-        CarIntoShopsDTO dto = new CarIntoShopsDTO();
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_CAR_INTO_SHOPS);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                result.add(dto.of(resultSet));
+                result.add(CarIntoShopsDTO.of(resultSet));
             }
         } catch (SQLException e) {
             e.printStackTrace();

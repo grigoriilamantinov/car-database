@@ -39,15 +39,14 @@ public class ShopsDAO implements DAO{
     }
 
     @Override
-    public List findAll() {
+    public List<ShopDTO> findAll() {
         Connection connection = connectionFactory.connectionOpen();
         List<ShopDTO> result = new ArrayList<>();
-        ShopDTO dto = new ShopDTO();
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_SHOPS);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                result.add(dto.of(resultSet));
+                result.add(ShopDTO.of(resultSet));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,8 +57,8 @@ public class ShopsDAO implements DAO{
     }
 
     public List<CarIntoShopsDTO> allCarInParticularShop (int shopId) {
-        List<CarIntoShopsDTO> carIntoShop = new ArrayList<>();
 
+        List<CarIntoShopsDTO> carIntoShop = new ArrayList<>();
         Connection connection = connectionFactory.connectionOpen();
         try {
             PreparedStatement statement =
