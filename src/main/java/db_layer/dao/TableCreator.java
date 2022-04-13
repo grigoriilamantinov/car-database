@@ -1,4 +1,4 @@
-package db_layer.tableCreator;
+package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
 import db_layer.propertiesLoader.PropertiesLoader;
@@ -12,20 +12,22 @@ import java.util.Scanner;
 
 public class TableCreator {
     private final ConnectionFactory connectionFactory;
-    private final String filePath;
+    private final PropertiesLoader loader;
 
-    public TableCreator(ConnectionFactory connectionFactory, String filePath) {
+    public TableCreator(
+        final ConnectionFactory connectionFactory,
+        final PropertiesLoader loader
+    ) {
         this.connectionFactory = connectionFactory;
-        this.filePath = filePath;
+        this.loader = loader;
     }
 
     public void dropAllTables() {
-        Connection connection = connectionFactory.connectionOpen();
-        PropertiesLoader loader = new PropertiesLoader(filePath);
+        final Connection connection = connectionFactory.connectionOpen();
         try {
-            PreparedStatement statement = connection.prepareStatement(loader.getStatementDropAllTables());
+            final PreparedStatement statement = connection.prepareStatement(loader.getStatementDropAllTables());
             statement.execute();
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             e.printStackTrace();
         } finally {
             connectionFactory.connectionClose(connection);
@@ -33,18 +35,17 @@ public class TableCreator {
     }
 
     public void prepareAllTables() {
-        PropertiesLoader loader = new PropertiesLoader(filePath);
-        StringBuilder sb = new StringBuilder();
-        File file = new File(loader.getCreateStateAllTables());
-        Connection connection = connectionFactory.connectionOpen();
+        final StringBuilder sb = new StringBuilder();
+        final File file = new File(loader.getCreateStateAllTables());
+        final Connection connection = connectionFactory.connectionOpen();
         try {
-            Scanner sc = new Scanner(file);
+            final Scanner sc = new Scanner(file);
             while (sc.hasNextLine()) {
                 sb.append(sc.nextLine());
             }
-            PreparedStatement statement = connection.prepareStatement(sb.toString());
+            final PreparedStatement statement = connection.prepareStatement(sb.toString());
             statement.execute();
-        } catch (FileNotFoundException | SQLException e) {
+        } catch (final FileNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         connectionFactory.connectionClose(connection);

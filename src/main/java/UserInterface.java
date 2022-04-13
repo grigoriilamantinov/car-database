@@ -7,32 +7,28 @@ import java.util.Scanner;
 import java.util.StringJoiner;
 
 public class UserInterface {
-    private final String dataSource;
-    public static String LINE_BREAK = "\n";
+    private final PropertiesLoader loader;
+
+    public static final String LINE_BREAK = "\n";
 
 
-    public UserInterface(String filePath) {
-        this.dataSource = filePath;
+    public UserInterface(PropertiesLoader loader) {
+        this.loader = loader;
     }
 
     public String getAction() {
         System.out.println("\nТоварищ, что хотите сделать с данными?");
-        String action = this.readLine();
-        return action;
+        return this.readLine();
     }
 
     public String formatActionMenu() {
-
-        PropertiesLoader loader = new PropertiesLoader(dataSource);
         File file = new File(loader.getMenu());
         StringJoiner joiner = new StringJoiner(LINE_BREAK);
-        Scanner sc = null;
         try {
-            sc = new Scanner(file);
+            Scanner sc = new Scanner(file);
             while (sc.hasNextLine()) {
                 joiner.add(sc.nextLine());
             }
-            sc.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -62,13 +58,13 @@ public class UserInterface {
     }
 
     public YearDTO getYearsFromUser() {
-        YearDTO yearDTO = new YearDTO();
-        Scanner sc = new Scanner(System.in);
+        final YearDTO yearDTO = new YearDTO();
+        final Scanner sc = new Scanner(System.in);
         System.out.println("Укажите год с которого вы хотели бы найти авто:");
-        int yearFirst = sc.nextInt();
+        final int yearFirst = sc.nextInt();
         sc.nextLine();
         System.out.println("Укажите год до которого вы хотели бы найти авто:");
-        int yearSecond = sc.nextInt();
+        final int yearSecond = sc.nextInt();
         if (yearFirst < yearSecond) {
             yearDTO.setYearFrom(yearFirst);
             yearDTO.setYearTo(yearSecond);
@@ -80,20 +76,18 @@ public class UserInterface {
     }
 
     private String readLine() {
-        InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-        BufferedReader reader = new BufferedReader(inputStreamReader);
-        String string = null;
+        final InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+        final BufferedReader reader = new BufferedReader(inputStreamReader);
+        final String line;
         try {
-            string = reader.readLine();
-        } catch (IOException e) {
+            line = reader.readLine();
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
-        if (string != null) {
-            return string;
+        if (line != null) {
+            return line;
         } else {
             throw new InputMismatchException("Проблемы с вводом");
         }
     }
-
-
 }

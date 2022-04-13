@@ -19,10 +19,10 @@ public class CarShopsDTO {
     private CarDTO carDTO;
     private ShopDTO shopDTO;
 
-    private final static  String SPACE = " ";
+    private final static String SPACE = " ";
 
-    public static CarShopsDTO of(ResultSet resultSet) {
-        CarShopsDTO dto = new CarShopsDTO();
+    public static CarShopsDTO of(final ResultSet resultSet) {
+        final CarShopsDTO dto = new CarShopsDTO();
         try {
             dto.setCarId(resultSet.getInt("car_id"));
             dto.setIdShop(resultSet.getInt("id_shop"));

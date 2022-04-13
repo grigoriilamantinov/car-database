@@ -12,5 +12,4 @@ import lombok.Setter;
 public class YearDTO {
     int yearFrom;
     int YearTo;
-
 }

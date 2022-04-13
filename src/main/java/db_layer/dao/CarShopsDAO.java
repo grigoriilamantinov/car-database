@@ -13,24 +13,26 @@ import java.util.List;
 
 public class CarShopsDAO {
     private final ConnectionFactory connectionFactory;
-    private final String dataSource;
+    private final PropertiesLoader loader;
 
-    public CarShopsDAO(ConnectionFactory connectionFactory, String dataSource) {
+    public CarShopsDAO(
+        final ConnectionFactory connectionFactory,
+        final PropertiesLoader loader
+    ) {
         this.connectionFactory = connectionFactory;
-        this.dataSource = dataSource;
+        this.loader = loader;
     }
 
     public List<CarShopsDTO> findAll() {
-        PropertiesLoader loader = new PropertiesLoader(dataSource);
-        Connection connection = connectionFactory.connectionOpen();
-        List<CarShopsDTO> result = new ArrayList<>();
+        final Connection connection = connectionFactory.connectionOpen();
+        final List<CarShopsDTO> result = new ArrayList<>();
         try {
-            PreparedStatement statement = connection.prepareStatement(loader.getStatementSelectCarShopById());
-            ResultSet resultSet = statement.executeQuery();
+            final PreparedStatement statement = connection.prepareStatement(loader.getStatementSelectCarShopById());
+            final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 result.add(CarShopsDTO.of(resultSet));
             }
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             e.printStackTrace();
         } finally {
             connectionFactory.connectionClose(connection);

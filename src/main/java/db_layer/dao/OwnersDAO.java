@@ -12,24 +12,25 @@ import java.util.List;
 public class OwnersDAO {
 
     private final ConnectionFactory connectionFactory;
-    private final String dataSource;
+    private final PropertiesLoader loader;
 
-    public OwnersDAO(ConnectionFactory connectionFactory, String dataSource) {
+    public OwnersDAO(
+        final ConnectionFactory connectionFactory,
+        final  PropertiesLoader loader) {
         this.connectionFactory = connectionFactory;
-        this.dataSource = dataSource;
+        this.loader = loader;
     }
 
     public List<OwnerDTO> findAll () {
-        PropertiesLoader loader = new PropertiesLoader(dataSource);
-        Connection connection = connectionFactory.connectionOpen();
-        List<OwnerDTO> result = new ArrayList<>();
+        final Connection connection = connectionFactory.connectionOpen();
+        final List<OwnerDTO> result = new ArrayList<>();
         try {
-            PreparedStatement statement = connection.prepareStatement(loader.getStatementSelectAllOwners());
-            ResultSet resultSet = statement.executeQuery();
+            final PreparedStatement statement = connection.prepareStatement(loader.getStatementSelectAllOwners());
+            final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 result.add(OwnerDTO.of(resultSet));
             }
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             e.printStackTrace();
         } finally {
             connectionFactory.connectionClose(connection);
@@ -37,15 +38,14 @@ public class OwnersDAO {
         return result;
     }
 
-    public List<CarDTO> getCarOwners(int ownerId) {
-        PropertiesLoader loader = new PropertiesLoader(dataSource);
-        List<CarDTO> carOwners = new ArrayList<>();
-        OwnerDTO owner = this.getById(ownerId);
-        Connection connection = connectionFactory.connectionOpen();
+    public List<CarDTO> getOwnersCar(final int ownerId) {
+        final List<CarDTO> carOwners = new ArrayList<>();
+        final OwnerDTO owner = this.getById(ownerId);
+        final Connection connection = connectionFactory.connectionOpen();
         try {
-            PreparedStatement statement =
+            final PreparedStatement statement =
                 connection.prepareStatement(String.format(loader.getStatementSelectCarOnOwner(), ownerId));
-            ResultSet resultSet = statement.executeQuery();
+            final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 carOwners.add(
                     new CarDTO()
@@ -54,20 +54,19 @@ public class OwnersDAO {
                         .owner(owner)
                 );
             }
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             e.printStackTrace();
         } connectionFactory.connectionClose(connection);
         return carOwners;
     }
 
     public OwnerDTO getById(int id) {
-        PropertiesLoader loader = new PropertiesLoader(dataSource);
-        Connection connection = connectionFactory.connectionOpen();
+        final Connection connection = connectionFactory.connectionOpen();
         OwnerDTO owner = new OwnerDTO();
         try {
-            PreparedStatement statement =
+            final PreparedStatement statement =
                 connection.prepareStatement(String.format(loader.getStatementSelectOwnerById(), id));
-            ResultSet resultSet = statement.executeQuery();
+            final ResultSet resultSet = statement.executeQuery();
             resultSet.next();
 
             owner = OwnerDTO.builder()
@@ -77,7 +76,7 @@ public class OwnersDAO {
                 .idCar(resultSet.getInt("car_id"))
                 .build();
 
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             e.printStackTrace();
         }
         connectionFactory.connectionClose(connection);

@@ -15,7 +15,7 @@ public class ShopDTO {
     private int shopId;
     private String shopName;
 
-    public static ShopDTO of(ResultSet resultSet) {
+    public static ShopDTO of(final ResultSet resultSet) {
         ShopDTO dto = new ShopDTO();
         try {
             dto.setShopId(resultSet.getInt("shop_id"));

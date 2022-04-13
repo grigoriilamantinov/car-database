@@ -14,15 +14,13 @@ public class CarService {
         this.cars = cars;
     }
 
-    public List<CarDTO> getCarsBetweenYears (YearDTO yearDTO) {
-        int yearTo = yearDTO.getYearTo();
-        int yearFrom = yearDTO.getYearFrom();
+    public List<CarDTO> getCarsBetweenYears (final int yearFrom, final int yearTo) {
         return cars.findAll().stream()
             .filter(cars -> cars.getYear() <= yearTo && cars.getYear() >= yearFrom)
             .collect(Collectors.toList());
     }
 
-    public List<CarDTO> getCarsCostLessThan (int cost) {
+    public List<CarDTO> getCarsCostLessThan (final int cost) {
         return cars.findAll().stream()
             .filter(cars -> cars.getCost() <= cost)
             .collect(Collectors.toList());

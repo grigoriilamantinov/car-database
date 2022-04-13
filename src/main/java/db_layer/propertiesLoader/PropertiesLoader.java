@@ -6,13 +6,6 @@ import java.util.Properties;
 
 public class PropertiesLoader {
 
-    private final String dataSource;
-
-    public PropertiesLoader(String dataSource) {
-        this.dataSource = dataSource;
-        this.loadDataSourceProperties();
-    }
-
     private static final String CREATE_STATE_ALL_TABLES = "createTables";
     private static final String MENU = "menu";
     private static final String USER = "user";
@@ -31,11 +24,15 @@ public class PropertiesLoader {
     private static final String SELECT_ALL_SHOPS = "selectAllShops";
     private static final String SELECT_CAR_JOIN_ONE_SHOP = "selectCarJoinOneShop";
     private static final String DROP_ALL_TABLES = "dropAllTables";
-    private static final String DEL_CAR_FROM_ALL_SHOPS = "deleteCarFromAllShops";
+    private static final String SELECT_SHOP_BY_ID = "selectShop";
+
+    public PropertiesLoader(String dataSource) {
+        this.loadDataSourceProperties(dataSource);
+    }
 
     private final Properties properties = new Properties();
 
-    private void loadDataSourceProperties() {
+    private void loadDataSourceProperties(final String dataSource) {
         FileInputStream stream = null;
         try {
             stream = new FileInputStream(dataSource);
@@ -95,8 +92,8 @@ public class PropertiesLoader {
         return properties.getProperty(SELECT_CAR_BY_ID);
     }
 
-    public String getStatementDelCarFromShops() {
-        return properties.getProperty(DEL_CAR_FROM_ALL_SHOPS);
+    public String getStatementSelectShopById() {
+        return properties.getProperty(SELECT_SHOP_BY_ID);
     }
 
     public String getUser() {
