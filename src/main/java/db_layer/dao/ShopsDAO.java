@@ -3,18 +3,22 @@ package db_layer.dao;
 import db_layer.connection.ConnectionFactory;
 import db_layer.dto.CarDTO;
 import db_layer.dto.CarShopsDTO;
+import db_layer.dto.ShopDTO;
 import db_layer.propertiesLoader.PropertiesLoader;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarsDAO implements DAO<CarDTO> {
+public class ShopsDAO implements DAO<ShopDTO>{
 
     private final ConnectionFactory connectionFactory;
     private final PropertiesLoader loader;
 
-    public CarsDAO(
+    public ShopsDAO(
         final ConnectionFactory connectionFactory,
         final PropertiesLoader loader
     ) {
@@ -23,14 +27,30 @@ public class CarsDAO implements DAO<CarDTO> {
     }
 
     @Override
-    public List<CarDTO> findAll() {
+    public ShopDTO getById(final int id) {
         final Connection connection = connectionFactory.connectionOpen();
-        final List<CarDTO> result = new ArrayList<>();
+        ResultSet resultSet = null;
         try {
-            final PreparedStatement statement = connection.prepareStatement(loader.getStatementSelectCars());
+            final PreparedStatement statement = connection.prepareStatement(
+                String.format(loader.getStatementSelectShopById(),id)
+            );
+            resultSet = statement.executeQuery();
+            resultSet.next();
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        } connectionFactory.connectionClose(connection);
+        return ShopDTO.of(resultSet);
+    }
+
+    @Override
+    public List<ShopDTO> findAll() {
+        final Connection connection = connectionFactory.connectionOpen();
+        final List<ShopDTO> result = new ArrayList<>();
+        try {
+            final PreparedStatement statement = connection.prepareStatement(loader.getStatementSelectAllShops());
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                result.add(CarDTO.of(resultSet));
+                result.add(ShopDTO.of(resultSet));
             }
         } catch (final SQLException e) {
             e.printStackTrace();
@@ -40,43 +60,12 @@ public class CarsDAO implements DAO<CarDTO> {
         return result;
     }
 
-    @Override
-    public CarDTO getById(final int id) {
-        final Connection connection = connectionFactory.connectionOpen();
-        ResultSet resultSet = null;
-        try {
-            final PreparedStatement statement = connection.prepareStatement(
-                String.format(loader.getStatementSelectCarById(),id)
-            );
-            resultSet = statement.executeQuery();
-            resultSet.next();
-        } catch (final SQLException e) {
-            e.printStackTrace();
-        } connectionFactory.connectionClose(connection);
-        return CarDTO.of(resultSet);
-    }
-
-    public void deleteCarFromShop(final int carId, final int shopId) {
-        final Connection connection = connectionFactory.connectionOpen();
-        try {
-            final PreparedStatement statement = connection.prepareStatement(
-                String.format(loader.getStatementDelFromCarShop(), carId, shopId));
-            statement.execute();
-        } catch (final SQLException e) {
-            System.out.println("Строчка удалена!");
-            e.printStackTrace();
-        }
-        connectionFactory.connectionClose(connection);
-    }
-
-    public List<CarShopsDTO> carInParticularShop (int carId) {
+    public List<CarShopsDTO> allCarInOneShop(final int shopId) {
         final List<CarShopsDTO> carIntoShop = new ArrayList<>();
-
         final Connection connection = connectionFactory.connectionOpen();
         try {
             final PreparedStatement statement =
-                connection.prepareStatement(
-                    String.format(loader.getStatementSelectCarShop(), carId));
+                connection.prepareStatement(String.format(loader.getStatementSelectCarJoinOneShop(), shopId));
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 carIntoShop.add(
@@ -86,7 +75,7 @@ public class CarsDAO implements DAO<CarDTO> {
                         .build()
                 );
             }
-        } catch (final SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } connectionFactory.connectionClose(connection);
         return carIntoShop;

@@ -7,30 +7,28 @@ import java.sql.SQLException;
 
 public class ConnectionFactory {
 
-    private String dataSource;
+    private final PropertiesLoader propertiesLoader;
 
-    public ConnectionFactory(String dataSource) {
-        this.dataSource = dataSource;
+    public ConnectionFactory(final PropertiesLoader propertiesLoader) {
+        this.propertiesLoader = propertiesLoader;
     }
 
     public Connection connectionOpen() {
-
         Connection connection = null;
         try {
-            PropertiesLoader loader = new PropertiesLoader(dataSource);
-            Class.forName(loader.getDriver());
+            Class.forName(propertiesLoader.getDriver());
             connection = DriverManager.getConnection(
-                    loader.getDbUrl(),
-                    loader.getUser(),
-                    loader.getPassword()
+                propertiesLoader.getDbUrl(),
+                propertiesLoader.getUser(),
+                propertiesLoader.getPassword()
             );
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (final SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return connection;
     }
 
-    public void connectionClose(Connection connection) {
+    public void connectionClose(final Connection connection) {
         try {
             connection.close();
         } catch (SQLException e) {

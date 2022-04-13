@@ -17,7 +17,12 @@ public class CarDTO {
     private Integer cost;
     private OwnerDTO owner;
 
-    public CarDTO(Integer id, String brand, Integer year, Integer cost) {
+    public CarDTO(
+        final Integer id,
+        final String brand,
+        final Integer year,
+        final Integer cost
+    ) {
         this.id = id;
         this.brand = brand;
         this.year = year;
@@ -25,7 +30,7 @@ public class CarDTO {
     }
 
     public static CarDTO of(ResultSet resultSet) {
-        CarDTO dto = new CarDTO();
+        final CarDTO dto = new CarDTO();
         try {
             dto.setId(resultSet.getInt("id"));
             dto.setBrand(resultSet.getString("brand"));

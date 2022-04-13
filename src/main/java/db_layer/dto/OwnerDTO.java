@@ -15,9 +15,9 @@ public class OwnerDTO {
     private String lastName;
     private int idCar;
 
-    private final static  String SPACE = " ";
+    private final static String SPACE = " ";
 
-    public static OwnerDTO of(ResultSet resultSet) {
+    public static OwnerDTO of(final ResultSet resultSet) {
         OwnerDTO dto = new OwnerDTO();
         try {
             dto.setId(resultSet.getInt("id"));
