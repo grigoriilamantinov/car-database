@@ -2,6 +2,7 @@ package service_layer;
 
 import db_layer.dao.CarsDAO;
 import db_layer.dto.CarDTO;
+import db_layer.dto.YearDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -26,6 +27,7 @@ class CarServiceTest {
             add(new CarDTO(6, "Moscow", 2003, 1999999));
             add(new CarDTO(7, "4x4", 2019, 4999999));
         }};
+        YearDTO yearDTO = new YearDTO(1990, 2004);
 
         List<CarDTO> exceptedResult = new ArrayList<>() {{
             add(new CarDTO(2, "Maddyson", 1999, 1999999));
@@ -33,7 +35,7 @@ class CarServiceTest {
         }};
 
         Mockito.when(cars.findAll()).thenReturn(preparedData);
-        List<CarDTO> actualResult = carService.getCarsBetweenYears(1990, 2004);
+        List<CarDTO> actualResult = carService.getCarsBetweenYears(yearDTO);
 
         Assertions.assertEquals(exceptedResult.size(), actualResult.size());
         Assertions.assertTrue(actualResult.containsAll(exceptedResult));

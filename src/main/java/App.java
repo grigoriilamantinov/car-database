@@ -37,12 +37,12 @@ public class App {
                 case "ГОДЫ":
                     System.out.println(formatterFacade
                         .getCarFormatter()
-                        .getFromList(daoFacade.getCarService().getCarsBetweenYears(1910,2000)));
+                        .getFromList(daoFacade.getCarService().getCarsBetweenYears(dialog.getYearsFromUser())));
                     break;
-                case "ЦЕНЫ":
+                case "НИЖЕ ЦЕНЫ":
                     System.out.println(formatterFacade
                         .getCarFormatter()
-                        .getFromList(daoFacade.getCarService().getCarsCostLessThan(1000000)));
+                        .getFromList(daoFacade.getCarService().getCarsCostLessThan(dialog.getCostFromUser())));
                     break;
                 case "ГДЕ КУПИТЬ":
                     carId = dialog.getIdFromUser();

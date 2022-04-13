@@ -1,3 +1,4 @@
+import db_layer.dto.YearDTO;
 import db_layer.propertiesLoader.PropertiesLoader;
 
 import java.io.*;
@@ -52,6 +53,30 @@ public class UserInterface {
     public int getShopIdFromUser() {
         System.out.println("И из какого магазина вы хотите удалить?");
         return this.getIdFromUser();
+    }
+
+    public int getCostFromUser() {
+        System.out.println("Укажите стоимость ниже которой вы хотели бы найти авто:");
+        Scanner sc = new Scanner(System.in);
+        return sc.nextInt();
+    }
+
+    public YearDTO getYearsFromUser() {
+        YearDTO yearDTO = new YearDTO();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Укажите год с которого вы хотели бы найти авто:");
+        int yearFirst = sc.nextInt();
+        sc.nextLine();
+        System.out.println("Укажите год до которого вы хотели бы найти авто:");
+        int yearSecond = sc.nextInt();
+        if (yearFirst < yearSecond) {
+            yearDTO.setYearFrom(yearFirst);
+            yearDTO.setYearTo(yearSecond);
+        } else {
+            yearDTO.setYearFrom(yearSecond);
+            yearDTO.setYearTo(yearFirst);
+        }
+        return yearDTO;
     }
 
     private String readLine() {
