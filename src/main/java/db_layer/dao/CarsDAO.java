@@ -24,12 +24,11 @@ public class CarsDAO  implements DAO<CarDTO> {
         PropertiesLoader loader = new PropertiesLoader(dataSource);
         Connection connection = connectionFactory.connectionOpen();
         List<CarDTO> result = new ArrayList<>();
-        CarDTO dto = new CarDTO();
         try {
             PreparedStatement statement = connection.prepareStatement(loader.getStatementSelectCars());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                result.add(dto.of(resultSet));
+                result.add(CarDTO.of(resultSet));
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -7,19 +7,13 @@ import lombok.Getter;
 import service_layer.CarService;
 
 public class DAOFacade {
-
-    private ConnectionFactory connectionFactory;
-    private String datasource;
-
-    @Getter private CarsDAO carsDAO;
-    @Getter private OwnersDAO ownersDAO;
-    @Getter private ShopsDAO shopsDAO;
-    @Getter private CarShopsDAO carIntoShopsDAO;
-    @Getter private CarService carService;
+    @Getter private final CarsDAO carsDAO;
+    @Getter private final OwnersDAO ownersDAO;
+    @Getter private final ShopsDAO shopsDAO;
+    @Getter private final CarShopsDAO carIntoShopsDAO;
+    @Getter private final CarService carService;
 
     public DAOFacade (ConnectionFactory connectionFactory, String dataSource) {
-        this.connectionFactory = connectionFactory;
-        this.datasource = dataSource;
         carsDAO = new CarsDAO(connectionFactory, dataSource);
         ownersDAO = new OwnersDAO(connectionFactory, dataSource);
         shopsDAO = new ShopsDAO(connectionFactory, dataSource);

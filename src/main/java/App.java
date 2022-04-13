@@ -12,10 +12,6 @@ public class App {
         ConnectionFactory factory = new ConnectionFactory(dataSource);
         DAOFacade daoFacade = new DAOFacade(factory, dataSource);
         FormatterFacade formatterFacade = new FormatterFacade();
-
-        int carId;
-        int shopId;
-
         TableCreator tableCreator = new TableCreator(factory, dataSource);
         tableCreator.prepareAllTables();
 
@@ -45,13 +41,13 @@ public class App {
                         .getFromList(daoFacade.getCarService().getCarsCostLessThan(dialog.getCostFromUser())));
                     break;
                 case "ГДЕ КУПИТЬ":
-                    carId = dialog.getIdFromUser();
+                    int carId = dialog.getIdFromUser();
                     System.out.println(formatterFacade
                         .getCarShopFormatter()
                         .carShopOnlyFromList(daoFacade.getCarsDAO().carInParticularShop(carId)));
                     break;
                 case "ЧТО В МАГАЗИНЕ":
-                    shopId = dialog.getIdFromUser();
+                    int shopId = dialog.getIdFromUser();
                     System.out.println(formatterFacade
                         .getShopFormatter()
                         .allCarIntoShopFromList(daoFacade.getShopsDAO().allCarInOneShop(shopId)));
@@ -62,9 +58,9 @@ public class App {
                     ));
                     break;
                 case "УДАЛИТЬ ИЗ МАГАЗИНА":
-                    carId = dialog.getCarIdFromUser();
-                    shopId = dialog.getShopIdFromUser();
-                    daoFacade.getCarsDAO().deleteCarFromShop(carId,shopId);
+                    int idCar = dialog.getCarIdFromUser();
+                    int idShop = dialog.getShopIdFromUser();
+                    daoFacade.getCarsDAO().deleteCarFromShop(idCar,idShop);
                     break;
                 case "МЕНЮ":
                     System.out.println(dialog.formatActionMenu());
@@ -93,7 +89,7 @@ public class App {
         System.out.println();
         System.out.println(formatterFacade
             .getShopFormatter()
-            .shopsFromList(daoFacade.getShopsDAO().findAll()));
+            .getFromList(daoFacade.getShopsDAO().findAll()));
         System.out.println();
         System.out.println(formatterFacade
             .getCarShopFormatter()

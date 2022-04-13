@@ -1,4 +1,3 @@
-import db_layer.dao.CarsDAO;
 import formatter.CarFormatter;
 import formatter.CarShopFormatter;
 import formatter.OwnersFormatter;
