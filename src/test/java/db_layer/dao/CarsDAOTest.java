@@ -4,9 +4,7 @@ import db_layer.connection.ConnectionFactory;
 import db_layer.dto.CarDTO;
 import db_layer.propertiesLoader.PropertiesLoader;
 import org.checkerframework.checker.units.qual.C;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import javax.swing.text.TabableView;
 import java.sql.Connection;
@@ -35,7 +33,7 @@ class CarsDAOTest {
     void prepareData() {
         tableCreator.prepareAllTables();
     }
-
+    
     @Test
     void findAll() {
         CarsDAO carsDAO = new CarsDAO(factory, loader);

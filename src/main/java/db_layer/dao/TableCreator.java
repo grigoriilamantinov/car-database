@@ -30,7 +30,7 @@ public class TableCreator {
         } catch (final SQLException e) {
             e.printStackTrace();
         } finally {
-            connectionFactory.connectionClose(connection);
+            connectionFactory.closeConnection(connection);
         }
     }
 

@@ -1,7 +1,6 @@
 package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
-import db_layer.dto.CarDTO;
 import db_layer.dto.CarShopsDTO;
 import db_layer.dto.ShopDTO;
 import db_layer.propertiesLoader.PropertiesLoader;
@@ -38,7 +37,7 @@ public class ShopsDAO implements DAO<ShopDTO>{
             resultSet.next();
         } catch (final SQLException e) {
             e.printStackTrace();
-        } connectionFactory.connectionClose(connection);
+        } connectionFactory.closeConnection(connection);
         return ShopDTO.of(resultSet);
     }
 
@@ -55,7 +54,7 @@ public class ShopsDAO implements DAO<ShopDTO>{
         } catch (final SQLException e) {
             e.printStackTrace();
         } finally {
-            connectionFactory.connectionClose(connection);
+            connectionFactory.closeConnection(connection);
         }
         return result;
     }
@@ -77,7 +76,7 @@ public class ShopsDAO implements DAO<ShopDTO>{
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } connectionFactory.connectionClose(connection);
+        } connectionFactory.closeConnection(connection);
         return carIntoShop;
     }
 }

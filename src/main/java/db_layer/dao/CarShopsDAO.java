@@ -35,7 +35,7 @@ public class CarShopsDAO {
         } catch (final SQLException e) {
             e.printStackTrace();
         } finally {
-            connectionFactory.connectionClose(connection);
+            connectionFactory.closeConnection(connection);
         }
         return result;
     }

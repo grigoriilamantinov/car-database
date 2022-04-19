@@ -36,7 +36,7 @@ public class CarsDAO implements DAO<CarDTO> {
         } catch (final SQLException e) {
             e.printStackTrace();
         } finally {
-            connectionFactory.connectionClose(connection);
+            connectionFactory.closeConnection(connection);
         }
         return result;
     }
@@ -45,17 +45,20 @@ public class CarsDAO implements DAO<CarDTO> {
     public CarDTO getById(final int id) {
         final Connection connection = connectionFactory.connectionOpen();
         ResultSet resultSet = null;
+        CarDTO carDTO = new CarDTO();
         try {
             final PreparedStatement statement = connection.prepareStatement(
                 String.format(loader.getStatementSelectCarById(),id)
             );
             resultSet = statement.executeQuery();
-            resultSet.next();
+            if (resultSet.next()) {
+                carDTO = CarDTO.of(resultSet);
+            }
         } catch (final SQLException e) {
             e.printStackTrace();
         }
-//        connectionFactory.connectionClose(connection);
-        return CarDTO.of(resultSet);
+        connectionFactory.closeConnection(connection);
+        return carDTO;
     }
 
     public void deleteCarFromShop(final int carId, final int shopId) {
@@ -68,7 +71,7 @@ public class CarsDAO implements DAO<CarDTO> {
             System.out.println("Строчка удалена!");
             e.printStackTrace();
         }
-        connectionFactory.connectionClose(connection);
+        connectionFactory.closeConnection(connection);
     }
 
     public List<CarShopsDTO> carInParticularShop (int carId) {
@@ -90,7 +93,8 @@ public class CarsDAO implements DAO<CarDTO> {
             }
         } catch (final SQLException e) {
             e.printStackTrace();
-        } connectionFactory.connectionClose(connection);
+        }
+        connectionFactory.closeConnection(connection);
         return carIntoShop;
     }
 }

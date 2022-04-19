@@ -28,7 +28,7 @@ public class ConnectionFactory {
         return connection;
     }
 
-    public void connectionClose(final Connection connection) {
+    public void closeConnection(final Connection connection) {
         try {
             connection.close();
         } catch (SQLException e) {

@@ -33,7 +33,7 @@ public class OwnersDAO {
         } catch (final SQLException e) {
             e.printStackTrace();
         } finally {
-            connectionFactory.connectionClose(connection);
+            connectionFactory.closeConnection(connection);
         }
         return result;
     }
@@ -56,7 +56,7 @@ public class OwnersDAO {
             }
         } catch (final SQLException e) {
             e.printStackTrace();
-        } connectionFactory.connectionClose(connection);
+        } connectionFactory.closeConnection(connection);
         return carOwners;
     }
 
@@ -79,7 +79,7 @@ public class OwnersDAO {
         } catch (final SQLException e) {
             e.printStackTrace();
         }
-        connectionFactory.connectionClose(connection);
+        connectionFactory.closeConnection(connection);
 
         return owner;
     }
