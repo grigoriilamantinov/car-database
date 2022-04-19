@@ -48,6 +48,6 @@ public class TableCreator {
         } catch (final FileNotFoundException | SQLException e) {
             e.printStackTrace();
         }
-        connectionFactory.connectionClose(connection);
+//        connectionFactory.connectionClose(connection);
     }
 }

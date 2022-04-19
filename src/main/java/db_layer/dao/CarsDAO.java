@@ -14,6 +14,7 @@ public class CarsDAO implements DAO<CarDTO> {
     private final ConnectionFactory connectionFactory;
     private final PropertiesLoader loader;
 
+
     public CarsDAO(
         final ConnectionFactory connectionFactory,
         final PropertiesLoader loader
@@ -52,7 +53,8 @@ public class CarsDAO implements DAO<CarDTO> {
             resultSet.next();
         } catch (final SQLException e) {
             e.printStackTrace();
-        } connectionFactory.connectionClose(connection);
+        }
+//        connectionFactory.connectionClose(connection);
         return CarDTO.of(resultSet);
     }
 
