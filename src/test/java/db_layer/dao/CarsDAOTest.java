@@ -36,7 +36,7 @@ class CarsDAOTest {
     }
 
     @Test
-    void findAll() {
+    void shouldFindAllCar() {
         CarsDAO carsDAO = new CarsDAO(factory, loader);
         final List<CarDTO> exceptedResult = new ArrayList<>() {{
             add(new CarDTO(1, "Maddyson", 1984, 2000000));
@@ -52,7 +52,7 @@ class CarsDAOTest {
     }
 
     @Test
-    void getById() {
+    void shouldGetCarById() {
         CarsDAO carsDAO = new CarsDAO(factory, loader);
         CarDTO exceptedResult = new CarDTO (1, "Maddyson", 1984,2000000);
         CarDTO actualResult = carsDAO.getById(1);
@@ -60,7 +60,7 @@ class CarsDAOTest {
     }
 
     @Test
-    void deleteCarFromShop() {
+    void shouldDeleteCarFromShop() {
         CarsDAO carsDAO = new CarsDAO(factory, loader);
         CarShopsDAO carShopsDAO = new CarShopsDAO(factory, loader);
 

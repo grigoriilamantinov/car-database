@@ -35,7 +35,7 @@ class ShopsDAOTest {
     }
 
     @Test
-    void getById() {
+    void shouldGetShopById() {
         ShopsDAO shopsDAO = new ShopsDAO(factory, loader);
         ShopDTO exceptedResult = new ShopDTO (1, "Кира Ауто");
         ShopDTO actualResult = shopsDAO.getById(1);
@@ -43,7 +43,7 @@ class ShopsDAOTest {
     }
 
     @Test
-    void findAll() {
+    void shouldFindAllShops() {
         ShopsDAO shopsDAO = new ShopsDAO(factory, loader);
 
         final List<ShopDTO> exceptedResult = new ArrayList<>() {{
@@ -58,7 +58,7 @@ class ShopsDAOTest {
     }
 
     @Test
-    void allCarInOneShop() {
+    void shouldGerAllCarInOneShop() {
         ShopsDAO shopsDAO = new ShopsDAO(factory, loader);
         List<CarShopsDTO> exceptedResult = new ArrayList<>() {{
            add(new CarShopsDTO (0,0,"Maddyson","BNW"));

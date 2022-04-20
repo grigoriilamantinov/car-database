@@ -35,7 +35,7 @@ class OwnersDAOTest {
     }
 
     @Test
-    void findAll() {
+    void shouldFindAllOwners() {
         OwnersDAO ownersDAO = new OwnersDAO(factory, loader);
 
         final List<OwnerDTO> exceptedResult = new ArrayList<>() {{
@@ -54,7 +54,7 @@ class OwnersDAOTest {
     }
 
     @Test
-    void getById() {
+    void shouldGetOwnerById() {
         OwnersDAO ownersDAO = new OwnersDAO(factory, loader);
         OwnerDTO exceptedResult = new OwnerDTO (1, "Михаил", "Шишкин",1);
         OwnerDTO actualResult = ownersDAO.getById(1);

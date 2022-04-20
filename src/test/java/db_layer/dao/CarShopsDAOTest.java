@@ -34,7 +34,7 @@ class CarShopsDAOTest {
     }
 
     @Test
-    void shouldFindAll() {
+    void shouldFindAllRows() {
         CarShopsDAO carShopsDAO = new CarShopsDAO(factory, loader);
 
         final List<CarShopsDTO> exceptedResult = new ArrayList<>() {{
