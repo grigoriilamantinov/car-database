@@ -1,8 +1,11 @@
 package db_layer.propertiesLoader;
 
+import db_layer.dao.CarsDAO;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 public class PropertiesLoader {
 
@@ -19,7 +22,6 @@ public class PropertiesLoader {
     private static final String SELECT_CAR_SHOPS  = "selectCarShop";
     private static final String DEL_FROM_CAR_SHOP_BY_ID = "deleteByTwoId";
     private static final String SELECT_ALL_OWNERS = "selectAllOwners";
-    private static final String SELECT_CAR_JOIN_OWNER = "selectCarJoinOwner";
     private static final String SELECT_OWNER_BY_ID = "ownerById";
     private static final String SELECT_ALL_SHOPS = "selectAllShops";
     private static final String SELECT_CAR_JOIN_ONE_SHOP = "selectCarJoinOneShop";
@@ -32,13 +34,17 @@ public class PropertiesLoader {
 
     private final Properties properties = new Properties();
 
+    private final static Logger logger = Logger.getLogger(CarsDAO.class.getName());
+
     private void loadDataSourceProperties(final String dataSource) {
         FileInputStream stream = null;
         try {
             stream = new FileInputStream(dataSource);
             properties.load(stream);
         } catch (IOException e) {
+            logger.info("Товарищ, вы ввели что-то соверешнно не то! Подробнее:");
             e.printStackTrace();
+
         } finally {
             try {
                 stream.close();
@@ -78,10 +84,6 @@ public class PropertiesLoader {
 
     public String getStatementDelFromCarShop() {
         return properties.getProperty(DEL_FROM_CAR_SHOP_BY_ID);
-    }
-
-    public String getStatementSelectCarOnOwner() {
-        return properties.getProperty(SELECT_CAR_JOIN_OWNER);
     }
 
     public String getStatementDropAllTables() {

@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class CarShopsDAO {
     private final ConnectionFactory connectionFactory;
@@ -23,6 +24,7 @@ public class CarShopsDAO {
         this.loader = loader;
     }
 
+    private final static Logger logger = Logger.getLogger(CarsDAO.class.getName());
     public List<CarShopsDTO> findAll() {
         final Connection connection = connectionFactory.connectionOpen();
         final List<CarShopsDTO> result = new ArrayList<>();
@@ -34,6 +36,7 @@ public class CarShopsDAO {
             }
         } catch (final SQLException e) {
             e.printStackTrace();
+            logger.info("Товарищ, что-то не так в запросе при обращении к таблице");
         } finally {
             connectionFactory.closeConnection(connection);
         }

@@ -8,6 +8,7 @@ import db_layer.propertiesLoader.PropertiesLoader;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class CarsDAO implements DAO<CarDTO> {
 
@@ -23,6 +24,8 @@ public class CarsDAO implements DAO<CarDTO> {
         this.loader = loader;
     }
 
+    private final static Logger logger = Logger.getLogger(CarsDAO.class.getName());
+
     @Override
     public List<CarDTO> findAll() {
         final Connection connection = connectionFactory.connectionOpen();
@@ -35,6 +38,7 @@ public class CarsDAO implements DAO<CarDTO> {
             }
         } catch (final SQLException e) {
             e.printStackTrace();
+            logger.info("Товарищ, что-то не так в запросе при обращении к таблице");
         } finally {
             connectionFactory.closeConnection(connection);
         }
@@ -56,6 +60,7 @@ public class CarsDAO implements DAO<CarDTO> {
             }
         } catch (final SQLException e) {
             e.printStackTrace();
+            logger.info("Товарищ, что-то не так в запросе при обращении к таблице");
         }
         connectionFactory.closeConnection(connection);
         return carDTO;
@@ -68,7 +73,7 @@ public class CarsDAO implements DAO<CarDTO> {
                 String.format(loader.getStatementDelFromCarShop(), carId, shopId));
             statement.execute();
         } catch (final SQLException e) {
-            System.out.println("Строчка удалена!");
+            logger.info("Товарищ, что-то не так в запросе при обращении к таблице");
             e.printStackTrace();
         }
         connectionFactory.closeConnection(connection);
@@ -93,6 +98,7 @@ public class CarsDAO implements DAO<CarDTO> {
             }
         } catch (final SQLException e) {
             e.printStackTrace();
+            logger.info("Товарищ, что-то не так в запросе при обращении к таблице");
         }
         connectionFactory.closeConnection(connection);
         return carIntoShop;

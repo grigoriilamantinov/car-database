@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class TableCreator {
     private final ConnectionFactory connectionFactory;
@@ -22,6 +23,7 @@ public class TableCreator {
         this.loader = loader;
     }
 
+    private final static Logger logger = Logger.getLogger(CarsDAO.class.getName());
     public void dropAllTables() {
         final Connection connection = connectionFactory.connectionOpen();
         try {
@@ -29,6 +31,7 @@ public class TableCreator {
             statement.execute();
         } catch (final SQLException e) {
             e.printStackTrace();
+            logger.info("Товарищ, что-то не так в запросе при обращении к таблице");
         } finally {
             connectionFactory.closeConnection(connection);
         }
@@ -47,6 +50,7 @@ public class TableCreator {
             statement.execute();
         } catch (final FileNotFoundException | SQLException e) {
             e.printStackTrace();
+            logger.info("Товарищ, или нет файла или что-то не так в запросе при обращении к таблице");
         }
 //        connectionFactory.connectionClose(connection);
     }

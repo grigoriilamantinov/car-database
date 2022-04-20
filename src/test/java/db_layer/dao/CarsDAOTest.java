@@ -2,6 +2,7 @@ package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
 import db_layer.dto.CarDTO;
+import db_layer.dto.CarShopsDTO;
 import db_layer.propertiesLoader.PropertiesLoader;
 import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.*;
@@ -17,11 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CarsDAOTest {
 
-    private static final String user = "user";
-    private static final String password = "1234";
-    private static final String url = "jdbc:h2:mem:testdb";
-    private static final String driverName = "org.h2.Driver";
-
     PropertiesLoader loader = new PropertiesLoader(
         "C:\\Users\\grigorii\\IdeaProjects\\car_database\\" +
         "src\\main\\resources\\test.properties"
@@ -33,7 +29,12 @@ class CarsDAOTest {
     void prepareData() {
         tableCreator.prepareAllTables();
     }
-    
+
+    @AfterEach
+    void clearData() {
+        tableCreator.dropAllTables();
+    }
+
     @Test
     void findAll() {
         CarsDAO carsDAO = new CarsDAO(factory, loader);
@@ -60,10 +61,37 @@ class CarsDAOTest {
 
     @Test
     void deleteCarFromShop() {
+        CarsDAO carsDAO = new CarsDAO(factory, loader);
+        CarShopsDAO carShopsDAO = new CarShopsDAO(factory, loader);
 
+        final List<CarShopsDTO> exceptedResult = new ArrayList<>() {{
+            add(new CarShopsDTO(3, 1));
+            add(new CarShopsDTO(1, 2));
+            add(new CarShopsDTO(2, 2));
+            add(new CarShopsDTO(1, 3));
+            add(new CarShopsDTO(1, 4));
+            add(new CarShopsDTO(2, 4));
+            add(new CarShopsDTO(3, 4));
+        }};
+
+        carsDAO.deleteCarFromShop(1, 2);
+        List<CarShopsDTO> actualResult = carShopsDAO.findAll();
+
+        Assertions.assertEquals(exceptedResult.size(), actualResult.size());
+        Assertions.assertTrue(actualResult.containsAll(exceptedResult));
+        Assertions.assertIterableEquals(exceptedResult, actualResult);
     }
 
     @Test
-    void carInParticularShop() {
+    void shouldGetCarInShops() {
+        CarsDAO carsDAO = new CarsDAO(factory, loader);
+        final List<CarShopsDTO> exceptedResult = new ArrayList<>() {{
+            add(new CarShopsDTO(0, 0, "Maddyson", "BNW"));
+            add(new CarShopsDTO(0, 0, "Maddyson", "Е-мобилс"));
+        }};
+        List<CarShopsDTO> actualResult = carsDAO.carInParticularShop(1);
+        Assertions.assertEquals(exceptedResult.size(), actualResult.size());
+        Assertions.assertTrue(actualResult.containsAll(exceptedResult));
+        Assertions.assertIterableEquals(exceptedResult, actualResult);
     }
 }

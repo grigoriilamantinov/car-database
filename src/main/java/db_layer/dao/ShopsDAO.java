@@ -1,6 +1,7 @@
 package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
+import db_layer.dto.CarDTO;
 import db_layer.dto.CarShopsDTO;
 import db_layer.dto.ShopDTO;
 import db_layer.propertiesLoader.PropertiesLoader;
@@ -11,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ShopsDAO implements DAO<ShopDTO>{
 
@@ -25,20 +27,25 @@ public class ShopsDAO implements DAO<ShopDTO>{
         this.loader = loader;
     }
 
+    private final static Logger logger = Logger.getLogger(CarsDAO.class.getName());
     @Override
     public ShopDTO getById(final int id) {
         final Connection connection = connectionFactory.connectionOpen();
         ResultSet resultSet = null;
+        ShopDTO shopDTO = new ShopDTO();
         try {
             final PreparedStatement statement = connection.prepareStatement(
                 String.format(loader.getStatementSelectShopById(),id)
             );
             resultSet = statement.executeQuery();
-            resultSet.next();
+            if (resultSet.next()) {
+                shopDTO = ShopDTO.of(resultSet);
+            }
         } catch (final SQLException e) {
             e.printStackTrace();
+            logger.info("Товарищ, что-то не так в запросе при обращении к таблице");
         } connectionFactory.closeConnection(connection);
-        return ShopDTO.of(resultSet);
+        return shopDTO;
     }
 
     @Override
@@ -53,6 +60,7 @@ public class ShopsDAO implements DAO<ShopDTO>{
             }
         } catch (final SQLException e) {
             e.printStackTrace();
+            logger.info("Товарищ, что-то не так в запросе при обращении к таблице");
         } finally {
             connectionFactory.closeConnection(connection);
         }
@@ -76,6 +84,7 @@ public class ShopsDAO implements DAO<ShopDTO>{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.info("Товарищ, что-то не так в запросе при обращении к таблице");
         } connectionFactory.closeConnection(connection);
         return carIntoShop;
     }

@@ -61,11 +61,6 @@ public class App {
                         .getShopFormatter()
                         .allCarIntoShopFromList(daoFacade.getShopsDAO().allCarInOneShop(shopId)));
                     break;
-                case "ВЛАДЕЛЕЦ МАШИНЫ":
-                    System.out.println(formatterFacade.getCarFormatter().ownersCarFromList(
-                        daoFacade.getOwnersDAO().getOwnersCar(ui.getIdFromUser())
-                    ));
-                    break;
                 case "УДАЛИТЬ ИЗ МАГАЗИНА":
                     final int idCar = ui.getCarIdFromUser();
                     final int idShop = ui.getShopIdFromUser();
@@ -79,6 +74,7 @@ public class App {
                     break;
                 default:
                     System.out.println("Товарищ, такого мы сделать не можем");
+
                     break;
             }
         }

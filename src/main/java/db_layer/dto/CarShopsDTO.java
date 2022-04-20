@@ -15,9 +15,15 @@ public class CarShopsDTO {
     private int idShop;
     private int carId;
     private String brand;
+
+    public CarShopsDTO(int idShop, int carId) {
+        this.idShop = idShop;
+        this.carId = carId;
+    }
+
     private String shop;
-    private CarDTO carDTO;
-    private ShopDTO shopDTO;
+//    private CarDTO carDTO;
+//    private ShopDTO shopDTO;
 
     private final static String SPACE = " ";
 

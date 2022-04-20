@@ -34,3 +34,16 @@ INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Maddyson', 1984,20
 INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Lada', 2006,900000);
 INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('GAZ', 2010,1000000);
 INSERT INTO cars (brand, year_of_produce, net_worth) VALUES ('Lada', 1999,700000);
+
+CREATE TABLE IF NOT EXISTS car_shops
+(car_id  int not null,
+id_shop int not null);
+create unique index car_shops_car_id_shop_id_uindex on car_shops (car_id, id_shop);
+INSERT INTO car_shops (car_id, id_shop) VALUES (1,2);
+INSERT INTO car_shops (car_id, id_shop) VALUES (1,3);
+INSERT INTO car_shops (car_id, id_shop) VALUES (2,1);
+INSERT INTO car_shops (car_id, id_shop) VALUES (2,2);
+INSERT INTO car_shops (car_id, id_shop) VALUES (3,1);
+INSERT INTO car_shops (car_id, id_shop) VALUES (4,1);
+INSERT INTO car_shops (car_id, id_shop) VALUES (4,2);
+INSERT INTO car_shops (car_id, id_shop) VALUES (4,3);
