@@ -1,7 +1,6 @@
 package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
-import db_layer.dto.CarDTO;
 import db_layer.dto.CarShopsDTO;
 import db_layer.dto.ShopDTO;
 import db_layer.propertiesLoader.PropertiesLoader;
@@ -31,7 +30,7 @@ public class ShopsDAO implements DAO<ShopDTO>{
     @Override
     public ShopDTO getById(final int id) {
         final Connection connection = connectionFactory.connectionOpen();
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         ShopDTO shopDTO = new ShopDTO();
         try {
             final PreparedStatement statement = connection.prepareStatement(

@@ -22,8 +22,6 @@ public class CarShopsDTO {
     }
 
     private String shop;
-//    private CarDTO carDTO;
-//    private ShopDTO shopDTO;
 
     private final static String SPACE = " ";
 

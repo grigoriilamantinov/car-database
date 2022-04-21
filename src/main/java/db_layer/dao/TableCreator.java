@@ -52,6 +52,5 @@ public class TableCreator {
             e.printStackTrace();
             logger.info("Товарищ, или нет файла или что-то не так в запросе при обращении к таблице");
         }
-//        connectionFactory.connectionClose(connection);
     }
 }

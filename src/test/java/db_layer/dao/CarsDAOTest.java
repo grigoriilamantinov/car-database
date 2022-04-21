@@ -4,17 +4,10 @@ import db_layer.connection.ConnectionFactory;
 import db_layer.dto.CarDTO;
 import db_layer.dto.CarShopsDTO;
 import db_layer.propertiesLoader.PropertiesLoader;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.*;
 
-import javax.swing.text.TabableView;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CarsDAOTest {
 
@@ -89,7 +82,9 @@ class CarsDAOTest {
             add(new CarShopsDTO(0, 0, "Maddyson", "BNW"));
             add(new CarShopsDTO(0, 0, "Maddyson", "Е-мобилс"));
         }};
+
         List<CarShopsDTO> actualResult = carsDAO.carInParticularShop(1);
+
         Assertions.assertEquals(exceptedResult.size(), actualResult.size());
         Assertions.assertTrue(actualResult.containsAll(exceptedResult));
         Assertions.assertIterableEquals(exceptedResult, actualResult);

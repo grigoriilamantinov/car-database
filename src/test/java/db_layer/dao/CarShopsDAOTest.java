@@ -1,7 +1,6 @@
 package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
-import db_layer.dto.CarDTO;
 import db_layer.dto.CarShopsDTO;
 import db_layer.propertiesLoader.PropertiesLoader;
 import org.junit.jupiter.api.AfterEach;
@@ -11,8 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CarShopsDAOTest {
     PropertiesLoader loader = new PropertiesLoader(

@@ -18,7 +18,6 @@ public class PropertiesLoader {
     private static final String SELECT_CAR_SHOPS_ID_FORMAT  = "selectCarShopIdFormat";
     private static final String SELECT_ALL_CARS = "selectAllCar";
     private static final String SELECT_CAR_BY_ID = "carById";
-    private static final String DEL_CAR_BY_ID = "deleteCarById";
     private static final String SELECT_CAR_SHOPS  = "selectCarShop";
     private static final String DEL_FROM_CAR_SHOP_BY_ID = "deleteByTwoId";
     private static final String SELECT_ALL_OWNERS = "selectAllOwners";
@@ -101,8 +100,6 @@ public class PropertiesLoader {
     public String getUser() {
         return properties.getProperty(USER);
     }
-
-
 
     public String getStatementSelectAllOwners() {
         return properties.getProperty(SELECT_ALL_OWNERS);

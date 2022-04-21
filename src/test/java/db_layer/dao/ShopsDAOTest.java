@@ -2,7 +2,6 @@ package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
 import db_layer.dto.CarShopsDTO;
-import db_layer.dto.OwnerDTO;
 import db_layer.dto.ShopDTO;
 import db_layer.propertiesLoader.PropertiesLoader;
 import org.junit.jupiter.api.AfterEach;
@@ -12,8 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ShopsDAOTest {
     PropertiesLoader loader = new PropertiesLoader(
@@ -39,6 +36,7 @@ class ShopsDAOTest {
         ShopsDAO shopsDAO = new ShopsDAO(factory, loader);
         ShopDTO exceptedResult = new ShopDTO (1, "Кира Ауто");
         ShopDTO actualResult = shopsDAO.getById(1);
+
         Assertions.assertEquals(exceptedResult,actualResult);
     }
 
@@ -53,6 +51,7 @@ class ShopsDAOTest {
         }};
 
         List<ShopDTO> actualResult = shopsDAO.findAll();
+
         Assertions.assertEquals(exceptedResult.size(), actualResult.size());
         Assertions.assertTrue(actualResult.containsAll(exceptedResult));
     }
@@ -65,7 +64,9 @@ class ShopsDAOTest {
            add(new CarShopsDTO (0,0,"Lada","BNW"));
            add(new CarShopsDTO (0,0,"Lada","BNW"));
         }};
+
         List<CarShopsDTO> actualResult = shopsDAO.allCarInOneShop(2);
+
         Assertions.assertEquals(exceptedResult.size(), actualResult.size());
         Assertions.assertTrue(actualResult.containsAll(exceptedResult));
         Assertions.assertIterableEquals(exceptedResult, actualResult);
