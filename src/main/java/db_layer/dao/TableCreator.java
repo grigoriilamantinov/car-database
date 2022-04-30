@@ -1,6 +1,7 @@
 package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
+import db_layer.logger.LoggerManager;
 import db_layer.propertiesLoader.PropertiesLoader;
 
 import java.io.File;
@@ -9,11 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 public class TableCreator {
     private final ConnectionFactory connectionFactory;
-    private final PropertiesLoader loader;
+    private PropertiesLoader loader;
 
     public TableCreator(
         final ConnectionFactory connectionFactory,
@@ -23,15 +23,19 @@ public class TableCreator {
         this.loader = loader;
     }
 
-    private final static Logger logger = Logger.getLogger(CarsDAO.class.getName());
+    String CREATE_MESSAGE_LOG = "Error %s trying execute SQL query create_all_table";
+    String DROP_MESSAGE_LOG = "Error %s trying execute SQL query drop_all_table";
+
     public void dropAllTables() {
-        final Connection connection = connectionFactory.connectionOpen();
+        final Connection connection = connectionFactory.openConnection();
+        final String sqlStatement = String.format(loader.getStatementDropAllTables());
         try {
-            final PreparedStatement statement = connection.prepareStatement(loader.getStatementDropAllTables());
+            final PreparedStatement statement = connection.prepareStatement(sqlStatement);
             statement.execute();
         } catch (final SQLException e) {
             e.printStackTrace();
-            logger.info("Товарищ, что-то не так в запросе при обращении к таблице");
+            LoggerManager.getLogger().info(String.format(DROP_MESSAGE_LOG));
+
         } finally {
             connectionFactory.closeConnection(connection);
         }
@@ -40,7 +44,7 @@ public class TableCreator {
     public void prepareAllTables() {
         final StringBuilder sb = new StringBuilder();
         final File file = new File(loader.getCreateStateAllTables());
-        final Connection connection = connectionFactory.connectionOpen();
+        final Connection connection = connectionFactory.openConnection();
         try {
             final Scanner sc = new Scanner(file);
             while (sc.hasNextLine()) {
@@ -50,7 +54,7 @@ public class TableCreator {
             statement.execute();
         } catch (final FileNotFoundException | SQLException e) {
             e.printStackTrace();
-            logger.info("Товарищ, или нет файла или что-то не так в запросе при обращении к таблице");
+            LoggerManager.getLogger().info(String.format(CREATE_MESSAGE_LOG));
         }
     }
 }

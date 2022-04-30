@@ -13,8 +13,7 @@ import java.util.List;
 
 class OwnersDAOTest {
     PropertiesLoader loader = new PropertiesLoader(
-        "C:\\Users\\grigorii\\IdeaProjects\\car_database\\" +
-            "src\\main\\resources\\test.properties"
+        "src/test/resources/test.properties"
     );
 
     ConnectionFactory factory = new ConnectionFactory(loader);

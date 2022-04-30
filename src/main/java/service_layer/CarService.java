@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CarService {
-    private CarsDAO cars;
+    private final CarsDAO cars;
 
     public CarService(CarsDAO cars) {
         this.cars = cars;

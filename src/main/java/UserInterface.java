@@ -1,8 +1,8 @@
 import db_layer.dto.YearDTO;
+import db_layer.logger.LoggerManager;
 import db_layer.propertiesLoader.PropertiesLoader;
 
 import java.io.*;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.StringJoiner;
 
@@ -10,7 +10,7 @@ public class UserInterface {
     private final PropertiesLoader loader;
 
     public static final String LINE_BREAK = "\n";
-
+    private static final String LOG_MESSAGE = "Error in path to file with menu statement: %s";
 
     public UserInterface(PropertiesLoader loader) {
         this.loader = loader;
@@ -18,11 +18,13 @@ public class UserInterface {
 
     public String getAction() {
         System.out.println("\nТоварищ, что хотите сделать с данными?");
-        return this.readLine();
+        Scanner sc = new Scanner(System.in);
+        return sc.nextLine();
     }
 
     public String formatActionMenu() {
-        File file = new File(loader.getMenu());
+        String pathToMenu = loader.getMenu();
+        File file = new File(pathToMenu);
         StringJoiner joiner = new StringJoiner(LINE_BREAK);
         try {
             Scanner sc = new Scanner(file);
@@ -31,14 +33,15 @@ public class UserInterface {
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            LoggerManager.getLogger().info(String.format(LOG_MESSAGE, pathToMenu));
         }
         return joiner.toString();
     }
 
     public int getIdFromUser() {
         System.out.print("Какой id вас интересует? ");
-        int id = Integer.parseInt(this.readLine());
-        return id;
+        Scanner sc = new Scanner(System.in);
+        return sc.nextInt();
     }
 
     public int getCarIdFromUser() {
@@ -73,21 +76,5 @@ public class UserInterface {
             yearDTO.setYearTo(yearFirst);
         }
         return yearDTO;
-    }
-
-    private String readLine() {
-        final InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-        final BufferedReader reader = new BufferedReader(inputStreamReader);
-        final String line;
-        try {
-            line = reader.readLine();
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
-        }
-        if (line != null) {
-            return line;
-        } else {
-            throw new InputMismatchException("Проблемы с вводом");
-        }
     }
 }

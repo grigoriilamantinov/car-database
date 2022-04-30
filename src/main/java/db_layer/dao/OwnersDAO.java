@@ -2,15 +2,16 @@ package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
 import db_layer.dto.OwnerDTO;
+import db_layer.logger.LoggerManager;
 import db_layer.propertiesLoader.PropertiesLoader;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class OwnersDAO {
 
+    String DAO_MESSAGE = "Error %s trying execute SQL query: %s";
     private final ConnectionFactory connectionFactory;
     private final PropertiesLoader loader;
 
@@ -21,19 +22,19 @@ public class OwnersDAO {
         this.loader = loader;
     }
 
-    private final static Logger logger = Logger.getLogger(CarsDAO.class.getName());
     public List<OwnerDTO> findAll () {
-        final Connection connection = connectionFactory.connectionOpen();
+        final Connection connection = connectionFactory.openConnection();
         final List<OwnerDTO> result = new ArrayList<>();
+        final String sqlStatement = String.format(loader.getStatementSelectAllOwners());
         try {
-            final PreparedStatement statement = connection.prepareStatement(loader.getStatementSelectAllOwners());
+            final PreparedStatement statement = connection.prepareStatement(sqlStatement);
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 result.add(OwnerDTO.of(resultSet));
             }
         } catch (final SQLException e) {
             e.printStackTrace();
-            logger.info("Товарищ, что-то не так в запросе при обращении к таблице");
+            LoggerManager.getLogger().info(String.format(DAO_MESSAGE, sqlStatement));
         } finally {
             connectionFactory.closeConnection(connection);
         }
@@ -41,11 +42,12 @@ public class OwnersDAO {
     }
 
     public OwnerDTO getById(int id) {
-        final Connection connection = connectionFactory.connectionOpen();
+        final Connection connection = connectionFactory.openConnection();
+        final String sqlStatement = String.format(loader.getStatementSelectOwnerById());
         OwnerDTO owner = new OwnerDTO();
         try {
             final PreparedStatement statement =
-                connection.prepareStatement(String.format(loader.getStatementSelectOwnerById(), id));
+                connection.prepareStatement(sqlStatement, id);
             final ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 owner = OwnerDTO.builder()
@@ -57,7 +59,7 @@ public class OwnersDAO {
             }
         } catch (final SQLException e) {
             e.printStackTrace();
-            logger.info("Товарищ, что-то не так в запросе при обращении к таблице");
+            LoggerManager.getLogger().info(String.format(DAO_MESSAGE, sqlStatement));
         }
         connectionFactory.closeConnection(connection);
 

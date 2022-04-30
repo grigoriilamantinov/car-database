@@ -25,7 +25,7 @@ public class OwnerDTO {
             dto.setLastName(resultSet.getString("last_name"));
             dto.setIdCar(resultSet.getInt("car_id"));
         } catch (SQLException e) {
-            System.out.println("Что-то пошло не так с этой строчкой");
+            System.out.println(String.format("Error on getting data from single row result set to create %s object", CarDTO.class));
         }
         return dto;
     }

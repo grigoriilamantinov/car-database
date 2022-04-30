@@ -6,4 +6,6 @@ public interface DAO<DTO> {
     DTO getById(int id);
 
     List<DTO> findAll();
+
+    String DAO_MESSAGE = "Error %s trying execute SQL query: %s";
 }

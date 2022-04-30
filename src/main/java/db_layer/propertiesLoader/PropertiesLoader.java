@@ -1,14 +1,14 @@
 package db_layer.propertiesLoader;
 
-import db_layer.dao.CarsDAO;
+import db_layer.logger.LoggerManager;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 public class PropertiesLoader {
 
+    private static final String LOG_MESSAGE = "Error on loading properties from files: %s";
     private static final String CREATE_STATE_ALL_TABLES = "createTables";
     private static final String MENU = "menu";
     private static final String USER = "user";
@@ -33,17 +33,14 @@ public class PropertiesLoader {
 
     private final Properties properties = new Properties();
 
-    private final static Logger logger = Logger.getLogger(CarsDAO.class.getName());
-
     private void loadDataSourceProperties(final String dataSource) {
         FileInputStream stream = null;
         try {
             stream = new FileInputStream(dataSource);
             properties.load(stream);
         } catch (IOException e) {
-            logger.info("Товарищ, вы ввели что-то соверешнно не то! Подробнее:");
             e.printStackTrace();
-
+            LoggerManager.getLogger().info(String.format(LOG_MESSAGE, dataSource));
         } finally {
             try {
                 stream.close();

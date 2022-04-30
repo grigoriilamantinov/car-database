@@ -4,7 +4,9 @@ import db_layer.dao.TableCreator;
 import db_layer.dto.YearDTO;
 import db_layer.propertiesLoader.PropertiesLoader;
 
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.FileHandler;
 
 public class App {
     public static void main(String[] args) {

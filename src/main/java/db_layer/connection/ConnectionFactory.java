@@ -13,7 +13,7 @@ public class ConnectionFactory {
         this.propertiesLoader = propertiesLoader;
     }
 
-    public Connection connectionOpen() {
+    public Connection openConnection() {
         Connection connection = null;
         try {
             Class.forName(propertiesLoader.getDriver());
