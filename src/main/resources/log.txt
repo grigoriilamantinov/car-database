@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2022-04-30T09:58:40.489504300Z</date>
+  <millis>1651312720489</millis>
+  <nanos>504300</nanos>
+  <sequence>0</sequence>
+  <logger>CarDatabaseLog</logger>
+  <level>INFO</level>
+  <class>UserInterface</class>
+  <method>formatActionMenu</method>
+  <thread>1</thread>
+  <message>Error in path to file with menu statement: !!!C:/Users/grigorii/IdeaProjects/car_database/src/main/resources/action_menu </message>
+</record>
+<record>
+  <date>2022-04-30T09:58:44.968238100Z</date>
+  <millis>1651312724968</millis>
+  <nanos>238100</nanos>
+  <sequence>1</sequence>
+  <logger>CarDatabaseLog</logger>
+  <level>INFO</level>
+  <class>UserInterface</class>
+  <method>formatActionMenu</method>
+  <thread>1</thread>
+  <message>Error in path to file with menu statement: !!!C:/Users/grigorii/IdeaProjects/car_database/src/main/resources/action_menu </message>
+</record>
+<record>
+  <date>2022-04-30T09:58:46.174684Z</date>
+  <millis>1651312726174</millis>
+  <nanos>684000</nanos>
+  <sequence>2</sequence>
+  <logger>CarDatabaseLog</logger>
+  <level>INFO</level>
+  <class>UserInterface</class>
+  <method>formatActionMenu</method>
+  <thread>1</thread>
+  <message>Error in path to file with menu statement: !!!C:/Users/grigorii/IdeaProjects/car_database/src/main/resources/action_menu </message>
+</record>
+<record>
+  <date>2022-04-30T09:58:47.263021Z</date>
+  <millis>1651312727263</millis>
+  <nanos>21000</nanos>
+  <sequence>3</sequence>
+  <logger>CarDatabaseLog</logger>
+  <level>INFO</level>
+  <class>UserInterface</class>
+  <method>formatActionMenu</method>
+  <thread>1</thread>
+  <message>Error in path to file with menu statement: !!!C:/Users/grigorii/IdeaProjects/car_database/src/main/resources/action_menu </message>
+</record>
+</log>

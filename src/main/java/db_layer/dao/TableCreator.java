@@ -1,6 +1,7 @@
 package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
+import db_layer.logger.LoggerManager;
 import db_layer.propertiesLoader.PropertiesLoader;
 
 import java.io.File;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 
 public class TableCreator {
     private final ConnectionFactory connectionFactory;
-    private final PropertiesLoader loader;
+    private PropertiesLoader loader;
 
     public TableCreator(
         final ConnectionFactory connectionFactory,
@@ -22,22 +23,28 @@ public class TableCreator {
         this.loader = loader;
     }
 
+    String CREATE_MESSAGE_LOG = "Error %s trying execute SQL query create_all_table";
+    String DROP_MESSAGE_LOG = "Error %s trying execute SQL query drop_all_table";
+
     public void dropAllTables() {
-        final Connection connection = connectionFactory.connectionOpen();
+        final Connection connection = connectionFactory.openConnection();
+        final String sqlStatement = String.format(loader.getStatementDropAllTables());
         try {
-            final PreparedStatement statement = connection.prepareStatement(loader.getStatementDropAllTables());
+            final PreparedStatement statement = connection.prepareStatement(sqlStatement);
             statement.execute();
         } catch (final SQLException e) {
             e.printStackTrace();
+            LoggerManager.getLogger().info(String.format(DROP_MESSAGE_LOG));
+
         } finally {
-            connectionFactory.connectionClose(connection);
+            connectionFactory.closeConnection(connection);
         }
     }
 
     public void prepareAllTables() {
         final StringBuilder sb = new StringBuilder();
         final File file = new File(loader.getCreateStateAllTables());
-        final Connection connection = connectionFactory.connectionOpen();
+        final Connection connection = connectionFactory.openConnection();
         try {
             final Scanner sc = new Scanner(file);
             while (sc.hasNextLine()) {
@@ -47,7 +54,7 @@ public class TableCreator {
             statement.execute();
         } catch (final FileNotFoundException | SQLException e) {
             e.printStackTrace();
+            LoggerManager.getLogger().info(String.format(CREATE_MESSAGE_LOG));
         }
-        connectionFactory.connectionClose(connection);
     }
 }

@@ -52,11 +52,6 @@ public class CarDTO {
         return this;
     }
 
-    public CarDTO owner (OwnerDTO owner) {
-        this.owner = owner;
-        return this;
-    }
-
     @Override
     public String toString() {
         return "id: "

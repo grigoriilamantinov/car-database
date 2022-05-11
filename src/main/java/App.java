@@ -4,7 +4,9 @@ import db_layer.dao.TableCreator;
 import db_layer.dto.YearDTO;
 import db_layer.propertiesLoader.PropertiesLoader;
 
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.FileHandler;
 
 public class App {
     public static void main(String[] args) {
@@ -61,11 +63,6 @@ public class App {
                         .getShopFormatter()
                         .allCarIntoShopFromList(daoFacade.getShopsDAO().allCarInOneShop(shopId)));
                     break;
-                case "ВЛАДЕЛЕЦ МАШИНЫ":
-                    System.out.println(formatterFacade.getCarFormatter().ownersCarFromList(
-                        daoFacade.getOwnersDAO().getOwnersCar(ui.getIdFromUser())
-                    ));
-                    break;
                 case "УДАЛИТЬ ИЗ МАГАЗИНА":
                     final int idCar = ui.getCarIdFromUser();
                     final int idShop = ui.getShopIdFromUser();
@@ -79,6 +76,7 @@ public class App {
                     break;
                 default:
                     System.out.println("Товарищ, такого мы сделать не можем");
+
                     break;
             }
         }

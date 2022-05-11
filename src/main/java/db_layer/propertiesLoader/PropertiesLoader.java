@@ -1,11 +1,14 @@
 package db_layer.propertiesLoader;
 
+import db_layer.logger.LoggerManager;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
 public class PropertiesLoader {
 
+    private static final String LOG_MESSAGE = "Error on loading properties from files: %s";
     private static final String CREATE_STATE_ALL_TABLES = "createTables";
     private static final String MENU = "menu";
     private static final String USER = "user";
@@ -15,11 +18,9 @@ public class PropertiesLoader {
     private static final String SELECT_CAR_SHOPS_ID_FORMAT  = "selectCarShopIdFormat";
     private static final String SELECT_ALL_CARS = "selectAllCar";
     private static final String SELECT_CAR_BY_ID = "carById";
-    private static final String DEL_CAR_BY_ID = "deleteCarById";
     private static final String SELECT_CAR_SHOPS  = "selectCarShop";
     private static final String DEL_FROM_CAR_SHOP_BY_ID = "deleteByTwoId";
     private static final String SELECT_ALL_OWNERS = "selectAllOwners";
-    private static final String SELECT_CAR_JOIN_OWNER = "selectCarJoinOwner";
     private static final String SELECT_OWNER_BY_ID = "ownerById";
     private static final String SELECT_ALL_SHOPS = "selectAllShops";
     private static final String SELECT_CAR_JOIN_ONE_SHOP = "selectCarJoinOneShop";
@@ -39,6 +40,7 @@ public class PropertiesLoader {
             properties.load(stream);
         } catch (IOException e) {
             e.printStackTrace();
+            LoggerManager.getLogger().info(String.format(LOG_MESSAGE, dataSource));
         } finally {
             try {
                 stream.close();
@@ -80,10 +82,6 @@ public class PropertiesLoader {
         return properties.getProperty(DEL_FROM_CAR_SHOP_BY_ID);
     }
 
-    public String getStatementSelectCarOnOwner() {
-        return properties.getProperty(SELECT_CAR_JOIN_OWNER);
-    }
-
     public String getStatementDropAllTables() {
         return properties.getProperty(DROP_ALL_TABLES);
     }
@@ -99,8 +97,6 @@ public class PropertiesLoader {
     public String getUser() {
         return properties.getProperty(USER);
     }
-
-
 
     public String getStatementSelectAllOwners() {
         return properties.getProperty(SELECT_ALL_OWNERS);

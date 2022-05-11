@@ -1,8 +1,8 @@
 package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
-import db_layer.dto.CarDTO;
 import db_layer.dto.OwnerDTO;
+import db_layer.logger.LoggerManager;
 import db_layer.propertiesLoader.PropertiesLoader;
 
 import java.sql.*;
@@ -11,6 +11,7 @@ import java.util.List;
 
 public class OwnersDAO {
 
+    String DAO_MESSAGE = "Error %s trying execute SQL query: %s";
     private final ConnectionFactory connectionFactory;
     private final PropertiesLoader loader;
 
@@ -22,64 +23,45 @@ public class OwnersDAO {
     }
 
     public List<OwnerDTO> findAll () {
-        final Connection connection = connectionFactory.connectionOpen();
+        final Connection connection = connectionFactory.openConnection();
         final List<OwnerDTO> result = new ArrayList<>();
+        final String sqlStatement = String.format(loader.getStatementSelectAllOwners());
         try {
-            final PreparedStatement statement = connection.prepareStatement(loader.getStatementSelectAllOwners());
+            final PreparedStatement statement = connection.prepareStatement(sqlStatement);
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 result.add(OwnerDTO.of(resultSet));
             }
         } catch (final SQLException e) {
             e.printStackTrace();
+            LoggerManager.getLogger().info(String.format(DAO_MESSAGE, sqlStatement));
         } finally {
-            connectionFactory.connectionClose(connection);
+            connectionFactory.closeConnection(connection);
         }
         return result;
     }
 
-    public List<CarDTO> getOwnersCar(final int ownerId) {
-        final List<CarDTO> carOwners = new ArrayList<>();
-        final OwnerDTO owner = this.getById(ownerId);
-        final Connection connection = connectionFactory.connectionOpen();
-        try {
-            final PreparedStatement statement =
-                connection.prepareStatement(String.format(loader.getStatementSelectCarOnOwner(), ownerId));
-            final ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                carOwners.add(
-                    new CarDTO()
-                        .id(resultSet.getInt("Car_id"))
-                        .brand(resultSet.getString("Brand"))
-                        .owner(owner)
-                );
-            }
-        } catch (final SQLException e) {
-            e.printStackTrace();
-        } connectionFactory.connectionClose(connection);
-        return carOwners;
-    }
-
     public OwnerDTO getById(int id) {
-        final Connection connection = connectionFactory.connectionOpen();
+        final Connection connection = connectionFactory.openConnection();
+        final String sqlStatement = String.format(loader.getStatementSelectOwnerById());
         OwnerDTO owner = new OwnerDTO();
         try {
             final PreparedStatement statement =
-                connection.prepareStatement(String.format(loader.getStatementSelectOwnerById(), id));
+                connection.prepareStatement(sqlStatement, id);
             final ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-
-            owner = OwnerDTO.builder()
-                .id(resultSet.getInt("id"))
-                .firstName(resultSet.getString("first_name"))
-                .lastName(resultSet.getString("last_name"))
-                .idCar(resultSet.getInt("car_id"))
-                .build();
-
+            if (resultSet.next()) {
+                owner = OwnerDTO.builder()
+                    .id(resultSet.getInt("id"))
+                    .firstName(resultSet.getString("first_name"))
+                    .lastName(resultSet.getString("last_name"))
+                    .idCar(resultSet.getInt("car_id"))
+                    .build();
+            }
         } catch (final SQLException e) {
             e.printStackTrace();
+            LoggerManager.getLogger().info(String.format(DAO_MESSAGE, sqlStatement));
         }
-        connectionFactory.connectionClose(connection);
+        connectionFactory.closeConnection(connection);
 
         return owner;
     }

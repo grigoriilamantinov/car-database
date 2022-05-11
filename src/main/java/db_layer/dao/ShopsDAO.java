@@ -1,9 +1,9 @@
 package db_layer.dao;
 
 import db_layer.connection.ConnectionFactory;
-import db_layer.dto.CarDTO;
 import db_layer.dto.CarShopsDTO;
 import db_layer.dto.ShopDTO;
+import db_layer.logger.LoggerManager;
 import db_layer.propertiesLoader.PropertiesLoader;
 
 import java.sql.Connection;
@@ -28,44 +28,52 @@ public class ShopsDAO implements DAO<ShopDTO>{
 
     @Override
     public ShopDTO getById(final int id) {
-        final Connection connection = connectionFactory.connectionOpen();
-        ResultSet resultSet = null;
+        final Connection connection = connectionFactory.openConnection();
+        final String sqlStatement = String.format(loader.getStatementSelectShopById(), id);
+        ResultSet resultSet;
+        ShopDTO shopDTO = new ShopDTO();
         try {
             final PreparedStatement statement = connection.prepareStatement(
-                String.format(loader.getStatementSelectShopById(),id)
+                String.format(sqlStatement)
             );
             resultSet = statement.executeQuery();
-            resultSet.next();
+            if (resultSet.next()) {
+                shopDTO = ShopDTO.of(resultSet);
+            }
         } catch (final SQLException e) {
             e.printStackTrace();
-        } connectionFactory.connectionClose(connection);
-        return ShopDTO.of(resultSet);
+            LoggerManager.getLogger().info(String.format(DAO_MESSAGE, sqlStatement));
+        } connectionFactory.closeConnection(connection);
+        return shopDTO;
     }
 
     @Override
     public List<ShopDTO> findAll() {
-        final Connection connection = connectionFactory.connectionOpen();
+        final Connection connection = connectionFactory.openConnection();
         final List<ShopDTO> result = new ArrayList<>();
+        final String sqlStatement = String.format(loader.getStatementSelectAllShops());
         try {
-            final PreparedStatement statement = connection.prepareStatement(loader.getStatementSelectAllShops());
+            final PreparedStatement statement = connection.prepareStatement(sqlStatement);
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 result.add(ShopDTO.of(resultSet));
             }
         } catch (final SQLException e) {
             e.printStackTrace();
+            LoggerManager.getLogger().info(String.format(DAO_MESSAGE, sqlStatement));
         } finally {
-            connectionFactory.connectionClose(connection);
+            connectionFactory.closeConnection(connection);
         }
         return result;
     }
 
     public List<CarShopsDTO> allCarInOneShop(final int shopId) {
         final List<CarShopsDTO> carIntoShop = new ArrayList<>();
-        final Connection connection = connectionFactory.connectionOpen();
+        final Connection connection = connectionFactory.openConnection();
+        final String sqlStatement = String.format(loader.getStatementSelectCarJoinOneShop(), shopId);
         try {
             final PreparedStatement statement =
-                connection.prepareStatement(String.format(loader.getStatementSelectCarJoinOneShop(), shopId));
+                connection.prepareStatement(sqlStatement);
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 carIntoShop.add(
@@ -77,7 +85,8 @@ public class ShopsDAO implements DAO<ShopDTO>{
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } connectionFactory.connectionClose(connection);
+            LoggerManager.getLogger().info(String.format(DAO_MESSAGE, sqlStatement));
+        } connectionFactory.closeConnection(connection);
         return carIntoShop;
     }
 }
